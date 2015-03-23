@@ -1,0 +1,14 @@
+PATH
+  remote: .
+  specs:
+    default_form (0.0.1)
+
+GEM
+  remote: https://ruby.taobao.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  default_form!
