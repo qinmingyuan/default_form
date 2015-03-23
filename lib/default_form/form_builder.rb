@@ -33,7 +33,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     options.merge!(class: css.submit)
 
     submit_content = wrapper_submit(super)
-    wrapper_all offset + submit_content
+    wrapper_all offset.html_safe + submit_content
   end
 
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
