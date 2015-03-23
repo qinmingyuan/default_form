@@ -7,12 +7,12 @@ require "default_form/version"
 Gem::Specification.new do |s|
   s.name        = "default_form"
   s.version     = DefaultForm::VERSION
-  s.authors     = ["覃明圆"]
+  s.authors     = ["qinmingyuan"]
   s.email       = ["mingyuan0715@foxmail.com"]
-  s.homepage    = "http://github.com/xinshengyin/default_form"
+  s.homepage    = "http://github.com/qinmingyuan/default_form"
   s.summary     = "Rails form builder that makes it easy to style forms"
   s.description = ""
 
-  s.files = Dir["{lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{lib}/**/*"] + ["README.md"]
   s.test_files = Dir["test/**/*"]
 end
