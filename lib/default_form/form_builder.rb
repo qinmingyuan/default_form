@@ -45,7 +45,25 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     wrapper_all checkbox_content
   end
 
+  def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+    label_text = options[:label].to_s
+    label_content = label(method, label_text)
+
+    checkboxes_content = wrapper_input(super)
+    wrapper_all label_content + checkboxes_content
+  end
+
   def select(method, choices = nil, options = {}, html_options = {}, &block)
+    html_options.merge!(class: css.input)
+
+    label_text = options[:label]
+    label_content = label(method, label_text)
+    input_content = wrapper_input(super)
+
+    wrapper_all label_content + input_content
+  end
+
+  def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     html_options.merge!(class: css.input)
 
     label_text = options[:label]
