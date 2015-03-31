@@ -1,7 +1,12 @@
-require 'default_form/wrapper'
+require 'default_form/builder/wrapper'
+require 'default_form/builder/require'
+
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
-  include DefaultForm::Wrapper
+  include DefaultForm::Builder::Wrapper
+  include DefaultForm::Builder::Require
+
   delegate :content_tag, to: :@template
+
   class_attribute :input_fields
   self.input_fields = [ :text_field,
                         :password_field,
@@ -21,16 +26,14 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
                         :range_field,
                         :text_area
   ]
-  # file_field
-  # text_area
 
   def label(method, text = nil, options = {}, &block)
-    options.merge!(class: css.label)
+    options[:class] ||= css.label
     super
   end
 
   def submit(value = nil, options={})
-    options.merge!(class: css.submit)
+    options[:class] ||= css.submit
 
     submit_content = wrapper_submit(super)
     wrapper_all offset.html_safe + submit_content
@@ -54,7 +57,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    html_options.merge!(class: css.input)
+    html_options[:class] ||= css.input
 
     label_text = options[:label]
     label_content = label(method, label_text)
@@ -64,7 +67,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    html_options.merge!(class: css.input)
+    html_options[:class] ||= css.input
 
     label_text = options[:label]
     label_content = label(method, label_text)
@@ -81,19 +84,10 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     wrapper_all label_content + input_content
   end
 
-  # def text_field(method, options={})
-  #   options.merge!(class: 'form-control')
-  #   label_text = options[:label]
-  #
-  #   label_content = label(method, label_text)
-  #   input_content = wrapper_input(super)
-  #
-  #   wrapper_label_and_input label_content + input_content
-  # end
   input_fields.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        options.merge!(class: css.input)
+        options[:class] ||= css.input
 
         label_text = options[:label]
         label_content = label(method, label_text)
@@ -102,16 +96,6 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
         wrapper_all label_content + input_content
       end
     RUBY_EVAL
-  end
-
-  private
-
-  def on
-    DefaultForm.config.on
-  end
-
-  def css
-    DefaultForm.config.css
   end
 
 end
