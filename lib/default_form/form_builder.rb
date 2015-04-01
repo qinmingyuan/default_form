@@ -1,9 +1,11 @@
 require 'default_form/builder/wrapper'
 require 'default_form/builder/require'
+require 'default_form/builder/option'
 
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Wrapper
   include DefaultForm::Builder::Require
+  include DefaultForm::Builder::Option
 
   delegate :content_tag, to: :@template
 
@@ -40,17 +42,14 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
-    label_text = options[:label].to_s
-
-    checkbox_content = content_tag(:label, super + label_text)
+    checkbox_content = content_tag(:label, super + options[:label].to_s)
     checkbox_content = content_tag(:div, checkbox_content, class: 'checkbox')
     checkbox_content = content_tag(:div, checkbox_content, class: 'col-sm-offset-2 col-sm-5')
     wrapper_all checkbox_content
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    label_text = options[:label].to_s
-    label_content = label(method, label_text)
+    label_content = label(method, options[:label])
 
     checkboxes_content = wrapper_input(super)
     wrapper_all label_content + checkboxes_content
@@ -59,8 +58,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] ||= css.input
 
-    label_text = options[:label]
-    label_content = label(method, label_text)
+    label_content = label(method, options[:label])
+    choices = choices_hash(method, choices)
     input_content = wrapper_input(super)
 
     wrapper_all label_content + input_content

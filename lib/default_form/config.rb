@@ -19,6 +19,8 @@ module DefaultForm
     config.css.label = 'six wide field'
     config.css.input = 'nine wide field'
     config.css.submit = 'ui button'
+
+    config.enum_name = 'enumerize'
   end
 
 end
