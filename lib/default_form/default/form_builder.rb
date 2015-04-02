@@ -1,8 +1,10 @@
 require 'default_form/builder/wrapper'
 require 'default_form/builder/require'
 require 'default_form/builder/option'
+require 'default_form/default/util'
 
-class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
+class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
+  include DefaultForm::Default::Util
   include DefaultForm::Builder::Wrapper
   include DefaultForm::Builder::Require
   include DefaultForm::Builder::Option

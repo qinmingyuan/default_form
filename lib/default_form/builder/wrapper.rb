@@ -1,9 +1,6 @@
-require 'default_form/util'
-
 module DefaultForm
   module Builder
     module Wrapper
-      include DefaultForm::Util
 
       def wrapper_all(inner)
         if on.wrapper_all

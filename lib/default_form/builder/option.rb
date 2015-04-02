@@ -1,9 +1,6 @@
-require 'default_form/util'
-
 module DefaultForm
   module Builder
     module Option
-      include DefaultForm::Util
 
       def choices_hash(method, choices)
         @method = method.to_s
