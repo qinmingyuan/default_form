@@ -9,7 +9,7 @@ class DefaultForm::Search::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Require
   include DefaultForm::Builder::Option
 
-  delegate :content_tag, to: :@template
+  delegate :content_tag, :params, to: :@template
 
   class_attribute :input_fields
   self.input_fields = [ :text_field,
@@ -59,6 +59,7 @@ class DefaultForm::Search::FormBuilder < ActionView::Helpers::FormBuilder
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] ||= css.input
+    options[:selected] ||= params[:q].try(:[], method)
 
     label_content = label(method, options[:label])
     choices = choices_hash(method, choices)
