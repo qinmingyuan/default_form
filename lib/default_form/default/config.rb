@@ -11,13 +11,14 @@ module DefaultForm
     config.on.offset = true
 
     config.css = ActiveSupport::OrderedOptions.new
-    config.css.form = 'ui form'
+    config.css.form = 'ui segment form'
     config.css.wrapper_all = 'inline field'
     config.css.wrapper_input = ''
     config.css.wrapper_submit = ''
     config.css.offset = 'six wide field'
     config.css.label = 'six wide field'
     config.css.input = 'nine wide field'
+    config.css.input_select = 'ui dropdown nine wide field'
     config.css.submit = 'ui button'
 
     config.enum_name = 'enumerize'

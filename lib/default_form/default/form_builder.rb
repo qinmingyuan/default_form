@@ -58,7 +58,7 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    html_options[:class] ||= css.input
+    html_options[:class] ||= css.input_select
 
     label_content = label(method, options[:label])
     choices = choices_hash(method, choices)
@@ -68,7 +68,7 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    html_options[:class] ||= css.input
+    html_options[:class] ||= css.input_select
 
     label_text = options[:label]
     label_content = label(method, label_text)
