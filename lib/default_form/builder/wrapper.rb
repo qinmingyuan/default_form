@@ -28,7 +28,7 @@ module DefaultForm
 
       def offset(text = '')
         if on.offset
-          content_tag(:div, text, class: css.offset)
+          content_tag(:label, text, class: css.offset)
         else
           ''
         end
