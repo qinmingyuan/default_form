@@ -12,3 +12,10 @@ end
 module SearchForm
 
 end
+
+class ActiveRecord::Base
+  def self.enum_trans(attribute = defined_enums.keys.first)
+    h = I18n.t "activerecord.attributes.#{self.model_name.i18n_key}/#{attribute}"
+    h.invert
+  end
+end

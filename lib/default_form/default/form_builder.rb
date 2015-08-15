@@ -91,10 +91,12 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
         options[:class] ||= css.input
 
         label_text = options[:label]
-        label_content = label(method, label_text)
-        input_content = wrapper_input(super)
+        unless options[:custom]
+          label_content = label(method, label_text)
+          input_content = wrapper_input(super)
 
-        wrapper_all label_content + input_content
+          wrapper_all label_content + input_content
+        end
       end
     RUBY_EVAL
   end
