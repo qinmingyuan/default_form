@@ -2,6 +2,11 @@ module DefaultForm
   module Builder
     module Wrapper
 
+      def label(method, text = nil, options = {}, &block)
+        options[:class] ||= css.label
+        super
+      end
+
       def wrapper_all(inner)
         if on.wrapper_all
           content_tag(:div, inner, class: css.wrapper_all)

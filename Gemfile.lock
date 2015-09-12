@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    default_form (0.0.1)
+    default_form (0.0.2)
 
 GEM
   remote: https://ruby.taobao.org/
@@ -12,3 +12,6 @@ PLATFORMS
 
 DEPENDENCIES
   default_form!
+
+BUNDLED WITH
+   1.10.6

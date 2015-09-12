@@ -31,11 +31,6 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
                         :text_area
   ]
 
-  def label(method, text = nil, options = {}, &block)
-    options[:class] ||= css.label
-    super
-  end
-
   def submit(value = nil, options={})
     options[:class] ||= css.submit
 

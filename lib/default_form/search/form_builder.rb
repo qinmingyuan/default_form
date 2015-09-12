@@ -31,11 +31,6 @@ class DefaultForm::Search::FormBuilder < ActionView::Helpers::FormBuilder
                         :text_area
   ]
 
-  def label(method, text = nil, options = {}, &block)
-    options[:class] ||= css.label
-    super
-  end
-
   def submit(value = nil, options={})
     options[:class] ||= css.submit
 
@@ -92,7 +87,7 @@ class DefaultForm::Search::FormBuilder < ActionView::Helpers::FormBuilder
         options[:class] ||= css.input
 
         label_text = options[:label]
-        label_content = label(method, label_text)
+        label_content = label_text ? label(method, label_text) : ''.html_safe
         input_content = wrapper_input(super)
 
         wrapper_all label_content + input_content
