@@ -4,9 +4,20 @@ module DefaultForm
   module DefaultHelper
 
     def default_form_for(record, options = {}, &block)
-      options[:builder] = DefaultForm::Default::FormBuilder
+      options[:builder] = DefaultForm::FormBuilder
       options[:html] ||= {}
       options[:html][:class] ||= default_css.form
+
+      form_for(record, options, &block)
+    end
+
+    def search_form_for(record, options = {}, &block)
+      record = record || :q
+
+      options[:builder] = DefaultForm::FormBuilder
+      options[:html] ||= {}
+      options[:html][:class] ||= search_css.form
+      options[:method] ||= :get
 
       form_for(record, options, &block)
     end
@@ -16,13 +27,25 @@ module DefaultForm
       DefaultForm.config.css
     end
 
+    def search_css
+      SearchForm.config.css
+    end
+
     def on
       DefaultForm.config.on
+
+      SearchForm.config.on
     end
 
     def css
       DefaultForm.config.css
+
+      SearchForm.config.css
+
     end
+
+
+
 
   end
 end
