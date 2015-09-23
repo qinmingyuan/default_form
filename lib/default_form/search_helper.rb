@@ -1,4 +1,4 @@
-require 'default_form/search/form_builder'
+require 'default_form/form_builder'
 
 module DefaultForm
   module SearchHelper
@@ -16,6 +16,14 @@ module DefaultForm
 
     private
     def search_css
+      SearchForm.config.css
+    end
+
+    def on
+      SearchForm.config.on
+    end
+
+    def css
       SearchForm.config.css
     end
 

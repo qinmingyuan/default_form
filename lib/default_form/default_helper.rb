@@ -1,4 +1,4 @@
-require 'default_form/default/form_builder'
+require 'default_form/form_builder'
 
 module DefaultForm
   module DefaultHelper
@@ -13,6 +13,14 @@ module DefaultForm
 
     private
     def default_css
+      DefaultForm.config.css
+    end
+
+    def on
+      DefaultForm.config.on
+    end
+
+    def css
       DefaultForm.config.css
     end
 

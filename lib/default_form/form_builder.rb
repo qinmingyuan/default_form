@@ -1,10 +1,8 @@
 require 'default_form/builder/wrapper'
 require 'default_form/builder/require'
 require 'default_form/builder/option'
-require 'default_form/default/util'
 
 class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
-  include DefaultForm::Default::Util
   include DefaultForm::Builder::Wrapper
   include DefaultForm::Builder::Require
   include DefaultForm::Builder::Option
@@ -54,6 +52,7 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] ||= css.input_select
+    options[:selected] ||= params[:q].try(:[], method)  # for search
 
     label_content = label(method, options[:label])
     choices = choices_hash(method, choices)
@@ -87,7 +86,7 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
 
         label_text = options[:label]
         unless options[:custom]
-          label_content = label(method, label_text)
+          label_content = label_text ? label(method, label_text) : ''.html_safe
           input_content = wrapper_input(super)
 
           wrapper_all label_content + input_content

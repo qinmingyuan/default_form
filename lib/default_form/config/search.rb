@@ -18,6 +18,7 @@ module SearchForm
     config.css.offset = ''
     config.css.label = ''
     config.css.input = ''
+    config.css.input_select = ''
     config.css.submit = 'ui button'
 
     config.enum_name = 'enumerize'
