@@ -6,7 +6,9 @@ module DefaultForm
     def default_form_for(record, options = {}, &block)
       options[:builder] = DefaultForm::FormBuilder
       options[:html] ||= {}
-      options[:html][:class] ||= default_css.form
+      options[:html][:class] ||= DefaultForm.config.css.form
+      options[:on] = DefaultForm.config.on
+      options[:css] = DefaultForm.config.css
 
       form_for(record, options, &block)
     end
@@ -16,36 +18,13 @@ module DefaultForm
 
       options[:builder] = DefaultForm::FormBuilder
       options[:html] ||= {}
-      options[:html][:class] ||= search_css.form
+      options[:html][:class] ||= SearchForm.config.css.form
       options[:method] ||= :get
+      options[:on] = SearchForm.config.on
+      options[:css] = SearchForm.config.css
 
       form_for(record, options, &block)
     end
-
-    private
-    def default_css
-      DefaultForm.config.css
-    end
-
-    def search_css
-      SearchForm.config.css
-    end
-
-    def on
-      DefaultForm.config.on
-
-      SearchForm.config.on
-    end
-
-    def css
-      DefaultForm.config.css
-
-      SearchForm.config.css
-
-    end
-
-
-
 
   end
 end

@@ -2,10 +2,11 @@ require 'default_form/builder/wrapper'
 require 'default_form/builder/require'
 require 'default_form/builder/option'
 
-class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
+class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Wrapper
   include DefaultForm::Builder::Require
   include DefaultForm::Builder::Option
+  attr_reader :on, :css
 
   delegate :content_tag, to: :@template
 
@@ -28,6 +29,12 @@ class DefaultForm::Default::FormBuilder < ActionView::Helpers::FormBuilder
                         :range_field,
                         :text_area
   ]
+
+  def initialize(object_name, object, template, options)
+    @on = options[:on]
+    @css = options[:css]
+    super
+  end
 
   def submit(value = nil, options={})
     options[:class] ||= css.submit
