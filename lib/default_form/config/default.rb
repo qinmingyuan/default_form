@@ -5,17 +5,22 @@ module DefaultForm
 
   configure do |config|
     config.on = ActiveSupport::OrderedOptions.new
-    config.on.wrapper_all = true
-    config.on.wrapper_input = false
-    config.on.wrapper_submit = false
-    config.on.offset = true
-
     config.css = ActiveSupport::OrderedOptions.new
+
     config.css.form = 'ui segment form'
+
+    config.on.wrapper_all = true
     config.css.wrapper_all = 'inline field'
+
+    config.on.wrapper_input = false
     config.css.wrapper_input = ''
+
+    config.on.wrapper_submit = false
     config.css.wrapper_submit = ''
+
+    config.on.offset = true
     config.css.offset = 'six wide field'
+
     config.css.label = 'six wide field'
     config.css.input = 'nine wide field'
     config.css.input_select = 'ui dropdown nine wide field'
