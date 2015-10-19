@@ -1,6 +1,7 @@
 PATH
   remote: .
   specs:
+    default_form (0.0.3)
 
 GEM
   remote: https://ruby.taobao.org/

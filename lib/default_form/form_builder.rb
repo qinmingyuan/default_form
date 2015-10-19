@@ -44,10 +44,11 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
-    checkbox_content = content_tag(:label, super + options[:label].to_s)
-    checkbox_content = content_tag(:div, checkbox_content, class: 'checkbox')
-    checkbox_content = content_tag(:div, checkbox_content, class: 'col-sm-offset-2 col-sm-5')
-    wrapper_all checkbox_content
+    options[:class] ||= 'hidden'
+    label_content = label(method, options[:label], class: '')
+
+    checkbox_content = content_tag(:div, super + label_content, class: css.checkbox)
+    wrapper_all offset.html_safe + checkbox_content
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
@@ -58,7 +59,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    html_options[:class] ||= css.input_select
+    html_options[:class] ||= css.select
     options[:selected] ||= params[:q].try(:[], method)  # for search
 
     label_content = label(method, options[:label])
@@ -69,7 +70,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    html_options[:class] ||= css.input_select
+    html_options[:class] ||= css.select
 
     label_text = options[:label]
     label_content = label(method, label_text)

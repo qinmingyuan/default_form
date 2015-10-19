@@ -23,7 +23,9 @@ module DefaultForm
 
     config.css.label = 'six wide field'
     config.css.input = 'nine wide field'
-    config.css.input_select = 'ui dropdown nine wide field'
+    config.css.select = 'ui dropdown nine wide field'
+    config.css.muilti_select = 'nine wide field'
+    config.css.checkbox = 'ui toggle checkbox'
     config.css.submit = 'ui button'
 
     config.enum_name = 'enumerize'
