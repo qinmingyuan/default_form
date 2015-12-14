@@ -1,7 +1,5 @@
 $:.push File.expand_path("../lib", __FILE__)
-
-# Maintain your gem's version:
-require "default_form/version"
+require 'default_form/version'
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|

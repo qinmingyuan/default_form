@@ -8,7 +8,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Option
   attr_reader :on, :css
 
-  delegate :content_tag, to: :@template
+  delegate :content_tag, :params, to: :@template
 
   class_attribute :input_fields
   self.input_fields = [ :text_field,
