@@ -19,7 +19,7 @@ class ActiveRecord::Base
     h = I18n.t "#{self.i18n_scope}.attributes.#{self.model_name.i18n_key}/#{attribute}"
 
     if h.is_a? Hash
-      h[value]
+      h[value.to_sym]
     else
       human_attribute_name(value)
     end
