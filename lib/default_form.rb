@@ -18,9 +18,12 @@ class ActiveRecord::Base
   def self.enum_i18n(attribute, value)
     h = I18n.t "#{self.i18n_scope}.attributes.#{self.model_name.i18n_key}/#{attribute}"
 
-    if h.is_a?(Hash) && h.present?
-      h[value.to_sym]
-    else
+    v = nil
+    if h.is_a?(Hash)
+      v = h[value.to_s.to_sym]
+    end
+
+    unless v
       human_attribute_name(value)
     end
   end
