@@ -26,7 +26,7 @@ class ActiveRecord::Base
     if value.blank?
       v = ''
     end
-    
+
     if v.nil?
       v = human_attribute_name(value)
     end

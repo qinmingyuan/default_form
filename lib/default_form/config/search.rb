@@ -5,16 +5,20 @@ module SearchForm
 
   configure do |config|
     config.on = ActiveSupport::OrderedOptions.new
-    config.on.wrapper_all = false
-    config.on.wrapper_input = true
-    config.on.wrapper_submit = false
+    config.css = ActiveSupport::OrderedOptions.new
+
     config.on.offset = false
 
-    config.css = ActiveSupport::OrderedOptions.new
-    config.css.form = 'ui form'
+    config.on.wrapper_all = false
     config.css.wrapper_all = 'inline field'
+
+    config.on.wrapper_input = true
     config.css.wrapper_input = 'field'
+
+    config.on.wrapper_submit = false
     config.css.wrapper_submit = ''
+
+    config.css.form = 'ui form'
     config.css.offset = ''
     config.css.label = ''
     config.css.input = ''
