@@ -26,10 +26,12 @@ class ActiveRecord::Base
     if value.blank?
       v = ''
     end
-
+    
     if v.nil?
-      human_attribute_name(value)
+      v = human_attribute_name(value)
     end
+
+    v
   end
 
 
