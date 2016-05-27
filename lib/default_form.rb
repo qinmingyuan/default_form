@@ -23,7 +23,11 @@ class ActiveRecord::Base
       v = h[value.to_s.to_sym]
     end
 
-    unless v
+    if value.blank?
+      v = ''
+    end
+
+    if v.blank?
       human_attribute_name(value)
     end
   end
