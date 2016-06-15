@@ -72,7 +72,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     html_options[:class] ||= css['select']
 
     label_text = options[:label]
-    label_content = label(method, label_text)
+    label_content = label_text ? label(method, label_text) : ''.html_safe
     input_content = wrapper_input(super)
 
     wrapper_all label_content + input_content
