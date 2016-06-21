@@ -14,8 +14,16 @@ module DefaultForm::DefaultHelper
 
   def search_form_for(record, options = {}, &block)
     record = record || :q
-    #record = OpenStruct.new(p.permit!.to_h)
-    
+
+    case record
+    when String, Symbol
+      params[record].permit!
+      params[record].except!('utf8', 'commit')
+      params[record].reject! { |_, value| value.blank? }
+    end
+
+    binding.pry
+
     options[:builder] = DefaultForm::FormBuilder
     options[:html] ||= {}
     options[:html][:class] ||= SearchForm.config.css.form
