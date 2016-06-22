@@ -17,12 +17,10 @@ module DefaultForm::DefaultHelper
 
     case record
     when String, Symbol
+      params[record] ||= {}
       params[record].permit!
-      params[record].except!('utf8', 'commit')
       params[record].reject! { |_, value| value.blank? }
     end
-
-    binding.pry
 
     options[:builder] = DefaultForm::FormBuilder
     options[:html] ||= {}
@@ -30,8 +28,16 @@ module DefaultForm::DefaultHelper
     options[:method] ||= :get
     options[:on] = SearchForm.config.on
     options[:css] = SearchForm.config.css
+    options[:as] = record
+    options[:url] = request.path
 
-    form_for(record, options, &block)
+    result = ActiveSupport::OrderedOptions.new
+
+    params[record].keys.each do |k|
+      result[k] = params[record][k]
+    end
+
+    form_for(result, options, &block)
   end
 
 end
