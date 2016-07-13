@@ -24,8 +24,6 @@ module SearchForm
     config.css.input = ''
     config.css.select = ''
     config.css.submit = 'ui button'
-
-    config.enum_name = 'enumerize'
   end
 
 end
