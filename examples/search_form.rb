@@ -13,6 +13,4 @@ SearchForm.configure do |config|
   config.css.input = ''
   config.css.select = 'ui dropdown'
   config.css.submit = 'ui button'
-
-  config.enum_name = 'enumerize'
 end

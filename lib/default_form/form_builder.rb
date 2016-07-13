@@ -1,33 +1,29 @@
 require 'default_form/builder/wrapper'
-require 'default_form/builder/require'
-require 'default_form/builder/option'
-
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Wrapper
-  include DefaultForm::Builder::Require
-  include DefaultForm::Builder::Option
   attr_reader :on, :css
 
   delegate :content_tag, :params, to: :@template
 
   class_attribute :input_fields
-  self.input_fields = [ :text_field,
-                        :password_field,
-                        :color_field,
-                        :search_field,
-                        :telephone_field,
-                        :phone_field,
-                        :date_field,
-                        :time_field,
-                        :datetime_field,
-                        :datetime_local_field,
-                        :month_field,
-                        :week_field,
-                        :url_field,
-                        :email_field,
-                        :number_field,
-                        :range_field,
-                        :text_area
+  self.input_fields = [
+    :text_field,
+    :password_field,
+    :color_field,
+    :search_field,
+    :telephone_field,
+    :phone_field,
+    :date_field,
+    :time_field,
+    :datetime_field,
+    :datetime_local_field,
+    :month_field,
+    :week_field,
+    :url_field,
+    :email_field,
+    :number_field,
+    :range_field,
+    :text_area
   ]
 
   def initialize(object_name, object, template, options)
@@ -63,7 +59,6 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     options[:selected] ||= params[:q].try(:[], method)  # for search
 
     label_content = label(method, options[:label])
-    choices = choices_hash(method, choices)
     input_content = wrapper_input(super)
     wrapper_all label_content + input_content
   end
