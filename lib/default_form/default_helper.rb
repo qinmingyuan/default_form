@@ -6,8 +6,8 @@ module DefaultForm::DefaultHelper
     options[:builder] = DefaultForm::FormBuilder
     options[:html] ||= {}
     options[:html][:class] ||= DefaultForm.config.css.form
-    options[:on].merge! DefaultForm.config.on
-    options[:css].merge! DefaultForm.config.css
+    options[:on] = DefaultForm.config.on.merge(options[:on] || {})
+    options[:css] = DefaultForm.config.css.merge(options[:css] || {})
 
     form_for(record, options, &block)
   end
@@ -26,8 +26,8 @@ module DefaultForm::DefaultHelper
     options[:html] ||= {}
     options[:html][:class] ||= SearchForm.config.css.form
     options[:method] ||= :get
-    options[:on].merge! SearchForm.config.on
-    options[:css].merge! SearchForm.config.css
+    options[:on] = SearchForm.config.on.merge(options[:on] || {})
+    options[:css] = SearchForm.config.css.merge(options[:css] || {})
     options[:as] = record
     options[:url] = request.path
 
