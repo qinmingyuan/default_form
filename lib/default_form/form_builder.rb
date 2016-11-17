@@ -58,8 +58,9 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     html_options[:class] ||= css[:select]
     options[:selected] ||= params[:q].try(:[], method)  # for search
 
-    label_content = label(method, options[:label])
+    label_content = options[:label] ? label(method, options[:label]) : ''.html_safe
     input_content = wrapper_input(super)
+
     wrapper_all label_content + input_content
   end
 
