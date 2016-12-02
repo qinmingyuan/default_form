@@ -6,9 +6,15 @@ module DefaultForm::Builder
       super
     end
 
-    def wrapper_all(inner)
+    def wrapper_all(inner, method = nil)
+      if method && object_has_errors?(method)
+        final_css = css[:wrapper_all_error]
+      else
+        final_css = css[:wrapper_all]
+      end
+
       if on[:wrapper_all]
-        content_tag(:div, inner, class: css[:wrapper_all])
+        content_tag(:div, inner, class: final_css)
       else
         inner
       end
@@ -36,6 +42,10 @@ module DefaultForm::Builder
       else
         ''
       end
+    end
+
+    def object_has_errors?(method)
+      object.respond_to?(:errors) && object.errors.respond_to?(:[]) && object.errors[method].present?
     end
 
   end
