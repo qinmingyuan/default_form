@@ -44,23 +44,24 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     label_content = label(method, options[:label], class: '')
 
     checkbox_content = content_tag(:div, super + label_content, class: css[:checkbox])
-    wrapper_all offset.html_safe + checkbox_content
+    wrapper_all offset.html_safe + checkbox_content, method
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     label_content = label(method, options[:label])
 
     checkboxes_content = wrapper_input(super)
-    wrapper_all label_content + checkboxes_content
+    wrapper_all label_content + checkboxes_content, method
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] ||= css[:select]
     options[:selected] ||= params[:q].try(:[], method)  # for search
 
-    label_content = label(method, options[:label])
+    label_content = options[:label] ? label(method, options[:label]) : ''.html_safe
     input_content = wrapper_input(super)
-    wrapper_all label_content + input_content
+
+    wrapper_all label_content + input_content, method
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
@@ -70,7 +71,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     label_content = label_text ? label(method, label_text) : ''.html_safe
     input_content = wrapper_input(super)
 
-    wrapper_all label_content + input_content
+    wrapper_all label_content + input_content, method
   end
 
   def file_field(method, options = {})
@@ -78,7 +79,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     label_content = label(method, label_text)
     input_content = wrapper_input(super)
 
-    wrapper_all label_content + input_content
+    wrapper_all label_content + input_content, method
   end
 
   input_fields.each do |selector|
@@ -91,7 +92,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
           label_content = label_text ? label(method, label_text) : ''.html_safe
           input_content = wrapper_input(super)
 
-          wrapper_all label_content + input_content
+          wrapper_all label_content + input_content, method
         end
       end
     RUBY_EVAL

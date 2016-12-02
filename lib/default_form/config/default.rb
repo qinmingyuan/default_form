@@ -11,6 +11,7 @@ module DefaultForm
 
     config.on.wrapper_all = true
     config.css.wrapper_all = 'inline field'
+    config.css.wrapper_all_error = 'inline field error'
 
     config.on.wrapper_input = false
     config.css.wrapper_input = ''
