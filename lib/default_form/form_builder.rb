@@ -56,8 +56,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] ||= css[:select]
-    options[:selected] ||= params[:q].try(:[], method)  # for search
-
+    options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
+    
     label_content = options[:label] ? label(method, options[:label]) : ''.html_safe
     input_content = wrapper_input(super)
 
