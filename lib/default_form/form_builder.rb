@@ -32,6 +32,13 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
+  def fields_for(record_name, record_object = nil, fields_options = {}, &block)
+    fields_options[:on] = DefaultForm.config.on.merge(options[:on] || {})
+    fields_options[:css] = DefaultForm.config.css.merge(options[:css] || {})
+
+    super
+  end
+
   def submit(value = nil, options={})
     options[:class] ||= css[:submit]
 
@@ -57,7 +64,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     html_options[:class] ||= css[:select]
     options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
-    
+
     label_content = options[:label] ? label(method, options[:label]) : ''.html_safe
     input_content = wrapper_input(super)
 
