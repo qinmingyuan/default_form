@@ -41,7 +41,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   def label(method, text = nil, options = {}, &block)
     options[:class] ||= origin_css.merge(options.delete(:css) || {}).fetch(:label)
 
-    if text.equal?(false)
+    if text.equal?(false) || !object.is_a?(ActiveRecord::Base)
       return ''.html_safe
     elsif text.nil?
       text = object.class.human_attribute_name(method)
