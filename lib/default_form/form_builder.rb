@@ -39,69 +39,83 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def label(method, text = nil, options = {}, &block)
-    options[:class] ||= origin_css[:label]
+    options[:class] ||= origin_css.merge(options.delete(:css) || {}).fetch(:label)
+
+    if text.equal?(false)
+      return ''.html_safe
+    elsif text.nil?
+      text = object.class.human_attribute_name(method)
+    end
+
     super
   end
 
-  def submit(value = nil, options={})
+  def submit(value = nil, options = {})
     options[:class] ||= origin_css[:submit]
+    custom_on = options.delete(:on)
 
-    submit_content = wrapper_submit(super, on: options[:on])
-    wrapper_all offset.html_safe + submit_content, on: options[:on]
+    submit_content = wrapper_submit(super, on: custom_on)
+    wrapper_all offset.html_safe + submit_content, on: custom_on
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
+    options[:css] ||= {}
+    options[:css][:label] ||= ''
+    label_content = label(method, options.delete(:label), options.extract!(:on, :css))
     options[:class] ||= 'hidden'
-    label_content = label(method, options[:label], class: '')
+    custom_on = options.delete(:on)
 
     checkbox_content = content_tag(:div, super + label_content, class: origin_css[:checkbox])
-    wrapper_all offset.html_safe + checkbox_content, method, on: options[:on]
+    wrapper_all offset.html_safe + checkbox_content, method, on: custom_on
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    label_content = label(method, options[:label])
+    label_content = label(method, options.delete(:label), options.slice(:on, :css))
+    custom_on = options.delete(:on)
 
-    checkboxes_content = wrapper_input(super, on: options[:on])
-    wrapper_all label_content + checkboxes_content, method, on: options[:on]
+    checkboxes_content = wrapper_input(super, on: custom_on)
+    wrapper_all label_content + checkboxes_content, method, on: custom_on
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
+    label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
     options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
+    custom_on = options.delete(:on)
 
-    label_content = options[:label] ? label(method, options[:label]) : ''.html_safe
-    input_content = wrapper_input(super, on: options[:on])
-
-    wrapper_all label_content + input_content, method, on: options[:on]
+    input_content = wrapper_input(super, on: custom_on)
+    wrapper_all label_content + input_content, method, on: custom_on
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+    label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
+    custom_on = options.delete(:on)
 
-    label_text = options[:label]
-    label_content = label_text ? label(method, label_text) : ''.html_safe
-    input_content = wrapper_input(super, on: options[:on])
+    input_content = wrapper_input(super, on: custom_on)
 
-    wrapper_all label_content + input_content, method, on: options[:on]
+    wrapper_all label_content + input_content, method, on: custom_on
   end
 
   def file_field(method, options = {})
-    label_text = options[:label]
-    label_content = label(method, label_text)
-    input_content = wrapper_input(super, on: options[:on])
+    label_content = label(method, options.delete(:label), options.slice(:on, :css))
+    custom_on = options.delete(:on)
 
-    wrapper_all label_content + input_content, method, on: options[:on]
+    input_content = wrapper_input(super, on: custom_on)
+
+    wrapper_all label_content + input_content, method, on: custom_on
   end
 
   input_fields.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
+        label_content = label(method, options.delete(:label), options.slice(:on, :css))      
         options[:class] ||= origin_css[:input]
+        custom_on = options.delete(:on)
 
-        label_content = options[:label] ? label(method, options[:label]) : ''.html_safe      
-        input_content = wrapper_input(super, on: options[:on])
+        input_content = wrapper_input(super, on: custom_on)
        
-        wrapper_all label_content + input_content, method, on: options[:on]
+        wrapper_all label_content + input_content, method, on: custom_on
       end
     RUBY_EVAL
   end
