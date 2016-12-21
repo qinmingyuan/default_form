@@ -1,12 +1,12 @@
 # default_form
 
-## 为什么写这个gem
+## Features
 
 * simple_form 太难定制；
 
-* 充分利用rails的form构建helper；
+* 充分利用rails的form构建helper，符合rails习惯的定制；
 
-* 符合rails习惯的定制；
+* 不过度包办，比如simple_form的 `f.input` 方法表面上看是方便，但是我们本来就是熟练掌握 input 的type知识 和 rails 的 filed 系列方法。
 
 ## 如何使用
 

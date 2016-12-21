@@ -1,11 +1,10 @@
 require 'default_form/builder/wrapper'
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Wrapper
-  attr_reader :on, :css
-
+  attr_reader :origin_on, :origin_css
+  class_attribute :input_fields
   delegate :content_tag, :params, to: :@template
 
-  class_attribute :input_fields
   self.input_fields = [
     :text_field,
     :password_field,
@@ -27,8 +26,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   ]
 
   def initialize(object_name, object, template, options)
-    @on = options[:on]
-    @css = options[:css]
+    @origin_on = options[:on]
+    @origin_css = options[:css]
     super
   end
 
@@ -39,68 +38,70 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  def submit(value = nil, options={})
-    options[:class] ||= css[:submit]
+  def label(method, text = nil, options = {}, &block)
+    options[:class] ||= origin_css[:label]
+    super
+  end
 
-    submit_content = wrapper_submit(super)
-    wrapper_all offset.html_safe + submit_content
+  def submit(value = nil, options={})
+    options[:class] ||= origin_css[:submit]
+
+    submit_content = wrapper_submit(super, on: options[:on])
+    wrapper_all offset.html_safe + submit_content, on: options[:on]
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     options[:class] ||= 'hidden'
     label_content = label(method, options[:label], class: '')
 
-    checkbox_content = content_tag(:div, super + label_content, class: css[:checkbox])
-    wrapper_all offset.html_safe + checkbox_content, method
+    checkbox_content = content_tag(:div, super + label_content, class: origin_css[:checkbox])
+    wrapper_all offset.html_safe + checkbox_content, method, on: options[:on]
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     label_content = label(method, options[:label])
 
-    checkboxes_content = wrapper_input(super)
-    wrapper_all label_content + checkboxes_content, method
+    checkboxes_content = wrapper_input(super, on: options[:on])
+    wrapper_all label_content + checkboxes_content, method, on: options[:on]
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    html_options[:class] ||= css[:select]
+    html_options[:class] ||= origin_css[:select]
     options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
 
     label_content = options[:label] ? label(method, options[:label]) : ''.html_safe
-    input_content = wrapper_input(super)
+    input_content = wrapper_input(super, on: options[:on])
 
-    wrapper_all label_content + input_content, method
+    wrapper_all label_content + input_content, method, on: options[:on]
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    html_options[:class] ||= css[:select]
+    html_options[:class] ||= origin_css[:select]
 
     label_text = options[:label]
     label_content = label_text ? label(method, label_text) : ''.html_safe
-    input_content = wrapper_input(super)
+    input_content = wrapper_input(super, on: options[:on])
 
-    wrapper_all label_content + input_content, method
+    wrapper_all label_content + input_content, method, on: options[:on]
   end
 
   def file_field(method, options = {})
     label_text = options[:label]
     label_content = label(method, label_text)
-    input_content = wrapper_input(super)
+    input_content = wrapper_input(super, on: options[:on])
 
-    wrapper_all label_content + input_content, method
+    wrapper_all label_content + input_content, method, on: options[:on]
   end
 
   input_fields.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        options[:class] ||= css[:input]
+        options[:class] ||= origin_css[:input]
 
-        label_text = options[:label]
-        unless options[:custom]
-          label_content = label_text ? label(method, label_text) : ''.html_safe
-          input_content = wrapper_input(super)
-
-          wrapper_all label_content + input_content, method
-        end
+        label_content = options[:label] ? label(method, options[:label]) : ''.html_safe      
+        input_content = wrapper_input(super, on: options[:on])
+       
+        wrapper_all label_content + input_content, method, on: options[:on]
       end
     RUBY_EVAL
   end
