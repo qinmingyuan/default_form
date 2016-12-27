@@ -1,7 +1,7 @@
 module DefaultForm::ModelHelper
 
   def options_i18n(attribute)
-    h = I18n.t "#{self.i18n_scope}.attributes.#{self.model_name.i18n_key}/#{attribute}"
+    h = I18n.t enum_key(attribute)
 
     if h.is_a? Hash
       h.invert
@@ -11,7 +11,7 @@ module DefaultForm::ModelHelper
   end
 
   def enum_i18n(attribute, value)
-    h = I18n.t "#{self.i18n_scope}.attributes.#{self.model_name.i18n_key}/#{attribute}"
+    h = I18n.t enum_key(attribute)
 
     v = nil
     if h.is_a?(Hash)
@@ -27,6 +27,10 @@ module DefaultForm::ModelHelper
     end
 
     v
+  end
+
+  def enum_key(attribute)
+    DefaultForm.config.enum_key.call(self, attribute)
   end
 
 end

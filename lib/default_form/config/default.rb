@@ -27,6 +27,8 @@ module DefaultForm
     config.on.offset = true
     config.css.offset = 'six wide field'
     config.css.label = 'six wide field'
+
+    config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.model_name.i18n_key}/#{attribute}" }
   end
 
 end
