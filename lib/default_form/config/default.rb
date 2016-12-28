@@ -14,7 +14,7 @@ module DefaultForm
     config.css.wrapper_all_error = 'inline field error'
 
     config.on.wrapper_input = true
-    config.css.wrapper_input = ''
+    config.css.wrapper_input = 'nine wide field'
     config.css.input = 'nine wide field'
     config.css.select = 'ui dropdown nine wide field'
     config.css.muilti_select = 'nine wide field'
