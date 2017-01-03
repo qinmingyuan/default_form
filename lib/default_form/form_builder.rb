@@ -32,8 +32,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
-    fields_options[:on] = DefaultForm.config.on.merge(options[:on] || {})
-    fields_options[:css] = DefaultForm.config.css.merge(options[:css] || {})
+    fields_options[:on] = origin_on.merge(options[:on] || {})
+    fields_options[:css] = origin_css.merge(options[:css] || {})
 
     super
   end
