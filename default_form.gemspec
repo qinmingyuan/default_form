@@ -13,4 +13,8 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{lib}/**/*"] + ["README.md"]
   s.test_files = Dir["test/**/*"]
+
+  s.add_dependency 'rails', '~> 5.0.0'
+
+  s.add_development_dependency 'sqlite3'
 end
