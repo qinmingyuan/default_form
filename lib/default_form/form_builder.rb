@@ -24,6 +24,12 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     :range_field,
     :text_area
   ]
+  VALIDATIONS = [
+    :required,
+    :pattern,
+    :min, :max, :step,
+    :maxlength
+  ]
 
   def initialize(object_name, object, template, options)
     @origin_on = options[:on]
@@ -111,6 +117,13 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
       def #{selector}(method, options = {})
         label_content = label(method, options.delete(:label), options.slice(:on, :css))      
         options[:class] ||= origin_css[:input]
+        
+        valid_key = (options.keys & VALIDATIONS).sort.join('_')
+        if valid_key
+          options[:onblur] ||= 'checkValidity()'
+          options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
+        end
+
         custom_on = options.delete(:on)
 
         input_content = wrapper_input(super, on: custom_on)
