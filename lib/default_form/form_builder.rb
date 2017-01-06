@@ -121,6 +121,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
         if valid_key
           options[:onblur] ||= 'checkValidity()'
+          options[:oninput] ||= 'clearValid(this)'
           options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
         end
 
