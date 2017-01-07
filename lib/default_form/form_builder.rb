@@ -58,10 +58,10 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
 
   def submit(value = nil, options = {})
     options[:class] ||= origin_css[:submit]
-    custom_on = options.delete(:on)
+    custom_config = options.extract!(:on, :css)
 
-    submit_content = wrapper_submit(super, on: custom_on)
-    wrapper_all offset.html_safe + submit_content, on: custom_on
+    submit_content = wrapper_submit(super, config: custom_config)
+    wrapper_all offset.html_safe + submit_content, config: custom_config
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
@@ -69,47 +69,45 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     options[:css][:label] ||= ''
     label_content = label(method, options.delete(:label), options.extract!(:css))
     options[:class] ||= 'hidden'
-    custom_on = options.delete(:on)
+    custom_config = options.extract!(:on, :css)
 
     checkbox_content = content_tag(:div, super + label_content, class: origin_css[:checkbox])
-    wrapper_all offset.html_safe + checkbox_content, method, on: custom_on
+    wrapper_all offset.html_safe + checkbox_content, method, config: custom_config
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     label_content = label(method, options.delete(:label), options.slice(:on, :css))
-    custom_on = options.delete(:on)
+    custom_config = options.extract!(:on, :css)
 
-    checkboxes_content = wrapper_input(super, on: custom_on)
-    wrapper_all label_content + checkboxes_content, method, on: custom_on
+    checkboxes_content = wrapper_input(super, config: custom_config)
+    wrapper_all label_content + checkboxes_content, method, config: custom_config
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
     options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
-    custom_on = options.delete(:on)
+    custom_config = options.extract!(:on, :css)
 
-    input_content = wrapper_input(super, on: custom_on)
-    wrapper_all label_content + input_content, method, on: custom_on
+    input_content = wrapper_input(super, config: custom_config)
+    wrapper_all label_content + input_content, method, config: custom_config
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
-    custom_on = options.delete(:on)
+    custom_config = options.extract!(:on, :css)
 
-    input_content = wrapper_input(super, on: custom_on)
-
-    wrapper_all label_content + input_content, method, on: custom_on
+    input_content = wrapper_input(super, config: custom_config)
+    wrapper_all label_content + input_content, method, config: custom_config
   end
 
   def file_field(method, options = {})
     label_content = label(method, options.delete(:label), options.slice(:on, :css))
-    custom_on = options.delete(:on)
+    custom_config = options.extract!(:on, :css)
 
-    input_content = wrapper_input(super, on: custom_on)
-
-    wrapper_all label_content + input_content, method, on: custom_on
+    input_content = wrapper_input(super, config: custom_config)
+    wrapper_all label_content + input_content, method, config: custom_config
   end
 
   input_fields.each do |selector|
@@ -125,11 +123,9 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
           options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
         end
 
-        custom_on = options.delete(:on)
-
-        input_content = wrapper_input(super, on: custom_on)
-       
-        wrapper_all label_content + input_content, method, on: custom_on
+        custom_config = options.extract!(:on, :css)
+        input_content = wrapper_input(super, config: custom_config)
+        wrapper_all label_content + input_content, method, config: custom_config
       end
     RUBY_EVAL
   end
