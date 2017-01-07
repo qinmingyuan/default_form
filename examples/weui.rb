@@ -1,22 +1,25 @@
 DefaultForm.configure do |config|
-  config.css.form = ''
+  config.css.form = 'weui-cells weui-cells_form'
 
   config.on.wrapper_all = true
-  config.css.wrapper_all = 'form-group'
+  config.css.wrapper_all = 'weui-cell'
+  config.css.wrapper_all_error = 'inline field error'
 
-  config.on.wrapper_input = false
-  config.css.wrapper_input = ''
+  config.on.wrapper_input = true
+  config.css.wrapper_input = 'weui-cell__bd'
 
-  config.on.wrapper_submit = false
-  config.css.wrapper_submit = ''
+  config.on.wrapper_submit = true
+  config.css.wrapper_submit = 'weui-btn-area'
 
   config.on.offset = false
   config.css.offset = ''
 
-  config.css.label = ''
-  config.css.input = 'form-control'
-  config.css.select = 'ui dropdown nine wide field'
-  config.css.muilti_select = 'nine wide field'
+  config.css.label = 'weui-label'
+  config.css.input = 'weui-input'
+  config.css.select = 'weui-select'
+  config.css.muilti_select = 'weui-select'
   config.css.checkbox = 'checkbox'
-  config.css.submit = 'btn btn-default'
+  config.css.submit = 'weui-btn weui-btn_primary'
+
+  config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.status.#{attribute}" }
 end
