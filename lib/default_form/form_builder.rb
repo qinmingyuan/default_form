@@ -61,7 +61,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     custom_config = options.extract!(:on, :css)
 
     submit_content = wrapper_submit(super, config: custom_config)
-    wrapper_all offset.html_safe + submit_content, config: custom_config
+    wrapper_all offset(config: custom_config) + submit_content, config: custom_config
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')

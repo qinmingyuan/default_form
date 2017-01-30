@@ -40,11 +40,14 @@ module DefaultForm::Builder
       end
     end
 
-    def offset(text = '')
-      if origin_on[:offset]
-        content_tag(:label, text, class: origin_css[:offset])
+    def offset(text = '', config:)
+      on = origin_on.merge(config[:on] || {})
+      css = origin_css.merge(config[:css] || {})
+
+      if on[:offset]
+        content_tag(:div, text, class: css[:offset])
       else
-        ''
+        ''.html_safe
       end
     end
 
