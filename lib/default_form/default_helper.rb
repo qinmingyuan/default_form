@@ -6,6 +6,7 @@ module DefaultForm::DefaultHelper
     options[:builder] = DefaultForm::FormBuilder
     options[:html] ||= {}
     options[:html][:class] ||= DefaultForm.config.css.form
+    options[:html][:autocomplete] ||= 'off'
     options[:on] = DefaultForm.config.on.merge(options[:on] || {})
     options[:css] = DefaultForm.config.css.merge(options[:css] || {})
 
@@ -25,6 +26,7 @@ module DefaultForm::DefaultHelper
     options[:builder] = DefaultForm::FormBuilder
     options[:html] ||= {}
     options[:html][:class] ||= SearchForm.config.css.form
+    options[:html][:autocomplete] ||= 'off'
     options[:method] ||= :get
     options[:on] = SearchForm.config.on.merge(options[:on] || {})
     options[:css] = SearchForm.config.css.merge(options[:css] || {})
