@@ -111,6 +111,11 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
+  def hidden_field(method, options = {})
+    options[:autocomplete] = 'off'
+    super
+  end
+
   input_fields.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
