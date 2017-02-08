@@ -67,7 +67,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     options[:class] ||= 'hidden'
     custom_config = options.extract!(:on, :css)
-    #custom_config[:css][:label] ||= ''
+    custom_config[:css] ||= {}
+    custom_config[:css][:label] ||= ''
     css = origin_css.merge(custom_config[:css])
 
     label_content = label(method, options.delete(:label), custom_config)
