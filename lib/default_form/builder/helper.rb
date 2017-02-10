@@ -83,7 +83,7 @@ module DefaultForm::Builder::Helper
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
-    options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
+    options[:selected] ||= params[object_name]&.fetch(method, '')  # for search
     custom_config = options.extract!(:on, :css)
 
     input_content = wrapper_input(super, config: custom_config)

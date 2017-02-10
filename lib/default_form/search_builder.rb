@@ -9,9 +9,9 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
     if params[object_name].present?
       params[object_name].permit!
       params[object_name].reject! { |_, value| value.blank? }
-      result = ActiveSupport::OrderedOptions.new
+      object = ActiveSupport::OrderedOptions.new
       params[object_name].keys.each do |k|
-        result[k] = params[record][k]
+        object[k] = params[object_name][k]
       end
     end
 
