@@ -4,4 +4,3 @@ require 'default_form/view_helper'
 require 'default_form/config/default'
 require 'default_form/config/search'
 require 'default_form/model_helper'
-

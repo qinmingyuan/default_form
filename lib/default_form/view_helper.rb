@@ -8,9 +8,9 @@ module DefaultForm::ViewHelper
     form_for(record, options, &block)
   end
 
-
   def search_form_for(record = :q, options = {}, &block)
     options[:builder] = DefaultForm::SearchBuilder
+    options[:url] ||= request.path
     form_for(record, options, &block)
   end
 

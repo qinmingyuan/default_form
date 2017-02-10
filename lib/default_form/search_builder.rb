@@ -1,7 +1,6 @@
 require 'default_form/builder/helper'
 
 class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
-  delegate :content_tag, to: :@template
   include DefaultForm::Builder::Helper
 
   def initialize(object_name, object, template, options)
@@ -20,7 +19,6 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
     options[:html][:class] ||= SearchForm.config.css.form
     options[:method] ||= :get
     options[:as] = object_name
-    #options[:url] = request.path
 
     @origin_on = SearchForm.config.on.merge(options[:on] || {})
     @origin_css = SearchForm.config.css.merge(options[:css] || {})

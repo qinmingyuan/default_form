@@ -2,8 +2,9 @@ require 'default_form/builder/wrapper'
 
 module DefaultForm::Builder::Helper
   include DefaultForm::Builder::Wrapper
-  attr_reader :origin_on, :origin_css
   attr_accessor :params
+  attr_reader :origin_on, :origin_css
+  delegate :content_tag, to: :@template
 
   INPUT_FIELDS = [
     :text_field,
