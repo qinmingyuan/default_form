@@ -1,11 +1,11 @@
 require 'default_form/builder/wrapper'
-class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
+
+module DefaultForm::Builder::Helper
   include DefaultForm::Builder::Wrapper
   attr_reader :origin_on, :origin_css
-  class_attribute :input_fields
-  delegate :content_tag, :params, to: :@template
+  attr_accessor :params
 
-  self.input_fields = [
+  INPUT_FIELDS = [
     :text_field,
     :password_field,
     :color_field,
@@ -30,12 +30,6 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     :min, :max, :step,
     :maxlength
   ]
-
-  def initialize(object_name, object, template, options)
-    @origin_on = options[:on]
-    @origin_css = options[:css]
-    super
-  end
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
     fields_options[:on] = origin_on.merge(options[:on] || {})
@@ -117,7 +111,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  input_fields.each do |selector|
+  INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         label_content = label(method, options.delete(:label), options.slice(:on, :css))      
