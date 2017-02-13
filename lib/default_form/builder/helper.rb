@@ -1,11 +1,12 @@
 require 'default_form/builder/wrapper'
-class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
-  include DefaultForm::Builder::Wrapper
-  attr_reader :origin_on, :origin_css
-  class_attribute :input_fields
-  delegate :content_tag, :params, to: :@template
 
-  self.input_fields = [
+module DefaultForm::Builder::Helper
+  include DefaultForm::Builder::Wrapper
+  attr_accessor :params
+  attr_reader :origin_on, :origin_css
+  delegate :content_tag, to: :@template
+
+  INPUT_FIELDS = [
     :text_field,
     :password_field,
     :color_field,
@@ -30,12 +31,6 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     :min, :max, :step,
     :maxlength
   ]
-
-  def initialize(object_name, object, template, options)
-    @origin_on = options[:on]
-    @origin_css = options[:css]
-    super
-  end
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
     fields_options[:on] = origin_on.merge(options[:on] || {})
@@ -67,6 +62,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     options[:class] ||= 'hidden'
     custom_config = options.extract!(:on, :css)
+    custom_config[:css] ||= {}
     custom_config[:css][:label] ||= ''
     css = origin_css.merge(custom_config[:css])
 
@@ -87,7 +83,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
-    options[:selected] ||= params[options[:as]]&.fetch(method, '')  # for search
+    options[:selected] ||= params[object_name]&.fetch(method, '')  # for search
     custom_config = options.extract!(:on, :css)
 
     input_content = wrapper_input(super, config: custom_config)
@@ -111,7 +107,12 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
-  input_fields.each do |selector|
+  def hidden_field(method, options = {})
+    options[:autocomplete] = 'off'
+    super
+  end
+
+  INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         label_content = label(method, options.delete(:label), options.slice(:on, :css))      

@@ -7,7 +7,7 @@ module DefaultForm
     config.on = ActiveSupport::OrderedOptions.new
     config.css = ActiveSupport::OrderedOptions.new
 
-    config.css.form = 'ui segment form'
+    config.css.form = 'ui form'
 
     config.on.wrapper_all = true
     config.css.wrapper_all = 'inline field'
