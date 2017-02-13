@@ -17,8 +17,7 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
 
     options[:html] ||= {}
     options[:html][:class] ||= SearchForm.config.css.form
-    options[:method] ||= :get
-    options[:as] = object_name
+    options[:html][:method] ||= :get
 
     @origin_on = SearchForm.config.on.merge(options[:on] || {})
     @origin_css = SearchForm.config.css.merge(options[:css] || {})
