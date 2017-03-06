@@ -25,7 +25,7 @@ end
 ```ruby
 class AdminAreaController < ApplicationController
 
-  default_form_builder ExampleBuilder do |config|
+  default_form_builder 'ExampleBuilder' do |config|
     config.on.xxx = ''
     config.css.xxx = ''
   end
