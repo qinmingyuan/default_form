@@ -4,9 +4,10 @@
 
 * 更容易定制；
 
-* 充分利用rails的form构建helper，符合rails习惯的定制；
+* 充分利用rails内建的form builder构建helper，符合rails习惯的定制；
 
-* 不过度包办，比如simple_form的 `f.input` 方法表面上看是方便，但是不够灵活。但是我们本来就是熟练掌握 input 的type知识 和 rails 的 filed 系列方法。
+* 不过度包办，比如simple_form的 `f.input` 方法表面上看是方便，但是不够灵活。
+我们本来就熟练掌握 input 的type知识 和 rails 的 filed 系列方法的情况下，写`text_filed` 相比写 `input` 会更灵活一些。
 
 ## 如何使用
 
