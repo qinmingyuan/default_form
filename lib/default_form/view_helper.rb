@@ -5,9 +5,6 @@ module DefaultForm::ViewHelper
 
   def default_form_for(record, options = {}, &block)
     options[:builder] = DefaultForm::DefaultBuilder
-    options[:html] ||= {}
-    options[:html][:class] ||= DefaultForm.config.css.form
-    
     form_for(record, options, &block)
   end
 

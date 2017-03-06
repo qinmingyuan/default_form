@@ -69,7 +69,7 @@ module DefaultForm::Builder::Helper
     label_content = label(method, options.delete(:label), custom_config)
 
     checkbox_content = content_tag(:div, super + label_content, class: css[:checkbox])
-    wrapper_all offset.html_safe + checkbox_content, method, config: custom_config
+    wrapper_all offset(config: custom_config) + checkbox_content, method, config: custom_config
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
