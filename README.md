@@ -12,13 +12,27 @@
 
 1. 用`default_form_for` 替代 `form_for`
 
-2. 用`default_form_builder' 指定 FromBuilder
+2. 推荐用法：用`default_form_builder' 指定 FromBuilder
+
+default_form_builder 可以接受任意字符参数，default_form 会动态定义一个子类继承自 `DefaultForm::FormBuilder`
 
 ```ruby
 class AdminAreaController < ApplicationController
   default_form_builder DefaultForm::FormBuilder
 end
 ```
+
+```ruby
+class AdminAreaController < ApplicationController
+
+  default_form_builder ExampleBuilder do |config|
+    config.on.xxx = ''
+    config.css.xxx = ''
+  end
+  
+end
+```
+
 
 ## 如何定制
 
