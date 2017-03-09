@@ -13,7 +13,7 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     @params = template.params
 
     options[:html] ||= {}
-    if options[:html][:class].start_with? 'new', 'edit'
+    if options[:html][:class] && options[:html][:class].start_with?('new', 'edit')
       options[:html][:class] = origin_css.form
     end
     
