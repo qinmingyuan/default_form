@@ -119,7 +119,7 @@ module DefaultForm::Builder::Helper
         options[:class] ||= origin_css[:input]
         
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
-        if valid_key
+        if valid_key.present?
           options[:onblur] ||= 'checkValidity()'
           options[:oninput] ||= 'clearValid(this)'
           options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
