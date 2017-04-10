@@ -13,6 +13,16 @@ module DefaultForm::ViewHelper
     form_for(record, options, &block)
   end
 
+  def default_form_with(**options, &block)
+    options[:builder] = DefaultForm::DefaultBuilder
+    form_with(options, &block)
+  end
+
+  def search_form_with(**options, &block)
+    options[:builder] = DefaultForm::SearchBuilder
+    form_with(options, &block)
+  end
+
 end
 
 ActionView::Base.include DefaultForm::ViewHelper

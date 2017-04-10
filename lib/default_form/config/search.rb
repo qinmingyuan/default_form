@@ -28,6 +28,8 @@ module SearchForm
     config.css.offset = ''
     config.css.label = ''
 
+    config.on.autocomplete = true
+
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.model_name.i18n_key}/#{attribute}" }
   end
 

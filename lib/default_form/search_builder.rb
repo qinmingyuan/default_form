@@ -15,11 +15,13 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
         object[k] = params[object_name][k] if params[object_name][k].present?
       end
     end
-    
+
+    options[:local] ||= true
+    options[:method] ||= 'get'
     options[:html] ||= {}
     options[:html][:class] ||= origin_css.form
-    options[:html][:method] ||= :get
-    
+    options[:html][:method] ||= 'get'
+
     super
   end
 

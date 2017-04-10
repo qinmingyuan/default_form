@@ -28,6 +28,8 @@ module DefaultForm
     config.css.wrapper_submit = nil
     config.css.submit = 'ui button'
 
+    config.on.autocomplete = true
+
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.model_name.i18n_key}/#{attribute}" }
   end
 

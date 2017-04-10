@@ -83,7 +83,7 @@ module DefaultForm::Builder::Helper
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    options[:selected] ||= params[object_name]&.fetch(method, '')  # for search
+    options[:selected] ||= default_value(method)
     html_options[:class] ||= origin_css[:select]
     custom_config = options.extract!(:on, :css)
 
@@ -121,8 +121,9 @@ module DefaultForm::Builder::Helper
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         options[:class] ||= origin_css[:input]
+        options[:value] ||= default_value(method)
         custom_config = options.extract!(:on, :css)
-        
+      
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
         if valid_key.present?
           options[:onblur] ||= 'checkValidity()'
@@ -136,6 +137,16 @@ module DefaultForm::Builder::Helper
         wrapper_all label_content + input_content, method, config: custom_config
       end
     RUBY_EVAL
+  end
+
+  def default_value(method)
+    if origin_on.autocomplete
+      if object_name
+        return params[object_name]&.fetch(method, '')
+      else
+        return params[method]
+      end
+    end
   end
 
 end
