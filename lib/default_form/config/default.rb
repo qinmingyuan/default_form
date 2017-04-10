@@ -10,7 +10,7 @@ module DefaultForm
     config.css.form = 'ui form'
 
     config.on.wrapper_all = true
-    config.css.wrapper_all = 'inline field'
+    config.css.wrapper_all = 'inline fields'
     config.css.wrapper_all_error = 'inline field error'
 
     config.on.offset = true

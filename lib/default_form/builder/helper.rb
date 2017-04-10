@@ -40,7 +40,8 @@ module DefaultForm::Builder::Helper
   end
 
   def label(method, text = nil, options = {}, &block)
-    options[:class] ||= origin_css.merge(options.delete(:css) || {}).fetch(:label)
+    css = origin_css.merge(options.delete(:css) || {})
+    options[:class] ||= css[:label]
 
     if text.equal?(false) || !object.is_a?(ActiveRecord::Base)
       return ''.html_safe
@@ -66,44 +67,48 @@ module DefaultForm::Builder::Helper
     custom_config[:css][:label] ||= ''
     css = origin_css.merge(custom_config[:css])
 
-    label_content = label(method, options.delete(:label), custom_config)
+    label_content = label(method, options.delete(:label), custom_config.slice(:css))
 
     checkbox_content = content_tag(:div, super + label_content, class: css[:checkbox])
     wrapper_all offset(config: custom_config) + checkbox_content, method, config: custom_config
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    label_content = label(method, options.delete(:label), options.slice(:on, :css))
     custom_config = options.extract!(:on, :css)
 
+    label_content = label(method, options.delete(:label), custom_config.slice(:css))
     checkboxes_content = wrapper_input(super, config: custom_config)
+
     wrapper_all label_content + checkboxes_content, method, config: custom_config
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    label_content = label(method, options.delete(:label), options.slice(:on, :css))
-    html_options[:class] ||= origin_css[:select]
     options[:selected] ||= params[object_name]&.fetch(method, '')  # for search
+    html_options[:class] ||= origin_css[:select]
     custom_config = options.extract!(:on, :css)
 
+    label_content = label(method, options.delete(:label), custom_config.slice(:css))
     input_content = wrapper_input(super, config: custom_config)
+
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    label_content = label(method, options.delete(:label), options.slice(:on, :css))
     html_options[:class] ||= origin_css[:select]
     custom_config = options.extract!(:on, :css)
 
+    label_content = label(method, options.delete(:label), custom_config.slice(:css))
     input_content = wrapper_input(super, config: custom_config)
+
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
   def file_field(method, options = {})
-    label_content = label(method, options.delete(:label), options.slice(:on, :css))
     custom_config = options.extract!(:on, :css)
 
+    label_content = label(method, options.delete(:label), custom_config.slice(:css))
     input_content = wrapper_input(super, config: custom_config)
+
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
@@ -115,8 +120,8 @@ module DefaultForm::Builder::Helper
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        label_content = label(method, options.delete(:label), options.slice(:on, :css))      
         options[:class] ||= origin_css[:input]
+        custom_config = options.extract!(:on, :css)
         
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
         if valid_key.present?
@@ -125,8 +130,9 @@ module DefaultForm::Builder::Helper
           options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
         end
 
-        custom_config = options.extract!(:on, :css)
+        label_content = label(method, options.delete(:label), custom_config.slice(:css))      
         input_content = wrapper_input(super, config: custom_config)
+
         wrapper_all label_content + input_content, method, config: custom_config
       end
     RUBY_EVAL
