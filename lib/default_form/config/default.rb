@@ -20,7 +20,7 @@ module DefaultForm
     config.on.wrapper_input = true
     config.css.wrapper_input = 'six wide field'
     config.css.input = nil
-    config.css.select = 'ui dropdown six wide field'
+    config.css.select = 'ui fluid dropdown'
     config.css.muilti_select = 'six wide field'
     config.css.checkbox = 'ui toggle checkbox'
 
