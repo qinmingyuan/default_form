@@ -121,7 +121,7 @@ module DefaultForm::Builder::Helper
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         options[:class] ||= origin_css[:input]
-        options[:value] ||= default_value(method)
+        options[:value] ||= default_value(method) unless object.is_a?(ActiveRecord::Base)
         custom_config = options.extract!(:on, :css)
       
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
