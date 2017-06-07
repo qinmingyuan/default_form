@@ -11,7 +11,7 @@ module DefaultForm
 
     config.on.wrapper_all = true
     config.css.wrapper_all = 'inline fields'
-    config.css.wrapper_all_error = 'inline field error'
+    config.css.wrapper_all_error = 'inline fields error'
 
     config.on.offset = true
     config.css.offset = 'six wide field'
