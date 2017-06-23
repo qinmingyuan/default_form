@@ -1,13 +1,26 @@
 # default_form
 
+`default_form`只是为Rails提供的一系列表单方法设置了一些默认值和行为，然后这些默认的设置可以在配置文件，controller，from 参数，方法参数三个级别进行 overwrite，和配置。使用`default_form`我们只需要这样写表单：
+
+```erb
+<%= f.number_field :total_amount %>
+<%= f.number_field :fee_amount %>
+<%= f.number_field :income_amount %>
+<%= f.datetime_field :notified_at %>
+<%= f.text_field :buyer_name %>
+<%= f.text_field :buyer_identifier %>
+<%= f.text_field :buyer_bank %>
+<%= f.text_field :comment %>
+<%= f.submit %>
+```
+
 ## Features
 
-* 更容易定制；
+* 基于Rails内建的form builder构建helper，符合rails习惯，rails使用者上手零门槛；
 
-* 充分利用rails内建的form builder构建helper，符合rails习惯的定制；
+* 不过度包办，在我们本来就熟练掌握 input 的 type 知识和 rails 的 filed 系列方法的情况下，写`text_filed` 相比simple_form的 `input` 写法会更灵活一些，代码表达更清晰。
 
-* 不过度包办，比如simple_form的 `f.input` 方法表面上看是方便，但是不够灵活。
-我们本来就熟练掌握 input 的type知识 和 rails 的 filed 系列方法的情况下，写`text_filed` 相比写 `input` 会更灵活一些。
+* 更容易定制，当我还是个菜鸟的时候，我被`simple_form`的配置文件颇为困扰；
 
 ## 如何使用
 
