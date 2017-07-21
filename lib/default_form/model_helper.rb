@@ -33,6 +33,16 @@ module DefaultForm::ModelHelper
     DefaultForm.config.enum_key.call(self, attribute)
   end
 
+  def self.extended(mod)
+    mod.attribute_method_suffix '_i18n'
+
+    define_method :attribute_i18n do |attr|
+      mod.enum_i18n attr, send(attr)
+    end
+  end
+
 end
+
+
 
 ActiveRecord::Base.extend DefaultForm::ModelHelper
