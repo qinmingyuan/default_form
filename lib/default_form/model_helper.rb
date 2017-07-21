@@ -1,3 +1,4 @@
+require 'pry'
 module DefaultForm::ModelHelper
 
   def options_i18n(attribute)
@@ -36,8 +37,10 @@ module DefaultForm::ModelHelper
   def self.extended(mod)
     mod.attribute_method_suffix '_i18n'
 
-    define_method :attribute_i18n do |attr|
-      mod.enum_i18n attr, send(attr)
+    mod.class_exec do
+      def attribute_i18n(attr)
+        self.class.enum_i18n attr, send(attr)
+      end
     end
   end
 
