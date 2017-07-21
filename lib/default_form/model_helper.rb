@@ -1,4 +1,3 @@
-require 'pry'
 module DefaultForm::ModelHelper
 
   def options_i18n(attribute)
