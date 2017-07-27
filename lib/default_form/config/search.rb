@@ -10,23 +10,23 @@ module SearchForm
     config.css.form = 'ui form'
 
     config.on.wrapper_all = false
-    config.css.wrapper_all = 'inline field'
-    config.css.wrapper_all_error = 'inline field error'
+    config.css.wrapper_all = nil
+    config.css.wrapper_all_error = nil
 
     config.on.wrapper_input = true
     config.css.wrapper_input = 'field'
-    config.css.input = ''
-    config.css.select = ''
-    config.css.muilti_select = ''
-    config.css.checkbox = ''
+    config.css.input = nil
+    config.css.select = nil
+    config.css.muilti_select = nil
+    config.css.checkbox = nil
 
     config.on.wrapper_submit = false
-    config.css.wrapper_submit = ''
+    config.css.wrapper_submit = nil
     config.css.submit = 'ui button'
 
     config.on.offset = false
-    config.css.offset = ''
-    config.css.label = ''
+    config.css.offset = nil
+    config.css.label = nil
 
     config.on.autocomplete = true
 
