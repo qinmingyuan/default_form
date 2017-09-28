@@ -12,6 +12,7 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     @origin_css = class_css.merge(options[:css] || {})
     @params = template.params
 
+    options[:skip_default_ids] = origin_on.skip_default_ids
     options[:html] ||= {}
     if options[:html][:class] && options[:html][:class].start_with?('new', 'edit')
       options[:html][:class] = origin_css.form
