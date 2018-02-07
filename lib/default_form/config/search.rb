@@ -29,6 +29,7 @@ module SearchForm
     config.css.label = nil
 
     config.on.autocomplete = true
+    config.on.skip_default_ids = false
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.model_name.i18n_key}/#{attribute}" }
   end

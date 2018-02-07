@@ -65,11 +65,10 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:css] ||= {}
     custom_config[:css][:label] ||= ''
-    css = origin_css.merge(custom_config[:css])
 
     label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    checkbox_content = wrapper_checkbox(super + label_content, config: custom_config)
 
-    checkbox_content = content_tag(:div, super + label_content, class: css[:checkbox])
     wrapper_all offset(config: custom_config) + checkbox_content, method, config: custom_config
   end
 

@@ -16,6 +16,7 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
       end
     end
 
+    options[:skip_default_ids] = origin_on.skip_default_ids
     options[:local] ||= true
     options[:method] ||= 'get'
     options[:html] ||= {}
