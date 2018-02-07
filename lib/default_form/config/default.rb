@@ -21,8 +21,13 @@ module DefaultForm
     config.css.wrapper_input = 'six wide field'
     config.css.input = nil
     config.css.select = 'ui fluid dropdown'
-    config.css.muilti_select = 'six wide field'
-    config.css.checkbox = 'ui toggle checkbox'
+    config.css.muilti_select = 'six wide field' # todo
+
+    config.on.wrapper_checkbox = true
+    config.css.checkbox = 'hidden'
+    config.css.wrapper_checkbox = 'ui toggle checkbox'
+    config.css.wrapper_checkbox_checked = 'ui teal label checkbox'
+    config.css.wrapper_inline_checkbox = 'ui label checkbox' # todo
 
     config.on.wrapper_submit = false
     config.css.wrapper_submit = nil

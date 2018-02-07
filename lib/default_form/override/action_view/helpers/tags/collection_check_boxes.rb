@@ -4,14 +4,20 @@ module ActionView
       class CollectionCheckBoxes
 
         def render_component(builder)
-          if object.send(@method_name).include? builder.value
-            final_css = 'ui teal label checkbox'
+          css = @options.fetch(:css, {})
+          on = @options.fetch(:on, {})
+          if Array(object.send(@method_name)).include? builder.value
+            final_css = css[:wrapper_checkbox_checked]
           else
-            final_css = 'ui label checkbox'
+            final_css = css[:wrapper_checkbox]
           end
 
           inner = builder.check_box + builder.label
-          content_tag(:div, inner, class: final_css)
+          if on[:wrapper_checkbox]
+            content_tag(:div, inner, class: final_css)
+          else
+            inner
+          end
         end
 
       end

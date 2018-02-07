@@ -15,8 +15,8 @@ module DefaultForm::Builder::Wrapper
     on = origin_on.merge(config[:on] || {})
     css = origin_css.merge(config[:css] || {})
 
-    if on[:wrapper_input]
-      content_tag(:div, inner, class: css[:checkbox])
+    if on[:wrapper_checkbox]
+      content_tag(:div, inner, class: css[:wrapper_checkbox])
     else
       inner
     end

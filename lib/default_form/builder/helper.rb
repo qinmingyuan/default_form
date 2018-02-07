@@ -61,7 +61,7 @@ module DefaultForm::Builder::Helper
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
-    options[:class] ||= 'hidden'
+    options[:class] ||= origin_css[:checkbox]
     custom_config = options.extract!(:on, :css)
     custom_config[:css] ||= {}
     custom_config[:css][:label] ||= ''
@@ -74,6 +74,8 @@ module DefaultForm::Builder::Helper
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     custom_config = options.extract!(:on, :css)
+    options[:on] = origin_on.merge(custom_config[:on] || {}) # todo 更细腻的参数
+    options[:css] = origin_css.merge(custom_config[:css] || {})
 
     label_content = label(method, options.delete(:label), custom_config.slice(:css))
     checkboxes_content = wrapper_input(super, config: custom_config)
