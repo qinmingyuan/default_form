@@ -44,7 +44,11 @@ module DefaultForm::Builder::Wrapper
     end
 
     if on[:wrapper_all]
-      content_tag(:div, inner, class: final_css)
+      if on[:wrapper_id]
+        content_tag(:div, inner, class: final_css, id: wrapper_id(method))
+      else
+        content_tag(:div, inner, class: final_css)
+      end
     else
       inner
     end
@@ -63,6 +67,13 @@ module DefaultForm::Builder::Wrapper
 
   def object_has_errors?(method)
     object.respond_to?(:errors) && object.errors.respond_to?(:[]) && object.errors[method].present?
+  end
+
+  def wrapper_id(method)
+    object_name = object.class.base_class.model_name.param_key
+    sanitized_object_name = object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, '')
+    sanitized_method_name = method.to_s.sub(/\?$/, '')
+    "#{sanitized_object_name}_#{sanitized_method_name}_wrapper"
   end
 
 end
