@@ -85,7 +85,11 @@ module DefaultForm::Builder::Helper
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     options[:selected] ||= default_value(method)
-    html_options[:class] ||= origin_css[:select]
+    html_options[:class] ||= if html_options[:multiple]
+      origin_css[:multi_select]
+    else
+      origin_css[:select]
+    end
     custom_config = options.extract!(:on, :css)
 
     label_content = label(method, options.delete(:label), custom_config.slice(:css))
@@ -95,7 +99,11 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    html_options[:class] ||= origin_css[:select]
+    html_options[:class] ||= if html_options[:multiple]
+      origin_css[:multi_select]
+    else
+      origin_css[:select]
+    end
     custom_config = options.extract!(:on, :css)
 
     label_content = label(method, options.delete(:label), custom_config.slice(:css))
