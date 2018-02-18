@@ -32,7 +32,7 @@ module SearchForm
     config.on.wrapper_submit = false
     config.css.wrapper_submit = nil
     config.css.submit = 'ui button'
-    
+
     config.on.autocomplete = true
     config.on.skip_default_ids = false
 
