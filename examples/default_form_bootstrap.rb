@@ -18,7 +18,7 @@ DefaultForm.configure do |config|
   config.on.wrapper_checkbox = true
   config.css.checkbox = 'checkbox'
   config.css.wrapper_checkbox = 'checkbox-inline'
-  config.css.wrapper_checkbox_checked = 'checkbox-inline'
+  config.css.inline_checkbox_checked = 'checkbox-inline'
 
   config.on.wrapper_submit = true
   config.css.wrapper_submit = 'col-sm-offset-2 col-sm-10'

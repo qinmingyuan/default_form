@@ -26,8 +26,8 @@ module DefaultForm
     config.on.wrapper_checkbox = true
     config.css.checkbox = 'hidden'
     config.css.wrapper_checkbox = 'ui toggle checkbox'
-    config.css.wrapper_checkbox_checked = 'ui teal label checkbox'
-    config.css.wrapper_inline_checkbox = 'ui label checkbox'
+    config.css.inline_checkbox = 'ui label checkbox'
+    config.css.inline_checkbox_checked = 'ui teal label checkbox'
 
     config.on.wrapper_submit = false
     config.css.wrapper_submit = nil

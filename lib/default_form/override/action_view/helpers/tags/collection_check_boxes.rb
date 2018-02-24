@@ -7,9 +7,9 @@ module ActionView
           css = @options.fetch(:css, {})
           on = @options.fetch(:on, {})
           if Array(object.send(@method_name)).include? builder.value
-            final_css = css[:wrapper_checkbox_checked]
+            final_css = css[:inline_checkbox_checked]
           else
-            final_css = css[:wrapper_checkbox]
+            final_css = css[:inline_checkbox]
           end
 
           inner = builder.check_box + builder.label
