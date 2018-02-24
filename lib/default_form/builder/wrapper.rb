@@ -22,6 +22,17 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
+  def wrapper_checkboxes(inner, config:)
+    on = origin_on.merge(config[:on] || {})
+    css = origin_css.merge(config[:css] || {})
+
+    if on[:wrapper_checkboxes]
+      content_tag(:div, inner, class: css[:wrapper_checkboxes])
+    else
+      inner
+    end
+  end
+
   def wrapper_submit(inner, config:)
     on = origin_on.merge(config[:on] || {})
     css = origin_css.merge(config[:css] || {})
