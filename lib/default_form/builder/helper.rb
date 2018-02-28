@@ -13,7 +13,6 @@ module DefaultForm::Builder::Helper
     :search_field,
     :telephone_field,
     :phone_field,
-    :date_field,
     :time_field,
     :datetime_field,
     :datetime_local_field,
@@ -124,6 +123,28 @@ module DefaultForm::Builder::Helper
   def hidden_field(method, options = {})
     options[:autocomplete] = 'off'
     super
+  end
+
+  def date_field(method, options = {})
+    options[:class] ||= origin_css[:input]
+    options[:value] ||= default_value(method) unless object.is_a?(ActiveRecord::Base)
+    custom_config = options.extract!(:on, :css)
+
+    valid_key = (options.keys & VALIDATIONS).sort.join('_')
+    if valid_key.present?
+      options[:onblur] ||= 'checkValidity()'
+      options[:oninput] ||= 'clearValid(this)'
+      options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
+    end
+
+    if method.match?(/(date)/) && object.column_for_attribute(real_method.sub('(date)', '')).type == :datetime
+      options[:onchange] = 'assignDefault(this)'
+    end
+
+    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    input_content = wrapper_input(super, config: custom_config)
+
+    wrapper_all label_content + input_content, method, config: custom_config
   end
 
   INPUT_FIELDS.each do |selector|
