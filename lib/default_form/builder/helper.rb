@@ -137,8 +137,10 @@ module DefaultForm::Builder::Helper
       options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
     end
 
-    if method.match?(/(date)/) && object.column_for_attribute(real_method.sub('(date)', '')).type == :datetime
-      options[:onchange] = 'assignDefault(this)'
+    if method.match?(/(date)/)
+      real_method = method.to_s.sub('(date)', '')
+      options[:onchange] = 'assignDefault(this)' if object.column_for_attribute(real_method).type == :datetime
+      options[:value] = object.read_attribute(real_method)&.to_date
     end
 
     label_content = label(method, options.delete(:label), custom_config.slice(:css))
