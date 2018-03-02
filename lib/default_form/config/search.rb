@@ -39,7 +39,7 @@ module SearchForm
     config.on.autocomplete = true
     config.on.skip_default_ids = false
 
-    config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.model_name.i18n_key}/#{attribute}" }
+    config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }
   end
 
 end

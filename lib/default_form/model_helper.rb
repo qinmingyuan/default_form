@@ -45,6 +45,4 @@ module DefaultForm::ModelHelper
 
 end
 
-
-
 ActiveRecord::Base.extend DefaultForm::ModelHelper
