@@ -24,7 +24,7 @@
 
 ## 如何使用
 
-1. 用`default_form_for` 替代 `form_for`
+1. 用`default_form_with` 替代 `form_with`
 
 2. 推荐用法：用`default_form_builder' 指定 FromBuilder
 
