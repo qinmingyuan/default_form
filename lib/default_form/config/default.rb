@@ -13,6 +13,7 @@ module DefaultForm
     config.css.wrapper_all = 'inline fields'
     config.css.wrapper_all_error = 'inline fields error'
 
+    config.on.label = true
     config.on.offset = true
     config.css.offset = 'six wide field'
     config.css.label = 'six wide field'
@@ -38,6 +39,7 @@ module DefaultForm
 
     config.on.autocomplete = true
     config.on.skip_default_ids = false
+    config.on.placeholder = false
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }
   end

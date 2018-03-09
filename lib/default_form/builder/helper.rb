@@ -39,16 +39,30 @@ module DefaultForm::Builder::Helper
   end
 
   def label(method, text = nil, options = {}, &block)
+    on = origin_on.merge(options.delete(:on) || {})
     css = origin_css.merge(options.delete(:css) || {})
     options[:class] ||= css[:label]
 
-    if text.equal?(false) || !object.is_a?(ActiveRecord::Base)
+    # label: false
+    if text.equal?(false)
       return ''.html_safe
-    elsif text.nil?
-      text = object.class.human_attribute_name(method)
     end
 
-    super
+    # label: ''
+    if text
+      return super
+    end
+
+    if on[:label]
+      # no label options but label on
+      if text.nil? && object.is_a?(ActiveRecord::Base)
+        text = object.class.human_attribute_name(method)
+      end
+
+      super
+    else
+      ''.html_safe
+    end
   end
 
   def submit(value = nil, options = {})
@@ -65,7 +79,7 @@ module DefaultForm::Builder::Helper
     custom_config[:css] ||= {}
     custom_config[:css][:label] ||= ''
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     checkbox_content = wrapper_checkbox(super + label_content, config: custom_config)
 
     wrapper_all offset(config: custom_config) + checkbox_content, method, config: custom_config
@@ -76,7 +90,7 @@ module DefaultForm::Builder::Helper
     options[:on] = origin_on.merge(custom_config[:on] || {}) # todo 更细腻的参数
     options[:css] = origin_css.merge(custom_config[:css] || {})
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     checkboxes_content = wrapper_checkboxes(super, config: custom_config)
 
     wrapper_all label_content + checkboxes_content, method, config: custom_config
@@ -91,7 +105,7 @@ module DefaultForm::Builder::Helper
     end
     custom_config = options.extract!(:on, :css)
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -105,7 +119,7 @@ module DefaultForm::Builder::Helper
     end
     custom_config = options.extract!(:on, :css)
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -114,7 +128,7 @@ module DefaultForm::Builder::Helper
   def file_field(method, options = {})
     custom_config = options.extract!(:on, :css)
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -127,7 +141,12 @@ module DefaultForm::Builder::Helper
 
   def date_field(method, options = {})
     options[:class] ||= origin_css[:input]
-    options[:value] ||= default_value(method) unless object.is_a?(ActiveRecord::Base)
+    unless object.is_a?(ActiveRecord::Base)
+      options[:value] ||= default_value(method)
+    end
+    if origin_on[:placeholder]
+      options[:placeholder] ||= default_placeholder(method)
+    end
     custom_config = options.extract!(:on, :css)
 
     valid_key = (options.keys & VALIDATIONS).sort.join('_')
@@ -143,7 +162,7 @@ module DefaultForm::Builder::Helper
       options[:value] = object.read_attribute(real_method)&.to_date
     end
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:css))
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -153,7 +172,12 @@ module DefaultForm::Builder::Helper
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         options[:class] ||= origin_css[:input]
-        options[:value] ||= default_value(method) unless object.is_a?(ActiveRecord::Base)
+        unless object.is_a?(ActiveRecord::Base)
+          options[:value] ||= default_value(method)
+        end
+        if origin_on[:placeholder]
+          options[:placeholder] ||= default_placeholder(method)
+        end
         custom_config = options.extract!(:on, :css)
       
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
@@ -163,7 +187,7 @@ module DefaultForm::Builder::Helper
           options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
         end
 
-        label_content = label(method, options.delete(:label), custom_config.slice(:css))      
+        label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
         input_content = wrapper_input(super, config: custom_config)
 
         wrapper_all label_content + input_content, method, config: custom_config
@@ -178,6 +202,14 @@ module DefaultForm::Builder::Helper
       else
         return params[method]
       end
+    end
+  end
+  
+  def default_placeholder(method)
+    if object.is_a?(ActiveRecord::Base)
+      object.class.human_attribute_name(method)
+    else
+      # todo
     end
   end
 

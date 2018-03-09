@@ -12,7 +12,8 @@ module SearchForm
     config.on.wrapper_all = false
     config.css.wrapper_all = nil
     config.css.wrapper_all_error = nil
-
+    
+    config.on.label = false
     config.on.offset = false
     config.css.offset = nil
     config.css.label = nil
@@ -38,6 +39,7 @@ module SearchForm
 
     config.on.autocomplete = true
     config.on.skip_default_ids = false
+    config.on.placeholder = true
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }
   end
