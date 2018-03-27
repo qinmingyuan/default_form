@@ -15,7 +15,8 @@ module DefaultForm::ViewHelper
 
   def search_form_with(**options, &block)
     options[:builder] = DefaultForm::SearchBuilder
-    options[:scope] = :q unless options.has_key?(:scope)
+    options[:scope] ||= :q unless options.has_key?(:scope)
+    options[:url] ||= url_for
     form_with(options, &block)
   end
 
