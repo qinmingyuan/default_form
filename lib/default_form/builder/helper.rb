@@ -32,9 +32,8 @@ module DefaultForm::Builder::Helper
   ]
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
-    fields_options[:on] = origin_on.merge(options[:on] || {})
-    fields_options[:css] = origin_css.merge(options[:css] || {})
-
+    fields_options[:on] = origin_on.merge(fields_options[:on] || {})
+    fields_options[:css] = origin_css.merge(fields_options[:css] || {})
     super
   end
 
@@ -204,7 +203,7 @@ module DefaultForm::Builder::Helper
       end
     end
   end
-  
+
   def default_placeholder(method)
     if object.is_a?(ActiveRecord::Base)
       object.class.human_attribute_name(method)
