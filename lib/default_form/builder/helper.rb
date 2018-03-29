@@ -37,6 +37,13 @@ module DefaultForm::Builder::Helper
     super
   end
 
+  def fields(scope = nil, model: nil, **options, &block)
+    options[:on] = origin_on.merge(options[:on] || {})
+    options[:css] = origin_css.merge(options[:css] || {})
+
+    super
+  end
+
   def label(method, text = nil, options = {}, &block)
     on = origin_on.merge(options.delete(:on) || {})
     css = origin_css.merge(options.delete(:css) || {})
@@ -172,7 +179,8 @@ module DefaultForm::Builder::Helper
       def #{selector}(method, options = {})
         options[:class] ||= origin_css[:input]
         unless object.is_a?(ActiveRecord::Base)
-          options[:value] ||= default_value(method)
+          value = default_value(method)
+          options[:value] ||= value if value
         end
         if origin_on[:placeholder]
           options[:placeholder] ||= default_placeholder(method)
