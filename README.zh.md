@@ -1,14 +1,5 @@
 # default_form
 
-## description
-less code, less config, very less DSL, just use rails's form helper methods your know.
-
-but still powerful than `simple_form`.
-
-## features
-* support valid
-* support html5
-
 `default_form`只是为Rails提供的一系列表单方法设置了一些默认值和行为，然后这些默认的设置可以在配置文件、controller层，from_tag方法参数，field方法参数四个级别进行 overwrite，和配置。使用`default_form`我们只需要这样写表单：
 
 ```erb
