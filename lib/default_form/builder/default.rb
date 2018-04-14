@@ -44,11 +44,11 @@ module DefaultForm::Builder::Default
   end
 
   def default_valid(options)
-    valid_key = (options.keys & VALIDATIONS).sort.join('_')
+    valid_key = options.keys & VALIDATIONS
     if valid_key.present?
       options[:onblur] ||= 'checkValidity()'
       options[:oninput] ||= 'clearValid(this)'
-      options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
+      options[:oninvalid] ||= 'validForm(this)'
     end
     options
   end
