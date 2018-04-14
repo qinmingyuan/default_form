@@ -25,12 +25,6 @@ module DefaultForm::Builder::Helper
     :range_field,
     :text_area
   ]
-  VALIDATIONS = [
-    :required,
-    :pattern,
-    :min, :max, :step,
-    :maxlength
-  ]
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
     fields_options[:on] = origin_on.merge(fields_options[:on] || {})
@@ -87,7 +81,7 @@ module DefaultForm::Builder::Helper
     custom_config[:css][:label] ||= ''
     custom_config[:required] = options[:required]
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     checkbox_content = wrapper_checkbox(super + label_content, config: custom_config)
 
     wrapper_all offset(config: custom_config) + checkbox_content, method, config: custom_config
@@ -99,7 +93,7 @@ module DefaultForm::Builder::Helper
     options[:on] = origin_on.merge(custom_config[:on] || {}) # todo 更细腻的参数
     options[:css] = origin_css.merge(custom_config[:css] || {})
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     checkboxes_content = wrapper_checkboxes(super, config: custom_config)
 
     wrapper_all label_content + checkboxes_content, method, config: custom_config
@@ -115,7 +109,7 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:required] = options[:required]
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -130,7 +124,7 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:required] = options[:required]
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -140,7 +134,7 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:required] = options[:required]
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -162,12 +156,7 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:required] = options[:required]
 
-    valid_key = (options.keys & VALIDATIONS).sort.join('_')
-    if valid_key.present?
-      options[:onblur] ||= 'checkValidity()'
-      options[:oninput] ||= 'clearValid(this)'
-      options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
-    end
+    default_valid(options)
 
     if method.match?(/(date)/)
       real_method = method.to_s.sub('(date)', '')
@@ -175,7 +164,7 @@ module DefaultForm::Builder::Helper
       options[:value] = object.read_attribute(real_method)&.to_date
     end
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -194,14 +183,9 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:required] = options[:required]
 
-    valid_key = (options.keys & VALIDATIONS).sort.join('_')
-    if valid_key.present?
-      options[:onblur] ||= 'checkValidity()'
-      options[:oninput] ||= 'clearValid(this)'
-      options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
-    end
+    default_valid(options)
 
-    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
@@ -221,14 +205,9 @@ module DefaultForm::Builder::Helper
         custom_config = options.extract!(:on, :css)
         custom_config[:required] = options[:required]
       
-        valid_key = (options.keys & VALIDATIONS).sort.join('_')
-        if valid_key.present?
-          options[:onblur] ||= 'checkValidity()'
-          options[:oninput] ||= 'clearValid(this)'
-          options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
-        end
+        default_valid(options)
 
-        label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+        label_content = label(method, options.delete(:label), custom_config)
         input_content = wrapper_input(super, config: custom_config)
 
         wrapper_all label_content + input_content, method, config: custom_config

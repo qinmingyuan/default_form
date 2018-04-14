@@ -1,4 +1,10 @@
 module DefaultForm::Builder::Default
+  VALIDATIONS = [
+    :required,
+    :pattern,
+    :min, :max, :step,
+    :maxlength
+  ]
 
   def default_value(method)
     if origin_on.autocomplete
@@ -23,6 +29,20 @@ module DefaultForm::Builder::Default
     else
       # todo
     end
+  end
+
+  def default_valid(options)
+    valid_key = (options.keys & VALIDATIONS).sort.join('_')
+    if valid_key.present?
+      options[:onblur] ||= 'checkValidity()'
+      options[:oninput] ||= 'clearValid(this)'
+      options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
+    end
+    options
+  end
+
+  def custom_config(options)
+
   end
 
 end
