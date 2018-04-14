@@ -238,7 +238,7 @@ module DefaultForm::Builder::Helper
 
   def default_step(method)
     if object.is_a?(ActiveRecord::Base)
-      0.1.to_d.power(object.class.columns_hash[method.to_s].scale)
+      0.1.to_d.power(object.class.columns_hash[method.to_s]&.scale)
     else
     end
   end
