@@ -12,7 +12,8 @@ module SearchForm
     config.on.wrapper_all = false
     config.css.wrapper_all = nil
     config.css.wrapper_all_error = nil
-    
+    config.css.wrapper_all_required = nil
+
     config.on.label = false
     config.on.offset = false
     config.css.offset = nil

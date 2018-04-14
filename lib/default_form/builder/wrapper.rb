@@ -50,6 +50,8 @@ module DefaultForm::Builder::Wrapper
 
     if method && object_has_errors?(method)
       final_css = css[:wrapper_all_error]
+    elsif config[:required]
+      final_css = css[:wrapper_all_required]
     else
       final_css = css[:wrapper_all]
     end

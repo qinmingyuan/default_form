@@ -85,6 +85,7 @@ module DefaultForm::Builder::Helper
     custom_config = options.extract!(:on, :css)
     custom_config[:css] ||= {}
     custom_config[:css][:label] ||= ''
+    custom_config[:required] = options[:required]
 
     label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     checkbox_content = wrapper_checkbox(super + label_content, config: custom_config)
@@ -94,6 +95,7 @@ module DefaultForm::Builder::Helper
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     custom_config = options.extract!(:on, :css)
+    custom_config[:required] = options[:required]
     options[:on] = origin_on.merge(custom_config[:on] || {}) # todo 更细腻的参数
     options[:css] = origin_css.merge(custom_config[:css] || {})
 
@@ -111,6 +113,7 @@ module DefaultForm::Builder::Helper
       origin_css[:select]
     end
     custom_config = options.extract!(:on, :css)
+    custom_config[:required] = options[:required]
 
     label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
@@ -125,6 +128,7 @@ module DefaultForm::Builder::Helper
       origin_css[:select]
     end
     custom_config = options.extract!(:on, :css)
+    custom_config[:required] = options[:required]
 
     label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
@@ -134,6 +138,7 @@ module DefaultForm::Builder::Helper
 
   def file_field(method, options = {})
     custom_config = options.extract!(:on, :css)
+    custom_config[:required] = options[:required]
 
     label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
     input_content = wrapper_input(super, config: custom_config)
@@ -155,6 +160,7 @@ module DefaultForm::Builder::Helper
       options[:placeholder] ||= default_placeholder(method)
     end
     custom_config = options.extract!(:on, :css)
+    custom_config[:required] = options[:required]
 
     valid_key = (options.keys & VALIDATIONS).sort.join('_')
     if valid_key.present?
@@ -186,6 +192,7 @@ module DefaultForm::Builder::Helper
     end
     options[:step] ||= default_step(method)
     custom_config = options.extract!(:on, :css)
+    custom_config[:required] = options[:required]
 
     valid_key = (options.keys & VALIDATIONS).sort.join('_')
     if valid_key.present?
@@ -212,6 +219,7 @@ module DefaultForm::Builder::Helper
           options[:placeholder] ||= default_placeholder(method)
         end
         custom_config = options.extract!(:on, :css)
+        custom_config[:required] = options[:required]
       
         valid_key = (options.keys & VALIDATIONS).sort.join('_')
         if valid_key.present?
