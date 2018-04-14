@@ -20,7 +20,6 @@ module DefaultForm::Builder::Helper
     :week_field,
     :url_field,
     :email_field,
-    :number_field,
     :range_field,
     :text_area
   ]
@@ -174,6 +173,31 @@ module DefaultForm::Builder::Helper
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
+  def number_field(method, options = {})
+    options[:class] ||= origin_css[:input]
+    unless object.is_a?(ActiveRecord::Base)
+      value = default_value(method)
+      options[:value] ||= value if value
+    end
+    if origin_on[:placeholder]
+      options[:placeholder] ||= default_placeholder(method)
+    end
+    options[:step] ||= default_step(method)
+    custom_config = options.extract!(:on, :css)
+
+    valid_key = (options.keys & VALIDATIONS).sort.join('_')
+    if valid_key.present?
+      options[:onblur] ||= 'checkValidity()'
+      options[:oninput] ||= 'clearValid(this)'
+      options[:oninvalid] ||= 'valid' + valid_key.camelize + '(this)'
+    end
+
+    label_content = label(method, options.delete(:label), custom_config.slice(:on, :css))
+    input_content = wrapper_input(super, config: custom_config)
+
+    wrapper_all label_content + input_content, method, config: custom_config
+  end
+
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
@@ -209,6 +233,13 @@ module DefaultForm::Builder::Helper
       else
         return params[method]
       end
+    end
+  end
+
+  def default_step(method)
+    if object.is_a?(ActiveRecord::Base)
+      0.1.to_d.power(object.class.columns_hash[method.to_s].scale)
+    else
     end
   end
 
