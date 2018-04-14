@@ -40,8 +40,9 @@ module DefaultForm::Builder::Helper
   end
 
   def label(method, text = nil, options = {}, &block)
-    on = origin_on.merge(options.delete(:on) || {})
-    css = origin_css.merge(options.delete(:css) || {})
+    on = origin_on.merge(options[:on] || {})
+    css = origin_css.merge(options[:css] || {})
+    options = options.except(:on, :css, :required)
     options[:class] ||= css[:label]
 
     # label: false
@@ -67,19 +68,17 @@ module DefaultForm::Builder::Helper
   end
 
   def submit(value = nil, options = {})
-    options[:class] ||= origin_css[:submit]
     custom_config = options.extract!(:on, :css)
+    options[:class] ||= origin_css[:submit]
 
     submit_content = wrapper_submit(super, config: custom_config)
     wrapper_all offset(config: custom_config) + submit_content, config: custom_config
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
-    options[:class] ||= origin_css[:checkbox]
-    custom_config = options.extract!(:on, :css)
-    custom_config[:css] ||= {}
+    custom_config = extra_config(options)
     custom_config[:css][:label] ||= ''
-    custom_config[:required] = options[:required]
+    options[:class] ||= origin_css[:checkbox]
 
     label_content = label(method, options.delete(:label), custom_config)
     checkbox_content = wrapper_checkbox(super + label_content, config: custom_config)
@@ -88,10 +87,9 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    custom_config = options.extract!(:on, :css)
-    custom_config[:required] = options[:required]
-    options[:on] = origin_on.merge(custom_config[:on] || {}) # todo 更细腻的参数
-    options[:css] = origin_css.merge(custom_config[:css] || {})
+    custom_config = options.slice(:on, :css, :required)
+    options[:on] = origin_on.merge(options[:on] || {}) # todo 更细腻的参数
+    options[:css] = origin_css.merge(options[:css] || {})
 
     label_content = label(method, options.delete(:label), custom_config)
     checkboxes_content = wrapper_checkboxes(super, config: custom_config)
@@ -100,14 +98,13 @@ module DefaultForm::Builder::Helper
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
+    custom_config = extra_config(options)
     options[:selected] ||= default_value(method)
     html_options[:class] ||= if html_options[:multiple]
       origin_css[:multi_select]
     else
       origin_css[:select]
     end
-    custom_config = options.extract!(:on, :css)
-    custom_config[:required] = options[:required]
 
     label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
@@ -116,13 +113,12 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+    custom_config = extra_config(options)
     html_options[:class] ||= if html_options[:multiple]
       origin_css[:multi_select]
     else
       origin_css[:select]
     end
-    custom_config = options.extract!(:on, :css)
-    custom_config[:required] = options[:required]
 
     label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
@@ -131,8 +127,7 @@ module DefaultForm::Builder::Helper
   end
 
   def file_field(method, options = {})
-    custom_config = options.extract!(:on, :css)
-    custom_config[:required] = options[:required]
+    custom_config = extra_config(options)
 
     label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
@@ -146,17 +141,8 @@ module DefaultForm::Builder::Helper
   end
 
   def date_field(method, options = {})
-    options[:class] ||= origin_css[:input]
-    unless object.is_a?(ActiveRecord::Base)
-      options[:value] ||= default_value(method)
-    end
-    if origin_on[:placeholder]
-      options[:placeholder] ||= default_placeholder(method)
-    end
-    custom_config = options.extract!(:on, :css)
-    custom_config[:required] = options[:required]
-
-    default_valid(options)
+    custom_config = extra_config(options)
+    default_options(method, options)
 
     if method.match?(/(date)/)
       real_method = method.to_s.sub('(date)', '')
@@ -171,19 +157,9 @@ module DefaultForm::Builder::Helper
   end
 
   def number_field(method, options = {})
-    options[:class] ||= origin_css[:input]
-    unless object.is_a?(ActiveRecord::Base)
-      value = default_value(method)
-      options[:value] ||= value if value
-    end
-    if origin_on[:placeholder]
-      options[:placeholder] ||= default_placeholder(method)
-    end
+    custom_config = extra_config(options)
+    default_options(method, options)
     options[:step] ||= default_step(method)
-    custom_config = options.extract!(:on, :css)
-    custom_config[:required] = options[:required]
-
-    default_valid(options)
 
     label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, config: custom_config)
@@ -194,18 +170,8 @@ module DefaultForm::Builder::Helper
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        options[:class] ||= origin_css[:input]
-        unless object.is_a?(ActiveRecord::Base)
-          value = default_value(method)
-          options[:value] ||= value if value
-        end
-        if origin_on[:placeholder]
-          options[:placeholder] ||= default_placeholder(method)
-        end
-        custom_config = options.extract!(:on, :css)
-        custom_config[:required] = options[:required]
-      
-        default_valid(options)
+        custom_config = extra_config(options)      
+        default_options(method, options)
 
         label_content = label(method, options.delete(:label), custom_config)
         input_content = wrapper_input(super, config: custom_config)

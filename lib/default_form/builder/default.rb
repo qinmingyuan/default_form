@@ -31,6 +31,18 @@ module DefaultForm::Builder::Default
     end
   end
 
+  def default_options(method, options)
+    options[:class] ||= origin_css[:input]
+    unless object.is_a?(ActiveRecord::Base)
+      value = default_value(method)
+      options[:value] ||= value if value
+    end
+    if origin_on[:placeholder]
+      options[:placeholder] ||= default_placeholder(method)
+    end
+    default_valid(options)
+  end
+
   def default_valid(options)
     valid_key = (options.keys & VALIDATIONS).sort.join('_')
     if valid_key.present?
@@ -41,8 +53,12 @@ module DefaultForm::Builder::Default
     options
   end
 
-  def custom_config(options)
-
+  def extra_config(options)
+    custom_config = options.extract!(:on, :css)
+    custom_config[:css] ||= {}
+    custom_config[:on] ||= {}
+    custom_config[:required] = options[:required]
+    custom_config
   end
 
 end
