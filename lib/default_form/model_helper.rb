@@ -1,7 +1,7 @@
 module DefaultForm::ModelHelper
 
   def options_i18n(attribute)
-    h = I18n.t enum_key(attribute)
+    h = I18n.t enum_key(attribute), default: {}
 
     if h.is_a?(Hash) && h.present?
       return h.invert
