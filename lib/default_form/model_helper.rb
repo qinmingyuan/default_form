@@ -9,7 +9,10 @@ module DefaultForm::ModelHelper
 
     if h.blank?
       name = attribute.to_s.pluralize
-      h = public_send(name) if respond_to?(name)
+      if respond_to?(name)
+        enum_hash = public_send(name)
+        h = enum_hash.keys.map { |i| [i.humanize, i] }.to_h
+      end
     end
 
     h
