@@ -9,7 +9,7 @@ module DefaultForm::ModelHelper
 
     if h.blank?
       name = attribute.to_s.pluralize
-      h = respond_to?(name) && public_send(name)
+      h = public_send(name) if respond_to?(name)
     end
 
     h
