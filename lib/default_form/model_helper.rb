@@ -3,11 +3,16 @@ module DefaultForm::ModelHelper
   def options_i18n(attribute)
     h = I18n.t enum_key(attribute)
 
-    if h.is_a? Hash
-      h.invert
-    else
-      {}
+    if h.is_a?(Hash) && h.present?
+      return h.invert
     end
+
+    if h.blank?
+      name = attribute.to_s.pluralize
+      h = respond_to?(name) && public_send(name)
+    end
+
+    h
   end
 
   def enum_i18n(attribute, value)
