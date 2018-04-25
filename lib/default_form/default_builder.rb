@@ -13,11 +13,10 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     @params = template.params
 
     options[:skip_default_ids] = origin_on.skip_default_ids
-    options[:html] ||= {}
-    if options[:html][:class] && options[:html][:class].start_with?('new', 'edit')
-      options[:html][:class] = origin_css.form
+    if options[:class] && options[:class].start_with?('new', 'edit')
+      options[:class] = origin_css.form
     end
-    options[:html][:class] ||= origin_css.form
+    options[:class] ||= origin_css.form
 
     super
   end
