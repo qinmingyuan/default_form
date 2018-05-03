@@ -20,6 +20,11 @@ module DefaultForm::ViewHelper
     form_with(options, &block)
   end
 
+  def search_form_object(record, options = {})
+    object_name = options[:as] || :q
+    DefaultForm::SearchBuilder.new(object_name, record, self, options)
+  end
+
 end
 
 ActionView::Base.include DefaultForm::ViewHelper
