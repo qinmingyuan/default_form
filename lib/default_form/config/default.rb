@@ -16,14 +16,14 @@ module DefaultForm
 
     config.on.label = true
     config.on.offset = true
-    config.css.offset = 'six wide field'
     config.css.label = 'six wide field'
+    config.css.offset = 'six wide field'
 
     config.on.wrapper_input = true
     config.css.wrapper_input = 'six wide field'
     config.css.input = nil
-    config.css.select = 'ui fluid dropdown'
-    config.css.multi_select = 'ui fluid dropdown'
+    config.css.select = 'ui fluid search dropdown'
+    config.css.multi_select = 'ui fluid search dropdown'
 
     config.on.wrapper_checkbox = true
     config.css.checkbox = 'hidden'

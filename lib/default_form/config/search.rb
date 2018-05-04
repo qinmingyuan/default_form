@@ -16,8 +16,8 @@ module SearchForm
 
     config.on.label = false
     config.on.offset = false
-    config.css.offset = nil
     config.css.label = nil
+    config.css.offset = nil
 
     config.on.wrapper_input = true
     config.css.wrapper_input = 'field'
