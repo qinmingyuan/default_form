@@ -29,7 +29,7 @@ but still powerful than `simple_form`.
 
 * 不过度包办，在我们本来就熟练掌握 input 的 type 知识和 rails 的 filed 系列方法的情况下，写`text_filed` 相比simple_form的 `input` 写法会更灵活一些，代码表达更清晰。
 
-* 更容易定制，当我还是个菜鸟的时候，我被`simple_form`的配置文件颇为困扰；
+* Custom more easily, small study costing；
 
 ## 如何使用
 
