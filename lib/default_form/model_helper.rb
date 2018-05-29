@@ -23,11 +23,7 @@ module DefaultForm::ModelHelper
 
     v = nil
     if h.is_a?(Hash)
-      v = h[value.to_s.to_sym]
-    end
-
-    if value.blank?
-      v = ''
+      v = h[value] ? h[value] : h[value.to_s.to_sym]
     end
 
     if v.nil?
