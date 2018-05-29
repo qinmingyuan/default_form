@@ -26,6 +26,10 @@ module DefaultForm::ModelHelper
       v = h[value] ? h[value] : h[value.to_s.to_sym]
     end
 
+    if value.blank?
+      v = value.to_s
+    end
+
     if v.nil?
       v = human_attribute_name(value)
     end
