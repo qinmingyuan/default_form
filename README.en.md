@@ -1,5 +1,18 @@
 # default_form
 
+Rails form helpers with default wrap;
+
+## description
+less code, just use rails's form helper methods your know.
+With `default_form`
+
+but still powerful as (simple_form)[https://github.com/plataformatec/simple_form].
+
+## features
+* less config, very less DSL,
+* support valid
+* support html5
+
 `default_form`只是为Rails提供的一系列表单方法设置了一些默认值和行为，然后这些默认的设置可以在配置文件、controller层，from_tag方法参数，field方法参数四个级别进行 overwrite，和配置。使用`default_form`我们只需要这样写表单：
 
 ```erb
@@ -20,7 +33,7 @@
 
 * 不过度包办，在我们本来就熟练掌握 input 的 type 知识和 rails 的 filed 系列方法的情况下，写`text_filed` 相比simple_form的 `input` 写法会更灵活一些，代码表达更清晰。
 
-* 更容易定制，更小的学习成本；
+* Custom more easily, small study costing；
 
 ## 如何使用
 
