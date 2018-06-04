@@ -6,7 +6,7 @@ module ActionView
         def render_component(builder)
           css = @options.fetch(:css, {})
           on = @options.fetch(:on, {})
-          if Array(object.send(@method_name)).include? builder.value.to_s
+          if Array(object.send(@method_name)).include? builder.value
             final_css = css[:inline_checkbox_checked]
           else
             final_css = css[:inline_checkbox]
