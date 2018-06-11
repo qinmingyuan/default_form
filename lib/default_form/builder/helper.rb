@@ -126,6 +126,20 @@ module DefaultForm::Builder::Helper
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
+  def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
+    custom_config = extra_config(options)
+    html_options[:class] ||= if html_options[:multiple]
+      origin_css[:multi_select]
+    else
+      origin_css[:select]
+    end
+
+    label_content = label(method, options.delete(:label), custom_config)
+    input_content = wrapper_input(super, config: custom_config)
+
+    wrapper_all label_content + input_content, method, config: custom_config
+  end
+
   def file_field(method, options = {})
     custom_config = extra_config(options)
 
