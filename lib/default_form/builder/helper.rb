@@ -160,7 +160,7 @@ module DefaultForm::Builder::Helper
 
     if method.match?(/(date)/)
       real_method = method.to_s.sub('(date)', '')
-      options[:onchange] = 'this.assignDefault()' if object.column_for_attribute(real_method).type == :datetime
+      options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
       options[:value] = object.read_attribute(real_method)&.to_date
     end
 

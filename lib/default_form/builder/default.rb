@@ -47,8 +47,8 @@ module DefaultForm::Builder::Default
     valid_key = options.keys & VALIDATIONS
     if valid_key.present?
       options[:onblur] ||= 'checkValidity()'
-      options[:oninput] ||= 'this.clearValid()'
-      options[:oninvalid] ||= 'this.validForm()'
+      options[:oninput] ||= 'clearValid()'
+      options[:oninvalid] ||= 'validForm()'
     end
     options
   end
