@@ -5,6 +5,7 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
 
   def initialize(object_name, object, template, options)
+    return super if options[:default].is_a?(FalseClass)
     @origin_on = SearchForm.config.on.merge(options[:on] || {})
     @origin_css = SearchForm.config.css.merge(options[:css] || {})
     @params = template.params
