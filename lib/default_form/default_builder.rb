@@ -6,7 +6,6 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
   include ActiveSupport::Configurable
 
   def initialize(object_name, object, template, options)
-    return super if options[:default].is_a?(FalseClass)
     class_on = DefaultForm.config.on.merge(self.class.config.on || {})
     class_css = DefaultForm.config.css.merge(self.class.config.css || {})
     @origin_on = class_on.merge(options[:on] || {})
