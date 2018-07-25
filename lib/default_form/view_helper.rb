@@ -3,6 +3,11 @@ require 'default_form/search_builder'
 
 module DefaultForm::ViewHelper
 
+  def form_object(record, options ={})
+    object_name = options[:as] || record.class.base_class.model_name.param_key
+    ActionView::Helpers::FormBuilder.new(object_name, record, self, options)
+  end
+
   def default_form_with(**options, &block)
     options[:builder] = DefaultForm::DefaultBuilder
     form_with(options, &block)
