@@ -35,8 +35,13 @@ module DefaultForm
     config.css.inline_checkbox_checked = 'ui teal label checkbox'
 
     config.on.wrapper_radio = true
-    config.css.checkbox = 'hidden'
-    config.css.wrapper_checkbox = 'ui radio checkbox'
+    config.css.radio = 'hidden'
+    config.css.wrapper_radio = 'ui radio checkbox'
+
+    config.on.wrapper_radios = true
+    config.css.wrapper_radios = 'six wide field ui labels'
+    config.css.inline_radio = 'ui label radio checkbox'
+    config.css.inline_radio_checked = 'ui teal label radio checkbox'
 
     config.on.wrapper_submit = false
     config.css.wrapper_submit = nil

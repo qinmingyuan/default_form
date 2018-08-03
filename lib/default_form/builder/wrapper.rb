@@ -44,6 +44,17 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
+  def wrapper_radios(inner, config:)
+    on = origin_on.merge(config[:on] || {})
+    css = origin_css.merge(config[:css] || {})
+
+    if on[:wrapper_radios]
+      content_tag(:div, inner, class: css[:wrapper_radios])
+    else
+      inner
+    end
+  end
+
   def wrapper_submit(inner, config:)
     on = origin_on.merge(config[:on] || {})
     css = origin_css.merge(config[:css] || {})

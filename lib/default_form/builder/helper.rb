@@ -24,8 +24,7 @@ module DefaultForm::Builder::Helper
     :email_field,
     :range_field,
     :text_area,
-    :date_select,
-    :radio_button
+    :date_select
   ]
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
@@ -99,12 +98,25 @@ module DefaultForm::Builder::Helper
     wrapper_all label_content + checkboxes_content, method, config: custom_config
   end
 
-  def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+  def radio_button(method, tag_value, options = {})
     custom_config = extra_config(options)
     default_options(method, options)
+    custom_config[:css][:label] ||= ''
+    options[:class] ||= origin_css[:radio]
 
     label_content = label(method, options.delete(:label), custom_config)
-    radios_content = wrapper_radio(super, config: custom_config)
+    radio_content = wrapper_radio(super + label_content, config: custom_config)
+
+    wrapper_all offset(config: custom_config) + radio_content, method, config: custom_config
+  end
+
+  def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+    custom_config = options.slice(:on, :css, :required)
+    options[:on] = origin_on.merge(options[:on] || {}) # todo 更细腻的参数
+    options[:css] = origin_css.merge(options[:css] || {})
+
+    label_content = label(method, options.delete(:label), custom_config)
+    radios_content = wrapper_radios(super, config: custom_config)
 
     wrapper_all label_content + radios_content, method, config: custom_config
   end
