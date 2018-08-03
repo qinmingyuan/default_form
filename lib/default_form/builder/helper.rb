@@ -23,7 +23,9 @@ module DefaultForm::Builder::Helper
     :url_field,
     :email_field,
     :range_field,
-    :text_area
+    :text_area,
+    :date_select,
+    :radio_button
   ]
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
@@ -95,6 +97,16 @@ module DefaultForm::Builder::Helper
     checkboxes_content = wrapper_checkboxes(super, config: custom_config)
 
     wrapper_all label_content + checkboxes_content, method, config: custom_config
+  end
+
+  def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
+    custom_config = extra_config(options)
+    default_options(method, options)
+
+    label_content = label(method, options.delete(:label), custom_config)
+    radios_content = wrapper_radio(super, config: custom_config)
+
+    wrapper_all label_content + radios_content, method, config: custom_config
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
