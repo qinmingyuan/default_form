@@ -44,7 +44,7 @@ module DefaultForm::Builder::Helper
     on = origin_on.merge(options[:on] || {})
     css = origin_css.merge(options[:css] || {})
     options = options.except(:on, :css, :required)
-    options[:class] ||= css[:label]
+    options[:class] = css[:label] unless options.key?(:class)
 
     # label: false
     if text.equal?(false)
@@ -101,13 +101,13 @@ module DefaultForm::Builder::Helper
   def radio_button(method, tag_value, options = {})
     custom_config = extra_config(options)
     default_options(method, options)
-    custom_config[:css][:label] ||= ''
     options[:class] ||= origin_css[:radio]
 
     label_content = label(method, options.delete(:label), custom_config)
-    radio_content = wrapper_radio(super + label_content, config: custom_config)
+    value_content = label(method, tag_value, class: nil)
+    radio_content = wrapper_radio(super + value_content, config: custom_config)
 
-    wrapper_all offset(config: custom_config) + radio_content, method, config: custom_config
+    wrapper_all label_content + radio_content, method, config: custom_config
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
@@ -174,7 +174,8 @@ module DefaultForm::Builder::Helper
   end
 
   def hidden_field(method, options = {})
-    options[:autocomplete] = 'off'
+    extra_config(options)
+    options[:autocomplete] ||= origin_on[:autocomplete]
     super
   end
 

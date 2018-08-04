@@ -48,7 +48,6 @@ module DefaultForm
     config.css.submit = 'ui blue button'
 
     config.on.autocomplete = true
-    config.on.skip_default_ids = false
     config.on.placeholder = false
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }

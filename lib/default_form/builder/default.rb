@@ -34,8 +34,7 @@ module DefaultForm::Builder::Default
   def default_options(method, options)
     options[:class] ||= origin_css[:input]
     unless object.is_a?(ActiveRecord::Base)
-      value = default_value(method)
-      options[:value] ||= value if value
+      options[:value] ||= default_value(method)
     end
     if origin_on[:placeholder]
       options[:placeholder] ||= default_placeholder(method)
@@ -54,10 +53,9 @@ module DefaultForm::Builder::Default
   end
 
   def extra_config(options)
-    custom_config = options.extract!(:on, :css)
+    custom_config = options.extract!(:on, :css, :required)
     custom_config[:css] ||= {}
     custom_config[:on] ||= {}
-    custom_config[:required] = options[:required]
     custom_config
   end
 

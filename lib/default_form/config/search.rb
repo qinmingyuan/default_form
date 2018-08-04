@@ -34,12 +34,20 @@ module SearchForm
     config.css.inline_checkbox = 'ui label checkbox'
     config.css.inline_checkbox_checked = 'ui teal label checkbox'
 
+    config.on.wrapper_radio = true
+    config.css.radio = 'hidden'
+    config.css.wrapper_radio = 'ui radio checkbox'
+
+    config.on.wrapper_radios = true
+    config.css.wrapper_radios = 'six wide field ui labels'
+    config.css.inline_radio = 'ui label radio checkbox'
+    config.css.inline_radio_checked = 'ui teal label radio checkbox'
+
     config.on.wrapper_submit = false
     config.css.wrapper_submit = nil
     config.css.submit = 'ui blue button'
 
     config.on.autocomplete = true
-    config.on.skip_default_ids = false
     config.on.placeholder = true
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }
