@@ -100,6 +100,7 @@ module DefaultForm::Builder::Helper
 
   def radio_button(method, tag_value, options = {})
     custom_config = extra_config(options)
+    custom_config[:on][:wrapper_all] ||= false
     default_options(method, options)
     options[:class] ||= origin_css[:radio]
 

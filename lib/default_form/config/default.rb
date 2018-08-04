@@ -36,7 +36,7 @@ module DefaultForm
 
     config.on.wrapper_radio = true
     config.css.radio = 'hidden'
-    config.css.wrapper_radio = 'ui radio checkbox'
+    config.css.wrapper_radio = 'ui radio checkbox field'
 
     config.on.wrapper_radios = true
     config.css.wrapper_radios = 'six wide field ui labels'
