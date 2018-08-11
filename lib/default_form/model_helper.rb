@@ -41,6 +41,11 @@ module DefaultForm::ModelHelper
     DefaultForm.config.enum_key.call(self, attribute)
   end
 
+  def extract_multi_params(pairs)
+    r = self.new.send :extract_callstack_for_multiparameter_attributes, pairs
+    r.values[0].compact[-1]
+  end
+
   def self.extended(mod)
     mod.attribute_method_suffix '_i18n'
 
