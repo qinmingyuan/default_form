@@ -42,8 +42,7 @@ module DefaultForm::ModelHelper
   end
 
   def extract_multi_params(pairs)
-    r = self.new.send :extract_callstack_for_multiparameter_attributes, pairs
-    r.values[0].compact[-1]
+    self.new.send :extract_callstack_for_multiparameter_attributes, pairs
   end
 
   def self.extended(mod)
