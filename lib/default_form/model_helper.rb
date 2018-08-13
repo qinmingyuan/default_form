@@ -42,7 +42,9 @@ module DefaultForm::ModelHelper
   end
 
   def extract_multi_params(pairs)
-    self.new.send :extract_callstack_for_multiparameter_attributes, pairs
+    _pairs = pairs.select { |k, _| k.include?('(') }
+
+    self.new.send :extract_callstack_for_multiparameter_attributes, _pairs
   end
 
   def self.extended(mod)
