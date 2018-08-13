@@ -9,12 +9,7 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
     @origin_css = SearchForm.config.css.merge(options[:css] || {})
     @params = template.params
 
-    if params[object_name].present?
-      object = ActiveSupport::OrderedOptions.new
-      params[object_name].keys.each do |k|
-        object[k] = params[object_name][k] if params[object_name][k].present?
-      end
-    end
+    object ||= ActiveSupport::OrderedOptions.new
 
     options[:local] ||= true unless options[:remote]
     options[:method] ||= 'get'

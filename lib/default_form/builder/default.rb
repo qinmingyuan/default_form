@@ -33,7 +33,7 @@ module DefaultForm::Builder::Default
 
   def default_options(method, options)
     options[:class] ||= origin_css[:input]
-    unless object.is_a?(ActiveRecord::Base)
+    if object.is_a?(ActiveRecord::Base) || object.is_a?(ActiveSupport::OrderedOptions)
       options[:value] ||= default_value(method)
     end
     if origin_on[:placeholder]
