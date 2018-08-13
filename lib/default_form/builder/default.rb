@@ -7,11 +7,15 @@ module DefaultForm::Builder::Default
   ]
 
   def default_value(method)
-    if origin_on.autocomplete
-      if object_name
-        return params[object_name]&.fetch(method, '')
-      else
-        return params[method]
+    begin
+      return object.send(method)
+    rescue
+      if origin_on.autocomplete
+        if object_name
+          return params[object_name]&.fetch(method, '')
+        else
+          return params[method]
+        end
       end
     end
   end
