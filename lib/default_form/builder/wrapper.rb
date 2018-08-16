@@ -79,7 +79,7 @@ module DefaultForm::Builder::Wrapper
     end
 
     if on[:wrapper_all]
-      if on[:wrapper_id]
+      if method && on[:wrapper_id]
         content_tag(:div, inner, class: final_css, id: wrapper_id(method))
       else
         content_tag(:div, inner, class: final_css)
