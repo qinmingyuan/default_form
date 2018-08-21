@@ -8,7 +8,7 @@ module DefaultForm::Builder::Default
 
   def default_value(method)
     begin
-      return object.send(method)
+      return object.send(method) if origin_on.autocomplete
     rescue
       if origin_on.autocomplete
         if object_name
@@ -37,7 +37,9 @@ module DefaultForm::Builder::Default
 
   def default_options(method, options)
     options[:class] ||= origin_css[:input]
-    if object.is_a?(ActiveRecord::Base) || object.is_a?(ActiveSupport::OrderedOptions)
+
+    # todo better condition
+    if self.is_a?(DefaultForm::SearchBuilder)
       options[:value] ||= default_value(method)
     end
     if origin_on[:placeholder]

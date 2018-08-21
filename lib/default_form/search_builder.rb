@@ -11,6 +11,12 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
 
     object ||= ActiveSupport::OrderedOptions.new
 
+    if object.is_a?(ActiveRecord::Base)
+      object.assign_attributes @params.permit(object_name => {}).fetch(object_name, {}).slice(*object.attribute_names)
+    elsif object.is_a?(ActiveSupport::OrderedOptions)
+      object.merge! @params[object_name]
+    end
+
     options[:local] ||= true unless options[:remote]
     options[:method] ||= 'get'
     options[:html] ||= {}
