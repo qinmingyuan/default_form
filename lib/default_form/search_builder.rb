@@ -11,7 +11,7 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
     _values = Hash(@params.permit(object_name => {})[object_name])
 
     object ||= ActiveSupport::InheritableOptions.new(_values.symbolize_keys)
-    
+
     if object.is_a?(ActiveRecord::Base)
       object.assign_attributes _values.slice(*object.attribute_names)
     end
