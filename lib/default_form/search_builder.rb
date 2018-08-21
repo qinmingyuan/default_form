@@ -8,13 +8,12 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
     @origin_on = SearchForm.config.on.merge(options[:on] || {})
     @origin_css = SearchForm.config.css.merge(options[:css] || {})
     @params = template.params
+    _values = Hash(@params.permit(object_name => {})[object_name])
 
-    object ||= ActiveSupport::OrderedOptions.new
-
+    object ||= ActiveSupport::InheritableOptions.new(_values.symbolize_keys)
+    
     if object.is_a?(ActiveRecord::Base)
-      object.assign_attributes @params.permit(object_name => {}).fetch(object_name, {}).slice(*object.attribute_names)
-    elsif object.is_a?(ActiveSupport::OrderedOptions)
-      object.merge! @params[object_name]
+      object.assign_attributes _values.slice(*object.attribute_names)
     end
 
     options[:local] ||= true unless options[:remote]
