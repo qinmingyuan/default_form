@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class DefaultFrom::Test < ActiveSupport::TestCase
+class DefaultForm::Test < ActiveSupport::TestCase
 
   test 'truth' do
-    assert_kind_of Module, DefaultFrom
+    assert_kind_of Module, DefaultForm
   end
 
 end
