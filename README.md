@@ -16,7 +16,7 @@
 <%= f.submit %>
 ```
 
-## Features
+## 特性
 
 * 基于Rails内建的form builder构建helper，符合rails习惯，rails使用者上手零门槛；
 
@@ -62,5 +62,5 @@ f.text_filed class: 'xxx'
 ```
 
 
-2.也可以在一个很简单的配置文件中关闭一些行为, 具体参见examples下的例子。
+2.也可以在一个很简单的配置文件中关闭一些行为, 具体参见[examples](examples)下的例子。
 
