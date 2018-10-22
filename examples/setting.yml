@@ -1,0 +1,45 @@
+defaults: &defaults
+  weui_form:
+    :css:
+      :form: weui-cells weui-cells_form
+      :wrapper_all: weui-cell
+      :wrapper_all_error: inline field error
+      :wrapper_input: weui-cell__bd
+      :wrapper_submit: weui-btn-area
+      :label: weui-label
+      :cinput: weui-input
+      :select: weui-select
+      :muilti_select: weui-select
+      :submit: weui-btn weui-btn_primary
+  bootstrap_form:
+    :css:
+      :form: form-horizontal
+      :wrapper_all: form-group
+      :wrapper_all_error: form-group has-error
+      :offset:
+      :label: col-sm-2 control-label
+      :wrapper_input: col-sm-10
+      :input: form-control
+      :select: ui dropdown nine wide field
+      :multi_select: nine wide field
+      :checkbox: checkbox
+      :wrapper_checkbox: checkbox-inline
+      :inline_checkbox_checked: checkbox-inline
+      :wrapper_submit: col-sm-offset-2 col-sm-10
+      :submit: btn btn-default
+  bootstrap_search_form:
+    :on:
+      wrapper_all: false
+      offset: false
+      wrapper_input: false
+      wrapper_submit: false
+    :css:
+      form: form-inline
+      wrapper_all: inline field
+      wrapper_input: col-sm-10
+      wrapper_submit:
+      offset:
+      label:
+      input:
+      select: ui dropdown
+      submit: ui button
