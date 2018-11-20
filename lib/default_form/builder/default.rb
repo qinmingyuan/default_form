@@ -59,9 +59,10 @@ module DefaultForm::Builder::Default
   end
 
   def extra_config(options)
-    custom_config = options.extract!(:on, :css, :required)
+    custom_config = options.extract!(:on, :css)
     custom_config[:css] ||= {}
     custom_config[:on] ||= {}
+    custom_config[:required] = options[:required]
     custom_config
   end
 
