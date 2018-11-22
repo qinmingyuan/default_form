@@ -52,7 +52,7 @@ module DefaultForm::Builder::Default
     valid_key = options.keys & VALIDATIONS
     if valid_key.present?
       options[:data] ||= {}
-      options[:data].merge! valid: true
+      options[:data][:valid] = true unless options[:data].key?(:valid)
     end
     options
   end
