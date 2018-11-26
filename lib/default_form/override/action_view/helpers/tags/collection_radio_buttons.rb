@@ -6,7 +6,8 @@ module ActionView
         def render_component(builder)
           css = @options.fetch(:css, {})
           on = @options.fetch(:on, {})
-          if Array(object.send(@method_name)).include? builder.value
+          r = Array(object.send(@method_name)).map(&:to_s)
+          if r.include? builder.value.to_s
             final_css = css[:inline_radio_checked]
           else
             final_css = css[:inline_radio]
