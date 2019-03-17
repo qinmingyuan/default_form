@@ -25,6 +25,9 @@ module DefaultForm
     config.css.select = 'ui fluid search dropdown'
     config.css.multi_select = 'ui fluid search dropdown'
 
+    config.on.wrapper_select = true
+    config.css.wrapper_select = 'three wide field'
+
     config.on.wrapper_checkbox = true
     config.css.checkbox = 'hidden'
     config.css.wrapper_checkbox = 'ui toggle checkbox'

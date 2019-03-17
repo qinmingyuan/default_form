@@ -165,6 +165,16 @@ module DefaultForm::Builder::Helper
     wrapper_all label_content + input_content, method, config: custom_config
   end
 
+  def time_select(method, options = {}, html_options = {})
+    custom_config = extra_config(options)
+    html_options[:class] ||= origin_css[:select]
+
+    label_content = label(method, options.delete(:label), custom_config)
+    input_content = wrapper_input(super, config: custom_config)
+
+    wrapper_all label_content + input_content, method, config: custom_config
+  end
+
   def file_field(method, options = {})
     custom_config = extra_config(options)
 
