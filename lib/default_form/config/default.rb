@@ -1,8 +1,6 @@
 require 'active_support/configurable'
-
 module DefaultForm
   include ActiveSupport::Configurable
-
   configure do |config|
     config.on = ActiveSupport::OrderedOptions.new
     config.css = ActiveSupport::OrderedOptions.new
@@ -21,12 +19,10 @@ module DefaultForm
 
     config.on.wrapper_input = true
     config.css.wrapper_input = 'six wide field'
+    config.css.wrapper_short_input = 'three wide field'
     config.css.input = nil
     config.css.select = 'ui fluid search dropdown'
     config.css.multi_select = 'ui fluid search dropdown'
-
-    config.on.wrapper_select = true
-    config.css.wrapper_select = 'three wide field'
 
     config.on.wrapper_checkbox = true
     config.css.checkbox = 'hidden'
@@ -56,5 +52,4 @@ module DefaultForm
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }
   end
-
 end

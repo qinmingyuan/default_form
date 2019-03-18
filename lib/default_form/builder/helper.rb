@@ -170,7 +170,7 @@ module DefaultForm::Builder::Helper
     html_options[:class] ||= origin_css[:select]
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_select(super, config: custom_config)
+    input_content = wrapper_short_input(super, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end

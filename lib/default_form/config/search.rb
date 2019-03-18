@@ -1,8 +1,6 @@
 require 'active_support/configurable'
-
 module SearchForm
   include ActiveSupport::Configurable
-
   configure do |config|
     config.on = ActiveSupport::OrderedOptions.new
     config.css = ActiveSupport::OrderedOptions.new
@@ -21,6 +19,7 @@ module SearchForm
 
     config.on.wrapper_input = true
     config.css.wrapper_input = 'field'
+    config.css.wrapper_short_input = 'field'
     config.css.input = nil
     config.css.select = nil
     config.css.multi_select = nil
@@ -53,5 +52,4 @@ module SearchForm
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.attributes.#{o.base_class.model_name.i18n_key}/#{attribute}" }
   end
-
 end

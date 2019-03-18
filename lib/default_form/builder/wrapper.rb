@@ -11,12 +11,12 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_select(inner, config:)
+  def wrapper_short_input(inner, config:)
     on = origin_on.merge(config[:on])
     css = origin_css.merge(config[:css])
 
-    if on[:wrapper_select]
-      content_tag(:div, inner, class: css[:wrapper_select])
+    if on[:wrapper_input]
+      content_tag(:div, inner, class: css[:wrapper_short_input])
     else
       inner
     end
