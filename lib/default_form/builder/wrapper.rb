@@ -5,7 +5,11 @@ module DefaultForm::Builder::Wrapper
     css = origin_css.merge(config[:css])
 
     if on[:wrapper_input]
-      content_tag(:div, inner, class: css[:wrapper_input])
+      if method && on[:wrapper_input_id]
+        content_tag(:div, inner, class: css[:wrapper_input], id: wrapper_input_id(method))
+      else
+        content_tag(:div, inner, class: css[:wrapper_input])
+      end
     else
       inner
     end
@@ -90,8 +94,8 @@ module DefaultForm::Builder::Wrapper
     end
 
     if on[:wrapper_all]
-      if method && on[:wrapper_id]
-        content_tag(:div, inner, class: final_css, id: wrapper_id(method))
+      if method && on[:wrapper_all_id]
+        content_tag(:div, inner, class: final_css, id: wrapper_all_id(method))
       else
         content_tag(:div, inner, class: final_css)
       end
@@ -115,11 +119,19 @@ module DefaultForm::Builder::Wrapper
     object.respond_to?(:errors) && object.errors.respond_to?(:[]) && object.errors[method].present?
   end
 
+  def wrapper_all_id(method)
+    "#{wrapper_id(method)}_wrapper"
+  end
+
+  def wrapper_input_id(method)
+    "#{wrapper_id(method)}_input"
+  end
+
   def wrapper_id(method)
     object_name = object.class.base_class.model_name.param_key
     sanitized_object_name = object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, '')
     sanitized_method_name = method.to_s.sub(/\?$/, '')
-    "#{sanitized_object_name}_#{sanitized_method_name}_wrapper"
+    "#{sanitized_object_name}_#{sanitized_method_name}"
   end
 
 end
