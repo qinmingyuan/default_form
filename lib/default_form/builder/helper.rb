@@ -132,7 +132,7 @@ module DefaultForm::Builder::Helper
     end
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, config: custom_config)
+    input_content = wrapper_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -146,7 +146,7 @@ module DefaultForm::Builder::Helper
     end
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, config: custom_config)
+    input_content = wrapper_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -160,7 +160,7 @@ module DefaultForm::Builder::Helper
     end
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, config: custom_config)
+    input_content = wrapper_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -170,7 +170,7 @@ module DefaultForm::Builder::Helper
     html_options[:class] ||= origin_css[:select]
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_short_input(super, config: custom_config)
+    input_content = wrapper_short_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -179,7 +179,7 @@ module DefaultForm::Builder::Helper
     custom_config = extra_config(options)
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, config: custom_config)
+    input_content = wrapper_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -201,7 +201,7 @@ module DefaultForm::Builder::Helper
     end
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, config: custom_config)
+    input_content = wrapper_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -212,7 +212,7 @@ module DefaultForm::Builder::Helper
     options[:step] ||= default_step(method)
 
     label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, config: custom_config)
+    input_content = wrapper_input(super, method, config: custom_config)
 
     wrapper_all label_content + input_content, method, config: custom_config
   end
@@ -224,7 +224,7 @@ module DefaultForm::Builder::Helper
         default_options(method, options)
 
         label_content = label(method, options.delete(:label), custom_config)
-        input_content = wrapper_input(super, config: custom_config)
+        input_content = wrapper_input(super, method, config: custom_config)
 
         wrapper_all label_content + input_content, method, config: custom_config
       end

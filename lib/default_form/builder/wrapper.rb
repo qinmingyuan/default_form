@@ -1,6 +1,6 @@
 module DefaultForm::Builder::Wrapper
 
-  def wrapper_input(inner, config:)
+  def wrapper_input(inner, method = nil, config:)
     on = origin_on.merge(config[:on])
     css = origin_css.merge(config[:css])
 
@@ -15,12 +15,16 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_short_input(inner, config:)
+  def wrapper_short_input(inner, method = nil, config:)
     on = origin_on.merge(config[:on])
     css = origin_css.merge(config[:css])
 
     if on[:wrapper_input]
-      content_tag(:div, inner, class: css[:wrapper_short_input])
+      if method && on[:wrapper_input_id]
+        content_tag(:div, inner, class: css[:wrapper_short_input], id: wrapper_input_id(method))
+      else
+        content_tag(:div, inner, class: css[:wrapper_short_input])
+      end
     else
       inner
     end
