@@ -135,7 +135,11 @@ module DefaultForm::Builder::Wrapper
     object_name = object.class.base_class.model_name.param_key
     sanitized_object_name = object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, '')
     sanitized_method_name = method.to_s.sub(/\?$/, '')
-    "#{sanitized_object_name}_#{index}_#{sanitized_method_name}"
+    if index
+      "#{sanitized_object_name}_#{index}_#{sanitized_method_name}"
+    else
+      "#{sanitized_object_name}_#{sanitized_method_name}"
+    end
   end
 
 end
