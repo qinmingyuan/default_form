@@ -42,8 +42,8 @@ module SearchForm
     config.css.inline_radio = 'ui label radio checkbox'
     config.css.inline_radio_checked = 'ui teal label radio checkbox'
 
-    config.on.wrapper_submit = false
-    config.css.wrapper_submit = nil
+    config.on.wrapper_submit = true
+    config.css.wrapper_submit = 'field'
     config.css.submit = 'ui blue button'
 
     config.on.autocomplete = true
