@@ -16,7 +16,7 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
       object.assign_attributes _values.slice(*object.attribute_names)
     end
 
-    options[:skip_default_ids] = origin_on.skip_default_ids
+    options[:skip_default_ids] = true unless options.key?(:skip_default_ids)
     options[:local] ||= true unless options[:remote]
     options[:method] ||= 'get'
     options[:html] ||= {}
