@@ -25,5 +25,9 @@ class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
+  def submit_default_value
+    I18n.t 'helpers.submit.search'
+  end
+
 end
 
