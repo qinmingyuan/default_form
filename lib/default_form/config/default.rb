@@ -48,6 +48,7 @@ module DefaultForm
 
     config.on.autocomplete = true
     config.on.placeholder = false
+    config.on.skip_default_ids = false
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.enum.#{o.base_class.model_name.i18n_key}.#{attribute}" }
   end
