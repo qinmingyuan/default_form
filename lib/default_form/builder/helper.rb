@@ -130,6 +130,7 @@ module DefaultForm::Builder::Helper
     else
       origin_css[:select]
     end
+    options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
     label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, method, config: custom_config)
@@ -144,6 +145,7 @@ module DefaultForm::Builder::Helper
     else
       origin_css[:select]
     end
+    options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
     label_content = label(method, options.delete(:label), custom_config)
     input_content = wrapper_input(super, method, config: custom_config)
@@ -220,7 +222,7 @@ module DefaultForm::Builder::Helper
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        custom_config = extra_config(options)      
+        custom_config = extra_config(options)
         default_options(method, options)
 
         label_content = label(method, options.delete(:label), custom_config)
