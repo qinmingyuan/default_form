@@ -188,7 +188,7 @@ module DefaultForm::Builder::Helper
 
   def hidden_field(method, options = {})
     extra_config(options)
-    options[:autocomplete] ||= origin_on[:autocomplete]
+    options[:autocomplete] = origin_on[:autocomplete] unless options.key?(:autocomplete)
     super
   end
 
