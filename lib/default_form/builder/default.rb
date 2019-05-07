@@ -35,6 +35,14 @@ module DefaultForm::Builder::Default
     end
   end
 
+  def default_help(method)
+    if object.is_a?(ActiveRecord::Base)
+      object.class.help_i18n(method)
+    else
+      nil
+    end
+  end
+
   def default_options(method, options)
     options[:class] ||= origin_css[:input]
 

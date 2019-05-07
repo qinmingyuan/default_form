@@ -18,6 +18,11 @@ module DefaultForm::ModelHelper
     h
   end
 
+  def help_i18n(attribute)
+    help_key = "#{i18n_scope}.help.#{base_class.model_name.i18n_key}.#{attribute}"
+    I18n.t help_key, default: nil
+  end
+
   def enum_i18n(attribute, value)
     h = I18n.t enum_key(attribute)
 

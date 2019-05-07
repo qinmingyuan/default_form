@@ -98,6 +98,10 @@ module DefaultForm::Builder::Wrapper
     end
 
     if on[:wrapper_all]
+      if help_text = default_help(method)
+        inner += help_tag(help_text)
+      end
+      
       if method && on[:wrapper_all_id]
         content_tag(:div, inner, class: final_css, id: wrapper_all_id(method))
       else
@@ -105,6 +109,12 @@ module DefaultForm::Builder::Wrapper
       end
     else
       inner
+    end
+  end
+  
+  def help_tag(text = '')
+    content_tag(:span, data: { tooltip: text }) do
+      tag(:i, class: 'grey question circle icon')
     end
   end
 
