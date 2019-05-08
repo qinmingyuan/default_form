@@ -16,6 +16,7 @@ module SearchForm
     config.on.offset = false
     config.css.label = nil
     config.css.offset = nil
+    config.css.help_icon = nil
 
     config.on.wrapper_input = true
     config.css.wrapper_input = 'field'
@@ -51,5 +52,6 @@ module SearchForm
     config.on.skip_default_ids = true
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.enum.#{o.base_class.model_name.i18n_key}.#{attribute}" }
+    config.help_key = ->(o, attribute){ "#{o.i18n_scope}.help.#{o.base_class.model_name.i18n_key}.#{attribute}" }
   end
 end

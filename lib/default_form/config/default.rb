@@ -16,7 +16,8 @@ module DefaultForm
     config.on.offset = true
     config.css.label = 'six wide field'
     config.css.offset = 'six wide field'
-
+    config.css.help_icon = 'grey question circle icon'
+    
     config.on.wrapper_input = true
     config.css.wrapper_input = 'six wide field'
     config.css.wrapper_short_input = 'three wide field'
@@ -50,5 +51,6 @@ module DefaultForm
     config.on.placeholder = false
 
     config.enum_key = ->(o, attribute){ "#{o.i18n_scope}.enum.#{o.base_class.model_name.i18n_key}.#{attribute}" }
+    config.help_key = ->(o, attribute){ "#{o.i18n_scope}.help.#{o.base_class.model_name.i18n_key}.#{attribute}" }
   end
 end

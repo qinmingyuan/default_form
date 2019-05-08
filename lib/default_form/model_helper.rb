@@ -19,7 +19,8 @@ module DefaultForm::ModelHelper
   end
 
   def help_i18n(attribute)
-    help_key = "#{i18n_scope}.help.#{base_class.model_name.i18n_key}.#{attribute}"
+    return nil if attribute.blank?
+    help_key = DefaultForm.config.help_key.call(self, attribute)
     I18n.t help_key, default: nil
   end
 
@@ -64,4 +65,6 @@ module DefaultForm::ModelHelper
 
 end
 
-ActiveRecord::Base.extend DefaultForm::ModelHelper
+ActiveSupport.on_load :active_record do
+  extend DefaultForm::ModelHelper
+end

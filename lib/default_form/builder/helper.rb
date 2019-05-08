@@ -6,7 +6,7 @@ module DefaultForm::Builder::Helper
   include DefaultForm::Builder::Default
   attr_accessor :params
   attr_reader :origin_on, :origin_css
-  delegate :content_tag, :tag, to: :@template
+  delegate :content_tag, to: :@template
 
   INPUT_FIELDS = [
     :text_field,
