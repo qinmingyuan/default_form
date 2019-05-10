@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DefaultForm::Builder::Wrapper
 
   def wrapper_input(inner, method = nil, config:)

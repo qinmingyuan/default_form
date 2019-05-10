@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module DefaultForm::Builder::Default
   VALIDATIONS = [
     :required,
     :pattern,
     :min, :max, :step,
     :maxlength
-  ]
+  ].freeze
 
   def default_value(method)
     begin

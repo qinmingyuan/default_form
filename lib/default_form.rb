@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'default_form/version'
 require_relative 'default_form/engine'
 

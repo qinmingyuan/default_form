@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'default_form/builder/wrapper'
 require 'default_form/builder/default'
 
@@ -25,7 +27,7 @@ module DefaultForm::Builder::Helper
     :range_field,
     :text_area,
     :date_select
-  ]
+  ].freeze
 
   def fields_for(record_name, record_object = nil, fields_options = {}, &block)
     fields_options[:on] = origin_on.merge(fields_options[:on] || {})

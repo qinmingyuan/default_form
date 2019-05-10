@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'default_form/default_builder'
 require 'default_form/search_builder'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'default_form/builder/helper'
 require 'default_form/config/default'
 

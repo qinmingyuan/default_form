@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DefaultForm::ModelHelper
 
   def options_i18n(attribute)

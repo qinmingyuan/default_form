@@ -26,7 +26,8 @@ module DefaultForm::ControllerHelper
 
 end
 
-ActionController::Base.prepend DefaultForm::ControllerHelper
-
+ActiveSupport.on_load :action_controller do
+  prepend DefaultForm::ControllerHelper
+end
 
 
