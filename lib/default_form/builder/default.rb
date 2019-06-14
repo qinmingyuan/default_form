@@ -12,7 +12,7 @@ module DefaultForm::Builder::Default
     if object.respond_to?(method) && origin_on.autocomplete
       return object.send(method)
     end
-    
+
     if origin_on.autocomplete
       if object_name.present?
         return params.dig(object_name, method)
