@@ -9,15 +9,15 @@ module DefaultForm::Builder::Default
   ].freeze
 
   def default_value(method)
-    begin
-      return object.send(method) if origin_on.autocomplete
-    rescue
-      if origin_on.autocomplete
-        if object_name
-          return params[object_name]&.fetch(method, '')
-        else
-          return params[method]
-        end
+    if object.respond_to?(method) && origin_on.autocomplete
+      return object.send(method)
+    end
+    
+    if origin_on.autocomplete
+      if object_name.present?
+        return params.dig(object_name, method)
+      else
+        return params[method]
       end
     end
   end
@@ -48,7 +48,6 @@ module DefaultForm::Builder::Default
   def default_options(method, options)
     options[:class] ||= origin_css[:input]
 
-    # todo better condition
     if self.is_a?(DefaultForm::SearchBuilder)
       options[:value] ||= default_value(method)
     end
