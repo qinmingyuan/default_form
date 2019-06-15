@@ -9,16 +9,15 @@ module DefaultForm::Builder::Default
   ].freeze
 
   def default_value(method)
-    if object.respond_to?(method) && origin_on.autocomplete
-      return object.send(method)
-    end
-
-    if origin_on.autocomplete
-      if object_name.present?
-        return params.dig(object_name, method)
-      else
-        return params[method]
-      end
+    return unless origin_on.autocomplete
+    
+    r = object.respond_to?(method) && object.send(method)
+    return r if r
+    
+    if object_name.present?
+      params.dig(object_name, method)
+    else
+      params[method]
     end
   end
 
