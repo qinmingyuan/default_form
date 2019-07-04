@@ -11,8 +11,10 @@ module DefaultForm::Builder::Default
   def default_value(method)
     return unless origin_on.autocomplete
     
-    r = object.respond_to?(method) && object.send(method)
-    return r if r
+    if object.is_a?(ActiveRecord::Base)
+      r = object.respond_to?(method) && object.send(method)
+      return r if r
+    end
     
     if object_name.present?
       params.dig(object_name, method)
