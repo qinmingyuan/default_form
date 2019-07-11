@@ -144,7 +144,11 @@ module DefaultForm::Builder::Wrapper
   end
 
   def wrapper_id(method)
-    object_name = object.class.base_class.model_name.param_key
+    if object.is_a?(ActiveRecord::Base)
+      object_name = object.class.base_class.model_name.param_key
+    else
+      object_name = ''
+    end
     sanitized_object_name = object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, '')
     sanitized_method_name = method.to_s.sub(/\?$/, '')
     if index
