@@ -15,7 +15,7 @@ module DefaultForm::ViewHelper
     form_with(options, &block)
   end
 
-  def default_form_object(record, options = {})
+  def default_form_object(record = nil, **options)
     object_name = options[:as] || record.class.base_class.model_name.param_key
     DefaultForm::DefaultBuilder.new(object_name, record, self, options)
   end
@@ -27,7 +27,7 @@ module DefaultForm::ViewHelper
     form_with(options, &block)
   end
 
-  def search_form_object(record, options = {})
+  def search_form_object(record = nil, **options)
     object_name = options[:as] || ''
     DefaultForm::SearchBuilder.new(object_name, record, self, options)
   end
