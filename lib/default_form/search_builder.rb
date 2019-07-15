@@ -5,10 +5,13 @@ require 'default_form/config/search'
 
 class DefaultForm::SearchBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
+  include ActiveSupport::Configurable
 
   def initialize(object_name, object, template, options)
-    @origin_on = SearchForm.config.on.merge(options[:on] || {})
-    @origin_css = SearchForm.config.css.merge(options[:css] || {})
+    @origin_on = SearchForm.config.on.merge(self.class.config.on || {})
+    @origin_css = SearchForm.config.css.merge(self.class.config.css || {})
+    @origin_on.merge!(options[:on] || {})
+    @origin_css.merge!(options[:css] || {})
     @params = template.params
     _values = Hash(@params.permit(object_name => {})[object_name])
 
