@@ -7,9 +7,9 @@ module DefaultForm::ControllerHelper
       super builder
     end
 
-    def model.define_form_builder(builder, &block)
+    def model.define_form_builder(builder, parent: DefaultForm::DefaultBuilder)
       if builder.is_a? String
-        Object.const_set builder, Class.new(DefaultForm::DefaultBuilder)
+        Object.const_set builder, Class.new(parent)
         builder_class = builder.constantize
         builder_class.config.on = ActiveSupport::OrderedOptions.new
         builder_class.config.css = ActiveSupport::OrderedOptions.new
