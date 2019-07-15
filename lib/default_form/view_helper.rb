@@ -34,4 +34,6 @@ module DefaultForm::ViewHelper
 
 end
 
-ActionView::Base.include DefaultForm::ViewHelper
+ActiveSupport.on_load :action_view do
+ include DefaultForm::ViewHelper
+end
