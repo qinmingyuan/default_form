@@ -2,7 +2,7 @@
 
 module DefaultForm::Builder::Wrapper
 
-  def wrapper_input(inner, method, config = {})
+  def wrapper_input(inner, method, config: {})
     on = config.fetch(:on, {})
     css = config.fetch(:css, {})
     
@@ -17,7 +17,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_short_input(inner, method, config = {})
+  def wrapper_short_input(inner, method, config: {})
     on = config.fetch(:on, {})
     css = config.fetch(:css, {})
     
@@ -32,7 +32,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_checkbox(inner, config = {})
+  def wrapper_checkbox(inner, config: {})
     if config.dig(:on, :wrapper_checkbox)
       content_tag(:div, inner, class: config.dig(:css, :wrapper_checkbox))
     else
@@ -40,7 +40,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_checkboxes(inner, config = {})
+  def wrapper_checkboxes(inner, config: {})
     if config.dig(:on, :wrapper_checkboxes)
       content_tag(:div, inner, class: config.dig(:css, :wrapper_checkboxes))
     else
@@ -48,7 +48,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_radio(inner, config = {})
+  def wrapper_radio(inner, config: {})
     if config.dig(:on, :wrapper_radio)
       content_tag(:div, inner, class: config.dig(:css, :wrapper_radio))
     else
@@ -56,7 +56,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_radios(inner, config = {})
+  def wrapper_radios(inner, config: {})
     if config.dig(:on, :wrapper_radios)
       content_tag(:div, inner, class: config.dig(:css, :wrapper_radios))
     else
@@ -72,11 +72,11 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_all(inner, method, config = {})
+  def wrapper_all(inner, method = nil, config: {})
     on = config.fetch(:on, {})
     css = config.fetch(:css, {})
     
-    if object_has_errors?(method)
+    if method && object_has_errors?(method)
       final_css = css[:wrapper_all_error]
     elsif config[:required]
       final_css = css[:wrapper_all_required]
@@ -85,8 +85,9 @@ module DefaultForm::Builder::Wrapper
     end
 
     if on[:wrapper_all]
-      if help_text = default_help(method)
-        inner += help_tag(help_text, css[:help_icon])
+      if method
+        help_text = default_help(method)
+        inner += help_tag(help_text, css[:help_icon]) if help_text
       end
       
       if method && on[:wrapper_all_id]
@@ -98,21 +99,21 @@ module DefaultForm::Builder::Wrapper
       inner
     end
   end
-  
-  def help_tag(text, css)
-    content_tag(:span, data: { tooltip: text }) do
-      content_tag(:i, nil, class: css)
-    end
-  end
 
-  def offset(text = '', config = {})
+  def offset(text = '', config: {})
     if config.dig(:on, :offset)
       content_tag(:div, text, class: config.dig(:css, :offset))
     else
       ''.html_safe
     end
   end
-
+  
+  def help_tag(text, css)
+    content_tag(:span, data: { tooltip: text }) do
+      content_tag(:i, nil, class: css)
+    end
+  end
+  
   def object_has_errors?(method)
     object.respond_to?(:errors) && object.errors.respond_to?(:[]) && object.errors[method].present?
   end

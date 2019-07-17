@@ -8,10 +8,18 @@ module DefaultForm::Builder::Default
     :maxlength
   ].freeze
   
-  def default_label(method, config)
+  def default_label(method, config: {})
     return ''.html_safe unless config.dig(:on, :label)
     
     label(method, config.delete(:label))
+  end
+
+  def default_help(method)
+    if object.is_a?(ActiveRecord::Base)
+      object.class.help_i18n(method)
+    else
+      nil
+    end
   end
   
   def default_value(method)
@@ -44,27 +52,19 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_help(method)
-    if object.is_a?(ActiveRecord::Base)
-      object.class.help_i18n(method)
-    else
-      nil
-    end
-  end
-
-  def default_options(method, options, custom_config)
-    options[:class] ||= custom_config.dig(:css, :input)
+  def default_options(method, options = {}, config: custom_config)
+    options[:class] = config.dig(:css, :input) unless options.key?(:class)
 
     if self.is_a?(DefaultForm::SearchBuilder)
-      options[:value] ||= default_value(method)
+      options[:value] = default_value(method) unless options.key?(:value)
     end
     if origin_on[:placeholder]
-      options[:placeholder] ||= default_placeholder(method)
+      options[:placeholder] = default_placeholder(method) unless options.key?(:placeholder)
     end
     default_valid(options)
   end
 
-  def default_valid(options)
+  def default_valid(options = {})
     valid_key = options.keys & VALIDATIONS
     if valid_key.present?
       options[:data] ||= {}
