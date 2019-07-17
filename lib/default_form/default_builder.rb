@@ -17,7 +17,7 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     if options[:class] && options[:class].start_with?('new', 'edit')
       options[:class] = origin_css.form
     end
-    options[:class] ||= origin_css.form
+    options[:class] = origin_css.form unless options.key?(:class)
 
     super
   end

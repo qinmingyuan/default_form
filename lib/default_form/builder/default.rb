@@ -9,11 +9,9 @@ module DefaultForm::Builder::Default
   ].freeze
   
   def default_label(method, config)
-    on = config.delete(:on)
-    return ''.html_safe unless on[:label]
-    text = config.delete(:label)
+    return ''.html_safe unless config.dig(:on, :label)
     
-    label(method, text)
+    label(method, config.delete(:label))
   end
   
   def default_value(method)
