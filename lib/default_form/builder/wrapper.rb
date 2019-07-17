@@ -2,9 +2,9 @@
 
 module DefaultForm::Builder::Wrapper
 
-  def wrapper_input(inner, method, config: {})
-    on = config.fetch(:on, {})
-    css = config.fetch(:css, {})
+  def wrapper_input(inner, method, settings: {})
+    on = settings.fetch(:on, {})
+    css = settings.fetch(:css, {})
     
     if on[:wrapper_input]
       if on[:wrapper_input_id]
@@ -17,9 +17,9 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_short_input(inner, method, config: {})
-    on = config.fetch(:on, {})
-    css = config.fetch(:css, {})
+  def wrapper_short_input(inner, method, settings: {})
+    on = settings.fetch(:on, {})
+    css = settings.fetch(:css, {})
     
     if on[:wrapper_input]
       if on[:wrapper_input_id]
@@ -32,53 +32,53 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_checkbox(inner, config: {})
-    if config.dig(:on, :wrapper_checkbox)
-      content_tag(:div, inner, class: config.dig(:css, :wrapper_checkbox))
+  def wrapper_checkbox(inner, settings: {})
+    if settings.dig(:on, :wrapper_checkbox)
+      content_tag(:div, inner, class: settings.dig(:css, :wrapper_checkbox))
     else
       inner
     end
   end
 
-  def wrapper_checkboxes(inner, config: {})
-    if config.dig(:on, :wrapper_checkboxes)
-      content_tag(:div, inner, class: config.dig(:css, :wrapper_checkboxes))
+  def wrapper_checkboxes(inner, settings: {})
+    if settings.dig(:on, :wrapper_checkboxes)
+      content_tag(:div, inner, class: settings.dig(:css, :wrapper_checkboxes))
     else
       inner
     end
   end
 
-  def wrapper_radio(inner, config: {})
-    if config.dig(:on, :wrapper_radio)
-      content_tag(:div, inner, class: config.dig(:css, :wrapper_radio))
+  def wrapper_radio(inner, settings: {})
+    if settings.dig(:on, :wrapper_radio)
+      content_tag(:div, inner, class: settings.dig(:css, :wrapper_radio))
     else
       inner
     end
   end
 
-  def wrapper_radios(inner, config: {})
-    if config.dig(:on, :wrapper_radios)
-      content_tag(:div, inner, class: config.dig(:css, :wrapper_radios))
+  def wrapper_radios(inner, settings: {})
+    if settings.dig(:on, :wrapper_radios)
+      content_tag(:div, inner, class: settings.dig(:css, :wrapper_radios))
     else
       inner
     end
   end
 
-  def wrapper_submit(inner, config = {})
-    if config.dig(:on, :wrapper_submit)
-      content_tag(:div, inner, class: config.dig(:css, :wrapper_submit))
+  def wrapper_submit(inner, settings: {})
+    if settings.dig(:on, :wrapper_submit)
+      content_tag(:div, inner, class: settings.dig(:css, :wrapper_submit))
     else
       inner
     end
   end
 
-  def wrapper_all(inner, method = nil, config: {})
-    on = config.fetch(:on, {})
-    css = config.fetch(:css, {})
+  def wrapper_all(inner, method = nil, settings: {})
+    on = settings.fetch(:on, {})
+    css = settings.fetch(:css, {})
     
     if method && object_has_errors?(method)
       final_css = css[:wrapper_all_error]
-    elsif config[:required]
+    elsif settings[:required]
       final_css = css[:wrapper_all_required]
     else
       final_css = css[:wrapper_all]
@@ -100,9 +100,9 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def offset(text = '', config: {})
-    if config.dig(:on, :offset)
-      content_tag(:div, text, class: config.dig(:css, :offset))
+  def offset(text = '', settings: {})
+    if settings.dig(:on, :offset)
+      content_tag(:div, text, class: settings.dig(:css, :offset))
     else
       ''.html_safe
     end

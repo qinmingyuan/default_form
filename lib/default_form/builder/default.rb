@@ -8,10 +8,10 @@ module DefaultForm::Builder::Default
     :maxlength
   ].freeze
   
-  def default_label(method, config: {})
-    return ''.html_safe unless config.dig(:on, :label)
+  def default_label(method, settings: {})
+    return ''.html_safe unless settings.dig(:on, :label)
     
-    label(method, config.delete(:label))
+    label(method, settings.delete(:label))
   end
 
   def default_help(method)
@@ -52,8 +52,8 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_options(method, options = {}, config: custom_config)
-    options[:class] = config.dig(:css, :input) unless options.key?(:class)
+  def default_options(method, options = {}, settings: {})
+    options[:class] = settings.dig(:css, :input) unless options.key?(:class)
 
     if self.is_a?(DefaultForm::SearchBuilder)
       options[:value] = default_value(method) unless options.key?(:value)
@@ -73,10 +73,13 @@ module DefaultForm::Builder::Default
     options
   end
 
-  def extra_config(options = {})
-    custom_config = options.extract!(:on, :css, :label, :required)
-    custom_config.with_defaults!(on: origin_on, css: origin_css)
-    custom_config
+  def extract_settings(options = {})
+    settings = options.extract!(:on, :css, :label, :required)
+    settings[:on] ||= {}
+    settings[:on].with_defaults!(origin_on)
+    settings[:css] ||= {}
+    settings[:css].with_defaults!(origin_css)
+    settings
   end
 
 end
