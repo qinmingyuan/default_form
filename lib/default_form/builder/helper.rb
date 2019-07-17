@@ -70,7 +70,7 @@ module DefaultForm::Builder::Helper
   def radio_button(method, tag_value, options = {})
     settings = extract_settings(options)
     options[:class] = settings.dig(:css, :radio) unless options.key?(:class)
-    default_options(method, options, settings)
+    default_options(method, options, settings: settings)
 
     label_content = default_label(method, settings: settings)
     value_content = label(method, tag_value, class: nil)
