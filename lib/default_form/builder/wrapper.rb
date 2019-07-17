@@ -127,10 +127,9 @@ module DefaultForm::Builder::Wrapper
   end
 
   def wrapper_id(method)
-    on = @object_name.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/^_|_$/, '')
-    m = method.to_s.gsub(/[^-a-zA-Z0-9:.]/, '_').sub(/^_|_$/, '')
-    
-    [on, m].join('_')
+    [@object_name, method].map! do |i|
+      i.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/^_|_$/, '')
+    end.join('_')
   end
 
 end
