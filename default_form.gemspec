@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   ]
   s.test_files = Dir['test/**/*']
 
-  s.add_dependency 'rails', '>= 5.2'
+  s.add_dependency 'rails', '>= 5.2', '<= 6.1'
   s.add_development_dependency 'sqlite3', '~> 1.3'
   s.add_development_dependency 'factory_bot_rails', '~> 4.11'
 end
