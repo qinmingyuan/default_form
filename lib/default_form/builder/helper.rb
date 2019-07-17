@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'default_form/builder/wrapper'
-require 'default_form/builder/default'
+require_relative 'wrapper'
+require_relative 'default'
 
 module DefaultForm::Builder::Helper
   include DefaultForm::Builder::Wrapper
@@ -45,6 +45,10 @@ module DefaultForm::Builder::Helper
   def label(method, text = nil, options = {}, &block)
     custom_config = extra_config(options)
     options[:class] ||= custom_config.dig(:css, :label)
+    
+    if text.nil? && object.is_a?(ActiveRecord::Base)
+      text = object.class.human_attribute_name(method)
+    end
     
     super
   end

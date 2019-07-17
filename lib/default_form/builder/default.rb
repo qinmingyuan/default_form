@@ -11,19 +11,9 @@ module DefaultForm::Builder::Default
   def default_label(method, config)
     on = config.delete(:on)
     return ''.html_safe unless on[:label]
+    text = config.delete(:label)
     
-    options[:class] = config.delete(:css)
-    label = config.delete(:label)
-    
-    if label
-      text = label
-    elsif object.is_a?(ActiveRecord::Base)
-      text = object.class.human_attribute_name(method)
-    else
-      text = ''
-    end
-    
-    label(method, text, options = {})
+    label(method, text)
   end
   
   def default_value(method)
