@@ -2,10 +2,7 @@
 
 module DefaultForm::Builder::Wrapper
 
-  def wrapper_input(inner, method = nil, config:)
-    on = origin_on.merge(config[:on])
-    css = origin_css.merge(config[:css])
-
+  def wrapper_input(inner, method = nil, on:, css:)
     if on[:wrapper_input]
       if method && on[:wrapper_input_id]
         content_tag(:div, inner, class: css[:wrapper_input], id: wrapper_input_id(method))
@@ -17,10 +14,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_short_input(inner, method = nil, config:)
-    on = origin_on.merge(config[:on])
-    css = origin_css.merge(config[:css])
-
+  def wrapper_short_input(inner, method = nil, on:, css:)
     if on[:wrapper_input]
       if method && on[:wrapper_input_id]
         content_tag(:div, inner, class: css[:wrapper_short_input], id: wrapper_input_id(method))
@@ -32,10 +26,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_checkbox(inner, config:)
-    on = origin_on.merge(config[:on])
-    css = origin_css.merge(config[:css])
-
+  def wrapper_checkbox(inner, on:, css:)
     if on[:wrapper_checkbox]
       content_tag(:div, inner, class: css[:wrapper_checkbox])
     else
@@ -43,10 +34,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_checkboxes(inner, config:)
-    on = origin_on.merge(config[:on] || {})
-    css = origin_css.merge(config[:css] || {})
-
+  def wrapper_checkboxes(inner, on:, css:)
     if on[:wrapper_checkboxes]
       content_tag(:div, inner, class: css[:wrapper_checkboxes])
     else
@@ -54,10 +42,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_radio(inner, config:)
-    on = origin_on.merge(config[:on])
-    css = origin_css.merge(config[:css])
-
+  def wrapper_radio(inner, on:, css:)
     if on[:wrapper_radio]
       content_tag(:div, inner, class: css[:wrapper_radio])
     else
@@ -65,10 +50,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_radios(inner, config:)
-    on = origin_on.merge(config[:on] || {})
-    css = origin_css.merge(config[:css] || {})
-
+  def wrapper_radios(inner, on:, css:)
     if on[:wrapper_radios]
       content_tag(:div, inner, class: css[:wrapper_radios])
     else
@@ -76,7 +58,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_submit(inner, config:)
+  def wrapper_submit(inner, on:, css:)
     on = origin_on.merge(config[:on] || {})
     css = origin_css.merge(config[:css] || {})
 
@@ -87,10 +69,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def wrapper_all(inner, method = nil, config:)
-    on = origin_on.merge(config[:on] || {})
-    css = origin_css.merge(config[:css] || {})
-
+  def wrapper_all(inner, method = nil, on:, css:)
     if method && object_has_errors?(method)
       final_css = css[:wrapper_all_error]
     elsif config[:required]
@@ -120,10 +99,7 @@ module DefaultForm::Builder::Wrapper
     end
   end
 
-  def offset(text = '', config:)
-    on = origin_on.merge(config[:on] || {})
-    css = origin_css.merge(config[:css] || {})
-
+  def offset(text = '', on:, css:)
     if on[:offset]
       content_tag(:div, text, class: css[:offset])
     else

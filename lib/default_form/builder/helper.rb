@@ -43,160 +43,133 @@ module DefaultForm::Builder::Helper
   end
 
   def label(method, text = nil, options = {}, &block)
-    on = origin_on.merge(options[:on] || {})
-    css = origin_css.merge(options[:css] || {})
-    options = options.except(:on, :css, :required)
-    options[:class] = css[:label] unless options.key?(:class)
-
-    # label: false
-    if text.equal?(false)
-      return ''.html_safe
-    end
-
-    # label: ''
-    if text
-      return super
-    end
-
-    if on[:label]
-      # no label options but label on
-      if text.nil? && object.is_a?(ActiveRecord::Base)
-        text = object.class.human_attribute_name(method)
-      end
-
-      super
-    else
-      ''.html_safe
-    end
+    custom_config = extra_config(options)
+    options[:class] ||= custom_config.dig(:css, :label)
+    
+    super
   end
 
   def submit(value = nil, options = {})
-    custom_config = options.extract!(:on, :css)
-    options[:class] ||= origin_css[:submit]
+    custom_config = extra_config(options)
+    options[:class] ||= custom_config.dig(:css, :submit)
 
-    submit_content = wrapper_submit(super, config: custom_config)
-    wrapper_all offset(config: custom_config) + submit_content, config: custom_config
+    submit_content = wrapper_submit(super, on: custom_config[:on], css: custom_config[:css])
+    wrapper_all offset(on: custom_config[:on], css: custom_config[:css]) + submit_content, on: custom_config[:on], css: custom_config[:css]
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     custom_config = extra_config(options)
-    custom_config[:css][:label] ||= ''
-    options[:class] ||= origin_css[:checkbox]
+    options[:class] ||= custom_config.dig(:css, :checkbox)
 
-    label_content = label(method, options.delete(:label), custom_config)
-    checkbox_content = wrapper_checkbox(super + label_content, config: custom_config)
+    label_content = default_label(method, custom_config)
+    checkbox_content = wrapper_checkbox(super + label_content, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all offset(config: custom_config) + checkbox_content, method, config: custom_config
+    wrapper_all offset(on: custom_config[:on], css: custom_config[:css]) + checkbox_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    custom_config = options.slice(:on, :css, :required)
-    options[:on] = origin_on.merge(options[:on] || {}) # todo 更细腻的参数
-    options[:css] = origin_css.merge(options[:css] || {})
+    custom_config = extra_config(options)
 
-    label_content = label(method, options.delete(:label), custom_config)
-    checkboxes_content = wrapper_checkboxes(super, config: custom_config)
+    label_content = default_label(method, custom_config)
+    checkboxes_content = wrapper_checkboxes(super, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + checkboxes_content, method, config: custom_config
+    wrapper_all label_content + checkboxes_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def radio_button(method, tag_value, options = {})
     custom_config = extra_config(options)
-    custom_config[:on][:wrapper_all] ||= false
-    default_options(method, options)
-    options[:class] ||= origin_css[:radio]
+    options[:class] ||= custom_config.dig(:css, :radio)
+    default_options(method, options, custom_config)
 
-    label_content = label(method, options.delete(:label), custom_config)
+    label_content = default_label(method, custom_config)
     value_content = label(method, tag_value, class: nil)
-    radio_content = wrapper_radio(super + value_content, config: custom_config)
+    radio_content = wrapper_radio(super + value_content, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + radio_content, method, config: custom_config
+    wrapper_all label_content + radio_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    custom_config = options.slice(:on, :css, :required)
-    options[:on] = origin_on.merge(options[:on] || {}) # todo 更细腻的参数
-    options[:css] = origin_css.merge(options[:css] || {})
+    custom_config = extra_config(options)
 
-    label_content = label(method, options.delete(:label), custom_config)
-    radios_content = wrapper_radios(super, config: custom_config)
+    label_content = default_label(method, custom_config)
+    radios_content = wrapper_radios(super, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + radios_content, method, config: custom_config
+    wrapper_all label_content + radios_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     custom_config = extra_config(options)
     options[:selected] ||= default_value(method)
     html_options[:class] ||= if html_options[:multiple]
-      origin_css[:multi_select]
+      custom_config.dig(:css, :multi_select)
     else
-      origin_css[:select]
+      custom_config.dig(:css, :select)
     end
     options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     custom_config = extra_config(options)
     html_options[:class] ||= if html_options[:multiple]
-      origin_css[:multi_select]
+      custom_config.dig(:css, :multi_select)
     else
-      origin_css[:select]
+      custom_config.dig(:css, :select)
     end
     options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
     custom_config = extra_config(options)
     html_options[:class] ||= if html_options[:multiple]
-      origin_css[:multi_select]
+      custom_config.dig(:css, :multi_select)
     else
-      origin_css[:select]
+      custom_config.dig(:css, :select)
     end
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def time_select(method, options = {}, html_options = {})
     custom_config = extra_config(options)
-    html_options[:class] ||= origin_css[:select]
+    html_options[:class] ||= custom_config.dig(:css, :select)
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_short_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_short_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def file_field(method, options = {})
     custom_config = extra_config(options)
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def hidden_field(method, options = {})
-    extra_config(options)
-    options[:autocomplete] = origin_on[:autocomplete] unless options.key?(:autocomplete)
+    custom_config = extra_config(options)
+    options[:autocomplete] = custom_config.dig(:on, :autocomplete) unless options.key?(:autocomplete)
     super
   end
 
   def date_field(method, options = {})
     custom_config = extra_config(options)
-    default_options(method, options)
+    default_options(method, options, custom_config)
 
     if method.match?(/(date)/)
       real_method = method.to_s.sub('(date)', '')
@@ -204,33 +177,33 @@ module DefaultForm::Builder::Helper
       options[:value] = object.read_attribute(real_method)&.to_date
     end
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   def number_field(method, options = {})
     custom_config = extra_config(options)
-    default_options(method, options)
+    default_options(method, options, custom_config)
     options[:step] ||= default_step(method)
 
-    label_content = label(method, options.delete(:label), custom_config)
-    input_content = wrapper_input(super, method, config: custom_config)
+    label_content = default_label(method, custom_config)
+    input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-    wrapper_all label_content + input_content, method, config: custom_config
+    wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
   end
 
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         custom_config = extra_config(options)
-        default_options(method, options)
+        default_options(method, options, custom_config)
 
-        label_content = label(method, options.delete(:label), custom_config)
-        input_content = wrapper_input(super, method, config: custom_config)
+        label_content = default_label(method, custom_config)
+        input_content = wrapper_input(super, method, on: custom_config[:on], css: custom_config[:css])
 
-        wrapper_all label_content + input_content, method, config: custom_config
+        wrapper_all label_content + input_content, method, on: custom_config[:on], css: custom_config[:css]
       end
     RUBY_EVAL
   end

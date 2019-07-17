@@ -7,7 +7,25 @@ module DefaultForm::Builder::Default
     :min, :max, :step,
     :maxlength
   ].freeze
-
+  
+  def default_label(method, config)
+    on = config.delete(:on)
+    return ''.html_safe unless on[:label]
+    
+    options[:class] = config.delete(:css)
+    label = config.delete(:label)
+    
+    if label
+      text = label
+    elsif object.is_a?(ActiveRecord::Base)
+      text = object.class.human_attribute_name(method)
+    else
+      text = ''
+    end
+    
+    label(method, text, options = {})
+  end
+  
   def default_value(method)
     return unless origin_on.autocomplete
     
@@ -46,8 +64,8 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_options(method, options)
-    options[:class] ||= origin_css[:input]
+  def default_options(method, options, custom_config)
+    options[:class] ||= custom_config.dig(:css, :input)
 
     if self.is_a?(DefaultForm::SearchBuilder)
       options[:value] ||= default_value(method)
@@ -67,11 +85,9 @@ module DefaultForm::Builder::Default
     options
   end
 
-  def extra_config(options)
-    custom_config = options.extract!(:on, :css)
-    custom_config[:css] ||= {}
-    custom_config[:on] ||= {}
-    custom_config[:required] = options[:required]
+  def extra_config(options = {})
+    custom_config = options.extract!(:on, :css, :label, :required)
+    custom_config.with_defaults!(on: origin_on, css: origin_css)
     custom_config
   end
 
