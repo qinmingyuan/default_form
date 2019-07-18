@@ -52,7 +52,7 @@ module DefaultForm::Builder::Helper
     settings = extract_settings(options)
     options[:class] = settings.dig(:css, :checkbox) unless options.key?(:class)
 
-    label_content = label(method, options.delete(:label), class: nil)
+    label_content = label(method, settings.delete(:label), class: nil)
     checkbox_content = wrapper_checkbox(super + label_content, settings: settings)
 
     wrapper_all offset(settings: settings) + checkbox_content, method, settings: settings
