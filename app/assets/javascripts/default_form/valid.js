@@ -1,35 +1,35 @@
 // depend on semantic-ui
 
 HTMLElement.prototype.defaultFormValid = function() {
-  var self = $(this);
-  var label;
-  var locale = document.querySelector('html').lang;
-  var xx = {
+  let self = $(this);
+  let label;
+  let locale = document.querySelector('html').lang;
+  const xx = {
     zh: {
       badInput: '格式不正确：',
-      customError: 'ririiririrrr',
+      customError: '输入错误',
       patternMismatch: '非法的',
-      rangeOverflow: 'ririiririrrr',
-      rangeUnderflow: 'ririiririrrr',
-      stepMismatch: 'ririiririrrr',
+      rangeOverflow: '输入错误',
+      rangeUnderflow: '输入错误',
+      stepMismatch: '输入错误',
       tooLong: '太长了',
       tooShort: '太短了',
-      typeMismatch: 'ririiririrrr',
+      typeMismatch: '输入错误',
       valid: '非法值',
       valueMissing: '请输入'
     },
     en: {
-      badInput: 'ririiririrrr',
-      customError: 'ririiririrrr',
+      badInput: 'Bad Input:',
+      customError: 'Custom Error:',
       patternMismatch: 'Invalid Input: ',
-      rangeOverflow: 'ririiririrrr',
-      rangeUnderflow: 'ririiririrrr',
-      stepMismatch: 'ririiririrrr',
+      rangeOverflow: 'Range Over Flow:',
+      rangeUnderflow: 'Range Under Flow:',
+      stepMismatch: 'Step Mismatch',
       tooLong: 'Too long',
       tooShort: 'Too Short',
-      typeMismatch: 'ririiririrrr',
+      typeMismatch: 'Type Mismatch',
       valid: 'Not valid',
-      valueMissing: 'Please enter '
+      valueMissing: 'Please enter:'
     }
   };
 
