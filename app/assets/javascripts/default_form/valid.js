@@ -33,7 +33,7 @@ HTMLElement.prototype.defaultFormValid = function() {
     }
   };
 
-  for (var key in this.validity) {
+  for (let key in this.validity) {
     if (this.validity[key]) {
       w = xx[locale][key]
     }
@@ -58,7 +58,7 @@ HTMLElement.prototype.defaultFormValid = function() {
 };
 
 HTMLElement.prototype.defaultFormClear = function() {
-  var self = $(this);
+  let self = $(this);
   self.parent().removeClass('error');
   self.parent().popup('destroy');
 };
