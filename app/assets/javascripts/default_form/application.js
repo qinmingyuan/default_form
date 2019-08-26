@@ -3,7 +3,7 @@
 HTMLElement.prototype.defaultFormValid = function() {
   let label;
   let locale = document.querySelector('html').lang;
-  const xx = {
+  const i18ns = {
     zh: {
       badInput: '格式不正确：',
       customError: '输入错误',
@@ -34,7 +34,7 @@ HTMLElement.prototype.defaultFormValid = function() {
 
   for (let key in this.validity) {
     if (this.validity[key]) {
-      w = xx[locale][key]
+      w = i18ns[locale][key]
     }
   }
 
@@ -61,4 +61,29 @@ HTMLElement.prototype.defaultFormClear = function() {
   $(this.parentNode).popup('destroy');
 };
 
+HTMLInputElement.prototype.assignDefault = function(){
+  let date = new Date(this.value);
+  let _year = document.querySelector('[name="' + this.name.replace('(date)', '(1i)') + '"]');
+  let _month = document.querySelector('[name="' + this.name.replace('(date)', '(2i)') + '"]');
+  let _date = document.querySelector('[name="' + this.name.replace('(date)', '(3i)') + '"]');
+  _year.value = date.getFullYear();
+  _month.value = date.getMonth() + 1;
+  _date.value = date.getDate()
+};
 
+HTMLFormElement.prototype.cleanSubmit = function(){
+  for (let i = 0; i < this.elements.length; i++) {
+    if ( this[i].value.length === 0 ) {
+      this[i].disabled = true;
+    }
+
+    if ( this[i].name === 'utf8' ) {
+      this[i].disabled = true;
+    }
+
+    if ( this[i].type === 'checkbox' && this[i].name === this[i-1].name && this[i].checked ){
+      this[i-1].disabled = true;
+    }
+  }
+  this.submit();
+};
