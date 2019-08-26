@@ -1,7 +1,6 @@
 // depend on semantic-ui
 
 HTMLElement.prototype.defaultFormValid = function() {
-  let self = $(this);
   let label;
   let locale = document.querySelector('html').lang;
   const xx = {
@@ -47,8 +46,8 @@ HTMLElement.prototype.defaultFormValid = function() {
 
   text = w + label;
 
-  self.parent().addClass('error');
-  self.parent().popup({
+  this.parentNode.classList.add('error');
+  $(this.parentNode).popup({
     position: 'right center',
     className: {
       popup: 'ui inverted popup'
@@ -58,9 +57,8 @@ HTMLElement.prototype.defaultFormValid = function() {
 };
 
 HTMLElement.prototype.defaultFormClear = function() {
-  let self = $(this);
-  self.parent().removeClass('error');
-  self.parent().popup('destroy');
+  this.parentNode.classList.remove('error');
+  $(this.parentNode).popup('destroy');
 };
 
 
