@@ -8,18 +8,21 @@ module DefaultForm::ControllerHelper
     end
 
     def model.define_form_builder(builder, parent: DefaultForm::DefaultBuilder)
-      if builder.is_a? String
-        Object.const_set builder, Class.new(parent)
-        builder_class = builder.constantize
-        builder_class.config.on = ActiveSupport::OrderedOptions.new
-        builder_class.config.css = ActiveSupport::OrderedOptions.new
+      builder_class = Class.new(parent)
+      builder_class.config.on = ActiveSupport::OrderedOptions.new
+      builder_class.config.css = ActiveSupport::OrderedOptions.new
 
-        if block_given?
-          yield builder_class.config
-        end
-
-        builder_class
+      if block_given?
+        yield builder_class.config
       end
+
+      if builder.is_a? String
+        if Object.const_defined?(builder)
+          Object.send(:remove_const, builder)
+        end
+        Object.const_set builder, builder_class
+      end
+      builder_class
     end
 
   end
