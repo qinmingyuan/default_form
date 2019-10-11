@@ -16,12 +16,12 @@ module DefaultForm::ControllerHelper
         yield builder_class.config
       end
 
-      if builder.is_a? String
-        if Object.const_defined?(builder)
-          Object.send(:remove_const, builder)
+      if builder.is_a?(String) || builder.is_a?(Symbol)
+        unless Object.const_defined?(builder)
+          Object.const_set builder, builder_class
         end
-        Object.const_set builder, builder_class
       end
+      
       builder_class
     end
 
