@@ -1,0 +1,134 @@
+defaults: &defaults
+  :on:
+    :wrapper_all: true
+    :label: true
+    :offset: true
+    :wrapper_input: true
+    :wrapper_checkbox: true
+    :wrapper_checkboxes: true
+    :wrapper_radio: true
+    :wrapper_submit: false
+    :autocomplete: true
+    :placeholder: false
+  :css:
+    :input:
+default:
+  <<: *defaults
+  :enum_key: ->(o, attribute){ "#{o.i18n_scope}.enum.#{o.base_class.model_name.i18n_key}.#{attribute}" }
+  :help_key: ->(o, attribute){ "#{o.i18n_scope}.help.#{o.base_class.model_name.i18n_key}.#{attribute}" }
+  :on:
+    :wrapper_all: true
+    :label: true
+    :offset: true
+    :wrapper_input: true
+    :wrapper_checkbox: true
+    :wrapper_checkboxes: true
+    :wrapper_radio: true
+    :wrapper_submit: false
+    :autocomplete: true
+    :placeholder: false
+  :css:
+    :form: ui form
+    :wrapper_all: inline fields
+    :wrapper_all_error: inline error fields
+    :wrapper_all_required: inline required fields
+    :label: six wide field
+    :offset: six wide field
+    :help_icon: grey question circle icon
+    :wrapper_input: six wide field
+    :wrapper_short_input: three wide field
+    :select: ui fluid search dropdown
+    :multi_select: ui fluid search dropdown
+    :checkbox: hidden
+    :wrapper_checkbox: ui toggle checkbox
+    :wrapper_checkboxes: six wide field ui labels
+    :inline_checkbox: ui label checkbox
+    :inline_checkbox_checked: ui teal label checkbox
+    :wrapper_radios: six wide field ui labels
+    :inline_radio: ui label radio checkbox
+    :inline_radio_checked: ui teal label radio checkbox
+    :wrapper_submit:
+    :submit: ui blue button
+search:
+  :on:
+    :wrapper_all: false
+    :label: false
+    :offset: false
+    :wrapper_input: true
+    :wrapper_checkbox: true
+    :wrapper_checkboxes: true
+    :wrapper_radio: true
+    :wrapper_radios: true
+    :wrapper_submit: true
+    :autocomplete: true
+    :placeholder: true
+    :skip_default_ids: true
+  :css:
+    :form: ui form
+    :wrapper_all:
+    :wrapper_all_error:
+    :wrapper_all_required:
+    :label:
+    :offset:
+    :help_icon:
+    :wrapper_input: field
+    :wrapper_short_input: field
+    :input:
+    :select:
+    :multi_select:
+    :checkbox:
+    :wrapper_checkbox: ui toggle checkbox
+    :wrapper_checkboxes: six wide field ui labels
+    :inline_checkbox: ui label checkbox
+    :inline_checkbox_checked: ui teal label checkbox
+    :radio: hidden
+    :wrapper_radio: ui radio checkbox
+    :wrapper_radios: six wide field ui labels
+    :inline_radio: ui label radio checkbox
+    :inline_radio_checked: ui teal label radio checkbox
+    :wrapper_submit: field
+    :submit: ui blue button
+weui:
+  :css:
+    :form: weui-cells weui-cells_form
+    :wrapper_all: weui-cell
+    :wrapper_all_error: inline field error
+    :wrapper_input: weui-cell__bd
+    :wrapper_submit: weui-btn-area
+    :label: weui-label
+    :cinput: weui-input
+    :select: weui-select
+    :muilti_select: weui-select
+    :submit: weui-btn weui-btn_primary
+bootstrap_form:
+  :css:
+    :form: form-horizontal
+    :wrapper_all: form-group
+    :wrapper_all_error: form-group has-error
+    :offset:
+    :label: col-sm-2 control-label
+    :wrapper_input: col-sm-10
+    :input: form-control
+    :select: ui dropdown nine wide field
+    :multi_select: nine wide field
+    :checkbox: checkbox
+    :wrapper_checkbox: checkbox-inline
+    :inline_checkbox_checked: checkbox-inline
+    :wrapper_submit: col-sm-offset-2 col-sm-10
+    :submit: btn btn-default
+bootstrap_search_form:
+  :on:
+    wrapper_all: false
+    offset: false
+    wrapper_input: false
+    wrapper_submit: false
+  :css:
+    form: form-inline
+    wrapper_all: inline field
+    wrapper_input: col-sm-10
+    wrapper_submit:
+    offset:
+    label:
+    input:
+    select: ui dropdown
+    submit: ui button
