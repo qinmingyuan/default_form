@@ -17,6 +17,9 @@ module DefaultForm::ViewHelper
   alias_method :default_form_object, :form_object
 
   def default_form_with(**options, &block)
+    if options[:builder].is_a?(String)
+      options[:builder] = options[:builder].safe_constantize
+    end
     options[:builder] ||= DefaultForm::DefaultBuilder
     form_with(options, &block)
   end
