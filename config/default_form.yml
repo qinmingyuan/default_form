@@ -1,45 +1,46 @@
 defaults: &defaults
-  :method: post
-  :local: false
-  :skip_default_ids: false
+  method: post
+  local: false
+  skip_default_ids: false
 defaults_on: &defaults_on
   :label: true
   :offset: true
-  :wrapper_all: true
-  :wrapper_input: true
-  :wrapper_checkbox: true
-  :wrapper_checkboxes: true
-  :wrapper_radio: true
-  :wrapper_radios: true
-  :wrapper_submit: false
+  :wrap_all: true
+  :wrap_input: true
+  :wrap_checkbox: true
+  :wrap_checkboxes: true
+  :wrap_radio: true
+  :wrap_radios: true
+  :wrap_submit: false
   :autocomplete: true
   :placeholder: true
   :autofilter: false
 default:
   <<: *defaults
-  :on:
+  
+  on:
     <<: *defaults_on
-    :wrapper_submit: false
-    :autocomplete: true
-    :placeholder: false
+    wrap_submit: false
+    autocomplete: true
+    placeholder: false
   :css:
     :form: ui form
-    :wrapper_all: inline fields
-    :wrapper_all_error: inline error fields
-    :wrapper_all_required: inline required fields
+    :wrap_all: inline fields
+    :wrap_all_error: inline error fields
+    :wrap_all_required: inline required fields
     :label: six wide field
     :offset: six wide field
     :help_icon: grey question circle icon
-    :wrapper_input: six wide field
-    :wrapper_short_input: three wide field
+    :wrap_input: six wide field
+    :wrap_short_input: three wide field
     :select: ui fluid search dropdown
     :multi_select: ui fluid search dropdown
     :checkbox: hidden
-    :wrapper_checkbox: ui toggle checkbox
-    :wrapper_checkboxes: six wide field ui labels
+    :wrap_checkbox: ui toggle checkbox
+    :wrap_checkboxes: six wide field ui labels
     :inline_checkbox: ui label checkbox
     :inline_checkbox_checked: ui teal label checkbox
-    :wrapper_radios: six wide field ui labels
+    :wrap_radios: six wide field ui labels
     :inline_radio: ui label radio checkbox
     :inline_radio_checked: ui teal label radio checkbox
     :submit: ui blue button
@@ -49,7 +50,7 @@ search:
   :skip_default_ids: true
   :on:
     <<: *defaults_on
-    :wrapper_all: false
+    :wrap_all: false
     :label: false
     :offset: false
     :autocomplete: true
@@ -57,18 +58,18 @@ search:
     :autofilter: true
   :css:
     :form: ui form
-    :wrapper_input: field
-    :wrapper_short_input: field
-    :wrapper_checkbox: ui toggle checkbox
-    :wrapper_checkboxes: six wide field ui labels
+    :wrap_input: field
+    :wrap_short_input: field
+    :wrap_checkbox: ui toggle checkbox
+    :wrap_checkboxes: six wide field ui labels
     :inline_checkbox: ui label checkbox
     :inline_checkbox_checked: ui teal label checkbox
     :radio: hidden
-    :wrapper_radio: ui radio checkbox
-    :wrapper_radios: six wide field ui labels
+    :wrap_radio: ui radio checkbox
+    :wrap_radios: six wide field ui labels
     :inline_radio: ui label radio checkbox
     :inline_radio_checked: ui teal label radio checkbox
-    :wrapper_submit: field
+    :wrap_submit: field
     :submit: ui blue button
 weui:
   <<: *defaults
@@ -76,10 +77,10 @@ weui:
     <<: *defaults_on
   :css:
     :form: weui-cells weui-cells_form
-    :wrapper_all: weui-cell
-    :wrapper_all_error: inline field error
-    :wrapper_input: weui-cell__bd
-    :wrapper_submit: weui-btn-area
+    :wrap_all: weui-cell
+    :wrap_all_error: inline field error
+    :wrap_input: weui-cell__bd
+    :wrap_submit: weui-btn-area
     :label: weui-label
     :cinput: weui-input
     :select: weui-select
@@ -92,13 +93,13 @@ bootstrap_form:
     :offset: false
   :css:
     :form: form-horizontal
-    :wrapper_all: form-group
-    :wrapper_all_error: form-group has-error
+    :wrap_all: form-group
+    :wrap_all_error: form-group has-error
     :label: col-sm-2 control-label
-    :wrapper_input: col-sm-10
+    :wrap_input: col-sm-10
     :input: form-control
     :checkbox: checkbox
-    :wrapper_checkbox: checkbox-inline
+    :wrap_checkbox: checkbox-inline
     :inline_checkbox_checked: checkbox-inline
     :wrapper_submit: col-sm-offset-2 col-sm-10
     :submit: btn btn-default

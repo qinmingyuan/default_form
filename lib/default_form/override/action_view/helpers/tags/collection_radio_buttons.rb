@@ -14,7 +14,7 @@ module ActionView
           end
 
           inner = builder.radio_button + builder.label
-          if on[:wrapper_radio]
+          if on[:wrap_radio]
             content_tag(:div, inner, class: final_css)
           else
             inner

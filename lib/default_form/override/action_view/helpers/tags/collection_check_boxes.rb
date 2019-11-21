@@ -14,7 +14,7 @@ module ActionView
           end
 
           inner = builder.check_box + builder.label
-          if on[:wrapper_checkbox]
+          if on[:wrap_checkbox]
             content_tag(:div, inner, class: final_css)
           else
             inner

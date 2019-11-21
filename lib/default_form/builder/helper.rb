@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'wrapper'
+require_relative 'wrap'
 require_relative 'default'
 
 module DefaultForm::Builder::Helper
-  include DefaultForm::Builder::Wrapper
+  include DefaultForm::Builder::Wrap
   include DefaultForm::Builder::Default
 
   INPUT_FIELDS = [
@@ -46,8 +46,8 @@ module DefaultForm::Builder::Helper
     settings = extract_settings(options)
     options[:class] = settings.dig(:css, :submit) unless options.key?(:class)
 
-    submit_content = wrapper_submit(super, settings: settings)
-    wrapper_all offset(settings: settings) + submit_content, settings: settings
+    submit_content = wrap_submit(super, settings: settings)
+    wrap_all offset(settings: settings) + submit_content, settings: settings
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
@@ -55,18 +55,18 @@ module DefaultForm::Builder::Helper
     options[:class] = settings.dig(:css, :checkbox) unless options.key?(:class)
 
     label_content = label(method, settings.delete(:label), class: nil)
-    checkbox_content = wrapper_checkbox(super + label_content, settings: settings)
+    checkbox_content = wrap_checkbox(super + label_content, settings: settings)
 
-    wrapper_all offset(settings: settings) + checkbox_content, method, settings: settings
+    wrap_all offset(settings: settings) + checkbox_content, method, settings: settings
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     settings = extract_settings(options)
 
     label_content = default_label(method, settings: settings)
-    checkboxes_content = wrapper_checkboxes(super, settings: settings)
+    checkboxes_content = wrap_checkboxes(super, settings: settings)
 
-    wrapper_all label_content + checkboxes_content, method, settings: settings
+    wrap_all label_content + checkboxes_content, method, settings: settings
   end
 
   def radio_button(method, tag_value, options = {})
@@ -76,18 +76,18 @@ module DefaultForm::Builder::Helper
 
     label_content = default_label(method, settings: settings)
     value_content = label(method, tag_value, class: nil)
-    radio_content = wrapper_radio(super + value_content, settings: settings)
+    radio_content = wrap_radio(super + value_content, settings: settings)
 
-    wrapper_all label_content + radio_content, method, settings: settings
+    wrap_all label_content + radio_content, method, settings: settings
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     settings = extract_settings(options)
 
     label_content = default_label(method, settings: settings)
-    radios_content = wrapper_radios(super, settings: settings)
+    radios_content = wrap_radios(super, settings: settings)
 
-    wrapper_all label_content + radios_content, method, settings: settings
+    wrap_all label_content + radios_content, method, settings: settings
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
@@ -101,9 +101,9 @@ module DefaultForm::Builder::Helper
     options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
@@ -116,9 +116,9 @@ module DefaultForm::Builder::Helper
     options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
@@ -130,9 +130,9 @@ module DefaultForm::Builder::Helper
     end unless html_options.key?(:class)
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   def time_select(method, options = {}, html_options = {})
@@ -140,18 +140,18 @@ module DefaultForm::Builder::Helper
     html_options[:class] = settings.dig(:css, :select) unless html_options.key?(:class)
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_short_input(super, method, settings: settings)
+    input_content = wrap_short_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   def file_field(method, options = {})
     settings = extract_settings(options)
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   def hidden_field(method, options = {})
@@ -171,9 +171,9 @@ module DefaultForm::Builder::Helper
     end
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   def number_field(method, options = {})
@@ -182,9 +182,9 @@ module DefaultForm::Builder::Helper
     options[:step] = default_step(method) unless options.key?(:step)
 
     label_content = default_label(method, settings: settings)
-    input_content = wrapper_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
-    wrapper_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, settings: settings
   end
 
   INPUT_FIELDS.each do |selector|
@@ -194,9 +194,9 @@ module DefaultForm::Builder::Helper
         default_options(method, options, settings: settings)
 
         label_content = default_label(method, settings: settings)
-        input_content = wrapper_input(super, method, settings: settings)
+        input_content = wrap_input(super, method, settings: settings)
 
-        wrapper_all label_content + input_content, method, settings: settings
+        wrap_all label_content + input_content, method, settings: settings
       end
     RUBY_EVAL
   end
