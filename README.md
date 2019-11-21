@@ -28,9 +28,7 @@
 
 ## 如何使用
 
-1. 用`default_form_with` 替代 `form_with`
-
-2. 推荐用法：用`default_form_builder' 指定 FromBuilder
+用 default_form_builder 指定 FromBuilder
 
 default_form_builder 可以接受任意字符参数，default_form 会动态定义一个子类继承自 `DefaultForm::FormBuilder`
 

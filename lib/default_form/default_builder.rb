@@ -5,7 +5,6 @@ require 'default_form/config'
 
 class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
-  include ActiveSupport::Configurable
 
   def initialize(object_name, object, template, options)
     @origin_on = DefaultForm.config.on.merge(self.class.config.on || {})
@@ -13,13 +12,26 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     @origin_on.merge!(options[:on] || {})
     @origin_css.merge!(options[:css] || {})
     @params = template.params
-
+    _values = Hash(@params.permit(object_name => {})[object_name])
+    object ||= ActiveSupport::InheritableOptions.new(_values.symbolize_keys)
+    if object.is_a?(ActiveRecord::Base)
+      object.assign_attributes _values.slice(*object.attribute_names)
+    end
+    
     if options[:class] && options[:class].start_with?('new', 'edit')
       options[:class] = origin_css[:form]
     end
     options[:class] = origin_css[:form] unless options.key?(:class)
 
+    options[:skip_default_ids] = origin_on[:skip_default_ids]
+    options[:local] = origin_on[:local]
+    options[:method] = origin_on[:method]
+
     super
+  end
+
+  def submit_default_value
+    I18n.t 'helpers.submit.search'
   end
 
 end

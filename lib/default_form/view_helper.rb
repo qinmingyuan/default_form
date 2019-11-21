@@ -16,19 +16,15 @@ module DefaultForm::ViewHelper
   end
   alias_method :default_form_object, :form_object
 
-  def default_form_with(**options, &block)
+  def form_with(**options, &block)
     if options[:builder].is_a?(String)
       options[:builder] = options[:builder].safe_constantize
     end
     options[:builder] ||= DefaultForm::DefaultBuilder
-    form_with(options, &block)
-  end
-
-  def search_form_with(**options, &block)
-    options[:builder] ||= DefaultForm::SearchBuilder
     options[:scope] = '' unless options.key?(:scope)
     options[:url] ||= url_for
-    form_with(options, &block)
+    
+    super(options, &block)
   end
 
 end

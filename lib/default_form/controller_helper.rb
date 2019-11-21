@@ -9,8 +9,8 @@ module DefaultForm::ControllerHelper
 
     def model.define_form_builder(builder, parent: DefaultForm::DefaultBuilder)
       builder_class = Class.new(parent)
-      builder_class.config.on = ActiveSupport::OrderedOptions.new
-      builder_class.config.css = ActiveSupport::OrderedOptions.new
+      builder_class.config.on = {}
+      builder_class.config.css = {}
 
       if block_given?
         yield builder_class.config
