@@ -17,7 +17,7 @@ defaults_on: &defaults_on
   :wrap_submit: false
 default:
   <<: *defaults
-  on:
+  :on:
     <<: *defaults_on
     :autocomplete: on
     :placeholder: false

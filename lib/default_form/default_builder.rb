@@ -14,7 +14,7 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     set = YAML.load_file set_file
     @theme = options[:theme]
     settings = set.fetch(theme, {})
-    
+
     @origin_on = settings[:on]
     @origin_css = settings[:css]
     options[:method] = settings[:method]
