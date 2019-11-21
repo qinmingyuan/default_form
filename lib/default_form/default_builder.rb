@@ -7,8 +7,9 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
 
   def initialize(object_name, object, template, options)
-    @origin_on = DefaultForm.config.on.merge(self.class.config.on || {})
-    @origin_css = DefaultForm.config.css.merge(self.class.config.css || {})
+    set = YAML.load_file DefaultForm::Engine.root.join('config/default_form.yml')
+    @origin_on = set.dig(options[:theme], :on)
+    @origin_css = set.dig(options[:theme], :css)
     @origin_on.merge!(options[:on] || {})
     @origin_css.merge!(options[:css] || {})
     @params = template.params
@@ -25,7 +26,7 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
 
     options[:skip_default_ids] = origin_on[:skip_default_ids]
     options[:local] = origin_on[:local]
-    options[:method] = origin_on[:method]
+    options[:method] = set.dig(options[:theme], :method)
 
     super
   end

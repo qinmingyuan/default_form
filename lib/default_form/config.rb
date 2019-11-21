@@ -2,7 +2,6 @@
 
 require 'active_support/configurable'
 
-SET = YAML.load_file DefaultForm::Engine.root.join('config/default_form.yml')
 module DefaultForm
   include ActiveSupport::Configurable
   configure do |config|

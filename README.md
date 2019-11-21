@@ -31,39 +31,34 @@
 
 ## 如何使用
 
-用 default_form_builder 指定 FromBuilder
-
-default_form_builder 可以接受任意字符参数，default_form 会动态定义一个子类继承自 `DefaultForm::FormBuilder`
-
+1. 在 Controller 文件中, 用 default_form_builder 指定 FromBuilder
 ```ruby
 class AdminAreaController < ApplicationController
   default_form_builder DefaultForm::FormBuilder
 end
 ```
 
+2. 在 config 目录下，配置 default_form.yml 文件
+
+3. 在 Erb 文件中，给 form_with 指定 theme 选项，默认为 theme: 'default'
 ```ruby
-class AdminAreaController < ApplicationController
-
-  default_form_builder 'ExampleBuilder' do |config|
-    config.on.xxx = ''
-    config.css.xxx = ''
-  end
-  
-end
+form_with(theme: 'my_theme')
 ```
-
 
 ## 如何定制
 
 这个gem的思路只是为每个form helper method 设置了默认值, 如果不需要默认值,
 
-1.直接覆盖即可
-
+1. field 级别，直接使用原生 class 写法
 ```ruby
-
 f.text_filed class: 'xxx'
 ```
 
+2. form 级别
+```erbruby
+form_with on: {  }, css: { }
+```
 
-2.也可以在一个很简单的配置文件中关闭一些行为, 具体参见[examples](examples)下的例子。
+3. 在 yml 文件中修改对应文件；
+具体参见[examples](examples)下的例子。
 
