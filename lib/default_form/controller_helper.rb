@@ -9,6 +9,6 @@ module DefaultForm::ControllerHelper
 end
 
 
-ActiveSupport.on_load :action_controller do
+ActiveSupport.on_load :action_controller_base do
   include DefaultForm::ControllerHelper
 end
