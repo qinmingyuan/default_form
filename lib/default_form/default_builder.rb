@@ -5,11 +5,22 @@ require 'default_form/config'
 
 class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
+  attr_accessor :params
+  attr_reader :origin_on, :origin_css, :theme
+  delegate :content_tag, to: :@template
 
   def initialize(object_name, object, template, options)
-    set = YAML.load_file DefaultForm::Engine.root.join('config/default_form.yml')
-    @origin_on = set.dig(options[:theme], :on)
-    @origin_css = set.dig(options[:theme], :css)
+    set_file = Rails.root.join('config/default_form.yml').existence || DefaultForm::Engine.root.join('config/default_form.yml')
+    set = YAML.load_file set_file
+    @theme = options[:theme]
+    settings = set.fetch(theme, {})
+    
+    @origin_on = settings[:on]
+    @origin_css = settings[:css]
+    options[:method] = settings[:method]
+    options[:local] = settings[:local]
+    options[:skip_default_ids] = settings[:skip_default_ids]
+
     @origin_on.merge!(options[:on] || {})
     @origin_css.merge!(options[:css] || {})
     @params = template.params
@@ -23,10 +34,6 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
       options[:class] = origin_css[:form]
     end
     options[:class] = origin_css[:form] unless options.key?(:class)
-
-    options[:skip_default_ids] = origin_on[:skip_default_ids]
-    options[:local] = origin_on[:local]
-    options[:method] = set.dig(options[:theme], :method)
 
     super
   end

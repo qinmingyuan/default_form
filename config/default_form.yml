@@ -1,29 +1,24 @@
 defaults: &defaults
   :method: post
-  :on:
-    :wrapper_all: true
-    :label: true
-    :offset: true
-    :wrapper_input: true
-    :wrapper_checkbox: true
-    :wrapper_checkboxes: true
-    :wrapper_radio: true
-    :wrapper_submit: false
-    :autocomplete: true
-    :placeholder: true
-    :local: false
-  :css:
-    :input:
+  :local: false
+  :skip_default_ids: false
+defaults_on: &defaults_on
+  :label: true
+  :offset: true
+  :wrapper_all: true
+  :wrapper_input: true
+  :wrapper_checkbox: true
+  :wrapper_checkboxes: true
+  :wrapper_radio: true
+  :wrapper_radios: true
+  :wrapper_submit: false
+  :autocomplete: true
+  :placeholder: true
+  :autofilter: false
 default:
   <<: *defaults
   :on:
-    :wrapper_all: true
-    :label: true
-    :offset: true
-    :wrapper_input: true
-    :wrapper_checkbox: true
-    :wrapper_checkboxes: true
-    :wrapper_radio: true
+    <<: *defaults_on
     :wrapper_submit: false
     :autocomplete: true
     :placeholder: false
@@ -47,37 +42,23 @@ default:
     :wrapper_radios: six wide field ui labels
     :inline_radio: ui label radio checkbox
     :inline_radio_checked: ui teal label radio checkbox
-    :wrapper_submit:
     :submit: ui blue button
 search:
+  <<: *defaults
   :method: get
+  :skip_default_ids: true
   :on:
+    <<: *defaults_on
     :wrapper_all: false
     :label: false
     :offset: false
-    :wrapper_input: true
-    :wrapper_checkbox: true
-    :wrapper_checkboxes: true
-    :wrapper_radio: true
-    :wrapper_radios: true
-    :wrapper_submit: true
     :autocomplete: true
     :placeholder: true
-    :skip_default_ids: true
+    :autofilter: true
   :css:
     :form: ui form
-    :wrapper_all:
-    :wrapper_all_error:
-    :wrapper_all_required:
-    :label:
-    :offset:
-    :help_icon:
     :wrapper_input: field
     :wrapper_short_input: field
-    :input:
-    :select:
-    :multi_select:
-    :checkbox:
     :wrapper_checkbox: ui toggle checkbox
     :wrapper_checkboxes: six wide field ui labels
     :inline_checkbox: ui label checkbox
@@ -90,6 +71,9 @@ search:
     :wrapper_submit: field
     :submit: ui blue button
 weui:
+  <<: *defaults
+  :on:
+    <<: *defaults_on
   :css:
     :form: weui-cells weui-cells_form
     :wrapper_all: weui-cell
@@ -104,6 +88,7 @@ weui:
 bootstrap_form:
   <<: *defaults
   :on:
+    <<: *defaults_on
     :offset: false
   :css:
     :form: form-horizontal
@@ -120,6 +105,7 @@ bootstrap_form:
 bootstrap_search_form:
   <<: *defaults
   :on:
+    <<: *defaults_on
     wrapper_input: false
     wrapper_submit: false
     offset: false

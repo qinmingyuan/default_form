@@ -6,9 +6,6 @@ require_relative 'default'
 module DefaultForm::Builder::Helper
   include DefaultForm::Builder::Wrapper
   include DefaultForm::Builder::Default
-  attr_accessor :params
-  attr_reader :origin_on, :origin_css
-  delegate :content_tag, to: :@template
 
   INPUT_FIELDS = [
     :text_field,
@@ -28,6 +25,11 @@ module DefaultForm::Builder::Helper
     :text_area,
     :date_select
   ].freeze
+  
+  def fields(scope = nil, model: nil, **options, &block)
+    options[:theme] ||= theme
+    super
+  end
 
   def label(method, text = nil, options = {}, &block)
     settings = extract_settings(options)

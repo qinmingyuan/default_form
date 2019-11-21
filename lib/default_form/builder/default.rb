@@ -50,7 +50,8 @@ module DefaultForm::Builder::Default
   def default_options(method, options = {}, settings: {})
     options[:class] = settings.dig(:css, :input) unless options.key?(:class)
 
-    if self.is_a?(DefaultForm::SearchBuilder)
+    # search 应返回默认 params 中对应的 value
+    if settings.dig(:on, :autofilter)
       options[:value] = default_value(method, settings: settings) unless options.key?(:value)
     end
     
