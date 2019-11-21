@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'default_form/builder/helper'
-require 'default_form/config/default'
+require 'default_form/config'
 
 class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
@@ -15,9 +15,9 @@ class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
     @params = template.params
 
     if options[:class] && options[:class].start_with?('new', 'edit')
-      options[:class] = origin_css.form
+      options[:class] = origin_css[:form]
     end
-    options[:class] = origin_css.form unless options.key?(:class)
+    options[:class] = origin_css[:form] unless options.key?(:class)
 
     super
   end
