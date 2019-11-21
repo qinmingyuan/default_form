@@ -9,7 +9,7 @@ defaults: &defaults
     :wrapper_radio: true
     :wrapper_submit: false
     :autocomplete: true
-    :placeholder: false
+    :placeholder: true
   :css:
     :input:
 default:
@@ -99,34 +99,35 @@ weui:
     :muilti_select: weui-select
     :submit: weui-btn weui-btn_primary
 bootstrap_form:
+  <<: *defaults
+  :on:
+    :offset: false
   :css:
     :form: form-horizontal
     :wrapper_all: form-group
     :wrapper_all_error: form-group has-error
-    :offset:
     :label: col-sm-2 control-label
     :wrapper_input: col-sm-10
     :input: form-control
-    :select: ui dropdown nine wide field
-    :multi_select: nine wide field
     :checkbox: checkbox
     :wrapper_checkbox: checkbox-inline
     :inline_checkbox_checked: checkbox-inline
     :wrapper_submit: col-sm-offset-2 col-sm-10
     :submit: btn btn-default
 bootstrap_search_form:
+  <<: *defaults
   :on:
-    wrapper_all: false
-    offset: false
     wrapper_input: false
     wrapper_submit: false
+    offset: false
   :css:
-    form: form-inline
-    wrapper_all: inline field
-    wrapper_input: col-sm-10
-    wrapper_submit:
-    offset:
-    label:
-    input:
-    select: ui dropdown
-    submit: ui button
+    :form: form-inline
+    :wrapper_all: from-group
+    :wrapper_input: col-sm-10
+    :wrapper_submit: col-sm-offset-2 col-sm-10
+    :label: sr-only
+    :input: form-control
+    :checkbox: checkbox
+    :submit: btn btn-default
+    :wrapper_checkbox_checked: checkbox-inline
+    :wrapper_checkbox: checkbox-inline
