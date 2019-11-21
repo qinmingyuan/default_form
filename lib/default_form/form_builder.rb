@@ -17,8 +17,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
 
     @origin_on = settings[:on]
     @origin_css = settings[:css]
-    options[:method] = settings[:method]
-    options[:local] = settings[:local]
+    options[:method] = settings[:method] if options.key?(:method)
+    options[:local] = settings[:local] if options.key?(:local)
     options[:skip_default_ids] = settings[:skip_default_ids]
 
     @origin_on.merge!(options[:on] || {})
