@@ -3,7 +3,7 @@
 require 'default_form/builder/helper'
 require 'default_form/config'
 
-class DefaultForm::DefaultBuilder < ActionView::Helpers::FormBuilder
+class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
   attr_accessor :params
   attr_reader :origin_on, :origin_css, :theme
