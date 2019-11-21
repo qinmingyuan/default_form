@@ -26,8 +26,9 @@
 * 基于Rails内建的form builder构建helper，符合rails习惯，rails使用者上手零门槛；
 
 * 不过度包办，在我们本来就熟练掌握 input 的 type 知识和 rails 的 filed 系列方法的情况下，写`text_filed` 相比simple_form的 `input` 写法会更灵活一些，代码表达更清晰。
-
+* 拥抱标准 html5
 * 更容易定制，更小的学习成本；
+
 
 ## 如何使用
 
