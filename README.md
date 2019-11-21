@@ -1,11 +1,14 @@
-# default_form
-
-[![Build Status](https://travis-ci.org/qinmingyuan/default_form.svg)](https://travis-ci.org/qinmingyuan/default_form)
+# DefaultForm
 
 [English](README.en.md)
 
-`default_form`只是为Rails提供的一系列表单方法设置了一些默认值和行为，然后这些默认的设置可以在配置文件、controller层，from_tag方法参数，field方法参数四个级别进行 overwrite，和配置。使用`default_form`我们只需要这样写表单：
+`default_form`只是为Rails提供的一系列表单方法设置了一些默认值和行为，然后这些默认的设置可以在配置文件、controller层，from_tag方法参数，field方法参数四个级别进行 overwrite，和配置。
 
+## 初衷
+在现代的前后端分离架构中，前端通过在 js 中构建 ajax 请求跟后端服务器进行交互。在传统的 Web 开发中，form 表单是前端与后端通信的唯一路径，可以说是传统 Web 开发的核心。
+
+## 说明
+使用`default_form`我们只需要这样写表单：
 ```erb
 <%= f.number_field :total_amount %>
 <%= f.number_field :fee_amount %>
