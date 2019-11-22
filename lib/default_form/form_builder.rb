@@ -39,7 +39,12 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def submit_default_value
-    I18n.t 'helpers.submit.search'
+    r = I18n.t "helpers.submit.#{theme}"
+    if r
+      r
+    else
+      super
+    end
   end
 
 end
