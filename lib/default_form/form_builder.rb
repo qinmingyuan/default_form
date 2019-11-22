@@ -10,13 +10,13 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   delegate :content_tag, to: :@template
 
   def initialize(object_name, object, template, options)
+    @theme = options[:theme]
     set_file = Rails.root.join('config/default_form.yml').existence || DefaultForm::Engine.root.join('config/default_form.yml')
     set = YAML.load_file set_file
-    @theme = options[:theme]
     settings = set.fetch(theme, {})
 
-    @origin_on = settings[:on]
-    @origin_css = settings[:css]
+    @origin_on = settings.fetch(:on, {})
+    @origin_css = settings.fetch(:css, {})
     options[:method] = settings[:method] unless options.key?(:method)
     options[:local] = settings[:local] unless options.key?(:local)
     options[:skip_default_ids] = settings[:skip_default_ids]
