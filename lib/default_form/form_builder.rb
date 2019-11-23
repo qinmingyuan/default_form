@@ -5,9 +5,8 @@ require 'default_form/config'
 
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
-  attr_accessor :params
   attr_reader :origin_on, :origin_css, :theme
-  delegate :content_tag, to: :@template
+  delegate :content_tag, :params, to: :@template
 
   def initialize(object_name, object, template, options)
     @theme = options[:theme]
@@ -21,16 +20,15 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     options[:local] = settings[:local] unless options.key?(:local)
     options[:skip_default_ids] = settings[:skip_default_ids]
 
-    @origin_on.merge!(options[:on] || {})
-    @origin_css.merge!(options[:css] || {})
-    @params = template.params
-    _values = Hash(@params.permit(object_name => {})[object_name])
+    @origin_on.merge! options.fetch(:on, {})
+    @origin_css.merge! options.fetch(:css, {})
+    _values = Hash(params.permit(object_name => {})[object_name])
     object ||= ActiveSupport::InheritableOptions.new(_values.symbolize_keys)
     if object.is_a?(ActiveRecord::Base)
       object.assign_attributes _values.slice(*object.attribute_names)
     end
     
-    if options[:class] && options[:class].start_with?('new', 'edit')
+    if options.fetch(:class, '').start_with?('new_', 'edit_')
       options[:class] = origin_css[:form]
     end
     options[:class] = origin_css[:form] unless options.key?(:class)
