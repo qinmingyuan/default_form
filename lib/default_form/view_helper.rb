@@ -12,7 +12,6 @@ module DefaultForm::ViewHelper
     
     builder.new(object_name, record, self, options)
   end
-  alias_method :default_form_object, :form_object
 
   # theme: :default
   def form_with(**options, &block)
