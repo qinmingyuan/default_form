@@ -16,11 +16,9 @@ module DefaultForm::ViewHelper
 
   # theme: :default
   def form_with(**options, &block)
-    if options[:builder].is_a?(String)
-      options[:builder] = options[:builder].safe_constantize
+    unless options.key?(:scope)
+      options[:scope] = '' if options[:theme] == 'search'
     end
-    options[:builder] ||= DefaultForm::FormBuilder
-    options[:scope] = '' unless options.key?(:scope)
     options[:url] ||= url_for
     options[:theme] = 'default' unless options.key?(:theme)
     
