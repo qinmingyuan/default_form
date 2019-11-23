@@ -5,8 +5,8 @@ require 'default_form/config'
 
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
-  attr_reader :origin_on, :origin_css, :theme
-  delegate :content_tag, :params, to: :@template
+  attr_reader :origin_on, :origin_css, :theme, :params
+  delegate :content_tag, to: :@template
 
   def initialize(object_name, object, template, options)
     @theme = options[:theme]
@@ -14,14 +14,15 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     set = YAML.load_file set_file
     settings = set.fetch(theme, {})
 
-    @origin_on = settings.fetch(:on, {})
-    @origin_css = settings.fetch(:css, {})
     options[:method] = settings[:method] unless options.key?(:method)
     options[:local] = settings[:local] unless options.key?(:local)
     options[:skip_default_ids] = settings[:skip_default_ids]
 
+    @origin_on = settings.fetch(:on, {})
     @origin_on.merge! options.fetch(:on, {})
+    @origin_css = settings.fetch(:css, {})
     @origin_css.merge! options.fetch(:css, {})
+    @params = template.params
     _values = Hash(params.permit(object_name => {})[object_name])
     object ||= ActiveSupport::InheritableOptions.new(_values.symbolize_keys)
     if object.is_a?(ActiveRecord::Base)
