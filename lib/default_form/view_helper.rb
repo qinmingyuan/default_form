@@ -18,7 +18,9 @@ module DefaultForm::ViewHelper
     unless options.key?(:scope)
       options[:scope] = '' if options[:theme] == 'search'
     end
-    options[:url] = url_for unless options.key?(:url)
+    if options[:theme] == 'search'
+      options[:url] = url_for unless options.key?(:url)
+    end
     options[:theme] = 'default' unless options.key?(:theme)
 
     super
