@@ -29,7 +29,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
       object.assign_attributes _values.slice(*object.attribute_names)
     end
     
-    if options.fetch(:class).to_s.start_with?('new_', 'edit_')
+    if options[:class].to_s.start_with?('new_', 'edit_')
       options[:class] = origin_css[:form]
     end
     options[:class] = origin_css[:form] unless options.key?(:class)
