@@ -14,7 +14,9 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     set = YAML.load_file set_file
     settings = set.fetch(theme, {})
 
-    options[:method] = settings[:method] unless options.key?(:method)
+    unless options.key?(:method)
+      options[:method] = settings[:method] if settings.key?(:method)
+    end
     options[:local] = settings[:local] unless options.key?(:local)
     options[:skip_default_ids] = settings[:skip_default_ids]
 
