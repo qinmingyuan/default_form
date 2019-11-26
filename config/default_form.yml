@@ -1,5 +1,4 @@
 defaults: &defaults
-  :local: false
   :skip_default_ids: false
 defaults_on: &defaults_on
   :label: true

@@ -17,8 +17,10 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     unless options.key?(:method)
       options[:method] = settings[:method] if settings.key?(:method)
     end
-    options[:local] = settings[:local] unless options.key?(:local)
-    options[:skip_default_ids] = settings[:skip_default_ids]
+    unless options.key?(:local)
+      options[:local] = settings[:local] if settings.key?(:local)
+    end
+    options[:skip_default_ids] = settings[:skip_default_ids] if settings.key?(:skip_default_ids)
 
     @origin_on = settings.fetch(:on, {})
     @origin_on.merge! options.fetch(:on, {})
