@@ -44,6 +44,7 @@ default:
 search:
   <<: *defaults
   :method: get
+  :local: true
   :skip_default_ids: true
   :on:
     <<: *defaults_on
