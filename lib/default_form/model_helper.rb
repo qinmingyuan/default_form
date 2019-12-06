@@ -4,6 +4,7 @@ module DefaultForm::ModelHelper
 
   def options_i18n(attribute)
     h = I18n.t enum_key(attribute), default: {}
+    h.compact!
 
     if h.is_a?(Hash) && h.present?
       return h.invert
@@ -27,7 +28,8 @@ module DefaultForm::ModelHelper
   end
 
   def enum_i18n(attribute, value)
-    h = I18n.t enum_key(attribute)
+    h = I18n.t enum_key(attribute), default: {}
+    h.compact!
 
     v = nil
     if h.is_a?(Hash)

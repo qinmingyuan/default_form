@@ -46,6 +46,31 @@ end
 form_with(theme: 'my_theme')
 ```
 
+## 支持 enum
+```yaml
+# zh.yml
+activerecord:
+  enum:
+    notification:
+      receiver_type:
+        User: 全体用户
+        Member: 成员
+```
+
+```ruby
+t.select :receiver_type, options_for_select(Notification.options_i18n(:receiver_type))
+```
+
+* Override 
+```yaml
+activerecord:
+  enum:
+    notification:
+      receiver_type:
+        User: 全体用户
+        Member: # remain this blank
+```
+
 ## 如何定制
 
 这个gem的思路只是为每个form helper method 设置了默认值, 如果不需要默认值,
