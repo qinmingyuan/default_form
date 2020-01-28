@@ -83,6 +83,25 @@ weui:
     :wrap_all_error: inline field error
     :wrap_input: weui-cell__bd
     :wrap_submit: weui-btn-area
+weui_search:
+  <<: *defaults
+  :method: get
+  :local: true
+  :skip_default_ids: true
+  :on:
+    <<: *defaults_on
+    :offset: false
+  :css:
+    :form: weui-cells weui-cells_form
+    :label: weui-label
+    :input: weui-input
+    :select: weui-select
+    :muilti_select: weui-select
+    :submit: weui-btn weui-btn_primary
+    :wrap_all: weui-cell
+    :wrap_all_error: inline field error
+    :wrap_input: weui-cell__bd
+    :wrap_submit: weui-btn-area
 bootstrap_form:
   <<: *defaults
   :on:
