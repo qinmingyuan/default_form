@@ -82,6 +82,7 @@ weui:
     :wrap_all: weui-cell
     :wrap_all_error: inline field error
     :wrap_input: weui-cell__bd
+    :wrap_short_input: weui-cell__bd
     :wrap_submit: weui-btn-area
 weui_search:
   <<: *defaults
