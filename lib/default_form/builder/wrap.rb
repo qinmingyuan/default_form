@@ -5,27 +5,12 @@ module DefaultForm::Builder::Wrap
   def wrap_input(inner, method, settings: {})
     on = settings.fetch(:on, {})
     css = settings.fetch(:css, {})
-    
+
     if on[:wrap_input]
       if on[:wrap_input_id]
         content_tag(:div, inner, class: css[:wrap_input], id: wrap_input_id(method))
       else
         content_tag(:div, inner, class: css[:wrap_input])
-      end
-    else
-      inner
-    end
-  end
-
-  def wrap_short_input(inner, method, settings: {})
-    on = settings.fetch(:on, {})
-    css = settings.fetch(:css, {})
-    
-    if on[:wrap_input]
-      if on[:wrap_input_id]
-        content_tag(:div, inner, class: css[:wrap_short_input], id: wrap_input_id(method))
-      else
-        content_tag(:div, inner, class: css[:wrap_short_input])
       end
     else
       inner
@@ -75,7 +60,7 @@ module DefaultForm::Builder::Wrap
   def wrap_all(inner, method = nil, settings: {})
     on = settings.fetch(:on, {})
     css = settings.fetch(:css, {})
-    
+
     if method && object_has_errors?(method)
       final_css = css[:wrap_all_error]
     elsif settings[:required]
@@ -89,7 +74,7 @@ module DefaultForm::Builder::Wrap
         help_text = default_help(method)
         inner += help_tag(help_text, css[:help_icon]) if help_text
       end
-      
+
       if method && on[:wrap_all_id]
         content_tag(:div, inner, class: final_css, id: wrap_all_id(method))
       else
@@ -107,13 +92,13 @@ module DefaultForm::Builder::Wrap
       ''.html_safe
     end
   end
-  
+
   def help_tag(text, css)
     content_tag(:span, data: { tooltip: text }) do
       content_tag(:i, nil, class: css)
     end
   end
-  
+
   def object_has_errors?(method)
     object.respond_to?(:errors) && object.errors.respond_to?(:[]) && object.errors[method].present?
   end

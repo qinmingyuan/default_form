@@ -37,7 +37,6 @@ default:
     :wrap_all_error: inline error fields
     :wrap_all_required: inline required fields
     :wrap_input: six wide field
-    :wrap_short_input: three wide field
     :wrap_checkbox: ui toggle checkbox
     :wrap_checkboxes: six wide field ui labels
     :wrap_radios: six wide field ui labels
@@ -61,7 +60,6 @@ search:
     :inline_radio_checked: ui teal label radio checkbox
     :submit: ui blue button
     :wrap_input: field
-    :wrap_short_input: field
     :wrap_checkbox: ui toggle checkbox
     :wrap_checkboxes: six wide field ui labels
     :wrap_radio: ui radio checkbox
@@ -82,7 +80,6 @@ weui:
     :wrap_all: weui-cell
     :wrap_all_error: inline field error
     :wrap_input: weui-cell__bd
-    :wrap_short_input: weui-cell__bd
     :wrap_submit: weui-btn-area
 weui_search:
   <<: *defaults

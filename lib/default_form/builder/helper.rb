@@ -25,7 +25,7 @@ module DefaultForm::Builder::Helper
     :text_area,
     :date_select
   ].freeze
-  
+
   def fields(scope = nil, model: nil, **options, &block)
     options[:theme] ||= theme
     super
@@ -34,11 +34,11 @@ module DefaultForm::Builder::Helper
   def label(method, text = nil, options = {}, &block)
     settings = extract_settings(options)
     options[:class] = settings.dig(:css, :label) unless options.key?(:class)
-    
+
     if text.nil? && object.is_a?(ActiveRecord::Base)
       text = object.class.human_attribute_name(method)
     end
-    
+
     super
   end
 
@@ -140,7 +140,7 @@ module DefaultForm::Builder::Helper
     html_options[:class] = settings.dig(:css, :select) unless html_options.key?(:class)
 
     label_content = default_label(method, settings: settings)
-    input_content = wrap_short_input(super, method, settings: settings)
+    input_content = wrap_input(super, method, settings: settings)
 
     wrap_all label_content + input_content, method, settings: settings
   end
