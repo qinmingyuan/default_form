@@ -78,7 +78,8 @@ weui:
     :muilti_select: weui-select
     :submit: weui-btn weui-btn_primary
     :wrap_all: weui-cell
-    :wrap_all_error: inline field error
+    :wrap_all_error: weui-cell
+    :wrap_all_required: weui-cell
     :wrap_input: weui-cell__bd
     :wrap_submit: weui-btn-area
 weui_search:
