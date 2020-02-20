@@ -90,6 +90,7 @@ weui_search:
   :on:
     <<: *defaults_on
     :offset: false
+    :label: false
   :css:
     :form: weui-cells weui-cells_form
     :label: weui-label

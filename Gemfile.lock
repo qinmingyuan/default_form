@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/work-design/rails_com.git
-  revision: 237bb173380ff71a196f1e6af2ce46fdcd7d172b
+  revision: 8bdf3ed3ed11c722268a72e8447030adb6322e4a
   specs:
     rails_com (1.2.9)
       default_where (~> 2.2)
@@ -88,7 +88,7 @@ GEM
       activesupport (>= 4.2.0)
     http-2-next (0.2.1)
     http-form_data (2.2.0)
-    httpx (0.6.4)
+    httpx (0.6.5)
       http-2-next (>= 0.1.2)
       timers
     i18n (1.7.1)
@@ -101,7 +101,7 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.9.2)
-    mimemagic (0.3.3)
+    mimemagic (0.3.4)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.13.0)

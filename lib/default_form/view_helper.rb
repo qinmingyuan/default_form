@@ -16,11 +16,10 @@ module DefaultForm::ViewHelper
   # theme: :default
   def form_with(**options, &block)
     options[:theme] = 'default' unless options.key?(:theme)
-    unless options.key?(:scope)
-      options[:scope] = '' if options[:theme].end_with? 'search'
-    end
-    if options[:theme].end_with? 'search'
+
+    if options[:theme].present? && options[:theme].end_with?('search')
       options[:url] = url_for unless options.key?(:url)
+      options[:scope] = '' unless options.key?(:scope)
     end
 
     super
