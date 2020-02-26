@@ -9,7 +9,11 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   delegate :content_tag, to: :@template
 
   def initialize(object_name, object, template, options)
-    @theme = options[:theme]
+    if options.key?(:theme)
+      @theme = options[:theme].to_s
+    else
+      @theme = 'default'
+    end
     set_file = Rails.root.join('config/default_form.yml').existence || DefaultForm::Engine.root.join('config/default_form.yml')
     set = YAML.load_file set_file
     settings = set.fetch(theme, {})
@@ -32,7 +36,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     if object.is_a?(ActiveRecord::Base)
       object.assign_attributes _values.slice(*object.attribute_names)
     end
-    
+
     if options[:class].to_s.start_with?('new_', 'edit_')
       options[:class] = origin_css[:form]
     end
