@@ -1,6 +1,6 @@
 defaults: &defaults
   skip_default_ids: false
-defaults_on: &defaults_on
+default_on: &default_on
   label: true
   offset: true
   autocomplete: true
@@ -13,6 +13,12 @@ defaults_on: &defaults_on
   wrap_radio: true
   wrap_radios: true
   wrap_submit: false
+searches: &searches
+  method: get
+  local: true
+  skip_default_ids: true
+search_on: &search_on
+
 default:
   <<: *defaults
   css:
@@ -22,13 +28,11 @@ search:
   <<: *defaults
   css:
     input: input
-semantic_form:
+semantic:
   <<: *defaults
   on:
-    <<: *defaults_on
-    autocomplete: on
+    <<: *default_on
     placeholder: false
-    wrap_submit: false
   css:
     form: ui form
     label: six wide field
@@ -49,13 +53,10 @@ semantic_form:
     wrap_checkbox: ui toggle checkbox
     wrap_checkboxes: six wide field ui labels
     wrap_radios: six wide field ui labels
-search_semantic_form:
-  <<: *defaults
-  method: get
-  local: true
-  skip_default_ids: true
+semantic_search:
+  <<: *searches
   on:
-    <<: *defaults_on
+    <<: *search_on
     label: false
     offset: false
     autofilter: true
@@ -77,7 +78,7 @@ search_semantic_form:
 weui:
   <<: *defaults
   on:
-    <<: *defaults_on
+    <<: *default_on
     offset: false
   css:
     form: weui-cells weui-cells_form
@@ -92,12 +93,9 @@ weui:
     wrap_input: weui-cell__bd
     wrap_submit: weui-btn-area
 weui_search:
-  <<: *defaults
-  method: get
-  local: true
-  skip_default_ids: true
+  <<: *searches
   on:
-    <<: *defaults_on
+    <<: *search_on
     offset: false
     label: false
   css:
@@ -111,10 +109,10 @@ weui_search:
     wrap_all_error: inline field error
     wrap_input: weui-cell__bd
     wrap_submit: weui-btn-area
-bootstrap_form:
+bootstrap:
   <<: *defaults
   on:
-    <<: *defaults_on
+    <<: *default_on
     offset: false
   css:
     form: form-horizontal
@@ -128,10 +126,10 @@ bootstrap_form:
     wrap_input: col-sm-10
     wrap_checkbox: checkbox-inline
     wrap_submit: col-sm-offset-2 col-sm-10
-bootstrap_search_form:
-  <<: *defaults
+bootstrap_search:
+  <<: *searches
   on:
-    <<: *defaults_on
+    <<: *search_on
     offset: false
     wrap_input: false
     wrap_submit: false
