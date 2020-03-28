@@ -9,7 +9,7 @@ module DefaultForm::Builder::Default
   ].freeze
 
   def default_label(method, settings: {})
-    return ''.html_safe unless settings.dig(:on, :label)
+    return ''.html_safe unless settings.dig(:can, :label)
 
     label(method, settings.delete(:label))
   end
@@ -21,7 +21,7 @@ module DefaultForm::Builder::Default
   end
 
   def default_value(method, settings: {})
-    return unless settings.dig(:on, :autocomplete)
+    return unless settings.dig(:can, :autocomplete)
 
     if object.is_a?(ActiveRecord::Base)
       r = object.respond_to?(method) && object.send(method)
@@ -51,11 +51,11 @@ module DefaultForm::Builder::Default
     options[:class] = settings.dig(:css, :input) unless options.key?(:class)
 
     # search 应返回默认 params 中对应的 value
-    if settings.dig(:on, :autofilter)
+    if settings.dig(:can, :autofilter)
       options[:value] = default_value(method, settings: settings) unless options.key?(:value)
     end
 
-    if settings.dig(:on, :placeholder)
+    if settings.dig(:can, :placeholder)
       options[:placeholder] = default_placeholder(method) unless options.key?(:placeholder)
     end
 
@@ -69,9 +69,9 @@ module DefaultForm::Builder::Default
   end
 
   def extract_settings(options = {})
-    settings = options.extract!(:on, :css, :label)
-    settings[:on] ||= {}
-    settings[:on].with_defaults!(origin_on)
+    settings = options.extract!(:can, :css, :label)
+    settings[:can] ||= {}
+    settings[:can].with_defaults!(origin_can)
     settings[:css] ||= {}
     settings[:css].with_defaults!(origin_css)
     settings

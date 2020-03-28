@@ -57,7 +57,7 @@ f.text_filed class: 'xxx'
 
 2. form 级别
 ```erbruby
-form_with on: {  }, css: { }
+form_with can: {  }, css: { }
 ```
 
 3. 在 yml 文件中修改对应文件；

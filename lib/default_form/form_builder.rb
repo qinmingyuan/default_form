@@ -5,7 +5,7 @@ require 'default_form/config'
 
 class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
   include DefaultForm::Builder::Helper
-  attr_reader :origin_on, :origin_css, :theme, :params
+  attr_reader :origin_can, :origin_css, :theme, :params
   delegate :content_tag, to: :@template
 
   def initialize(object_name, object, template, options)
@@ -27,8 +27,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     end
     options[:skip_default_ids] = settings[:skip_default_ids] if settings.key?(:skip_default_ids)
 
-    @origin_on = settings.fetch(:on, {})
-    @origin_on.merge! options.fetch(:on, {})
+    @origin_can = settings.fetch(:can, {})
+    @origin_can.merge! options.fetch(:can, {})
     @origin_css = settings.fetch(:css, {})
     @origin_css.merge! options.fetch(:css, {})
     @params = template.params

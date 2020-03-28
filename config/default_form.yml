@@ -1,6 +1,6 @@
 defaults: &defaults
   skip_default_ids: false
-default_on: &default_on
+default_can: &default_can
   label: true
   offset: true
   autocomplete: true
@@ -17,22 +17,28 @@ searches: &searches
   method: get
   local: true
   skip_default_ids: true
-search_on: &search_on
+search_can: &search_can
   label: false
   offset: false
 default:
   <<: *defaults
+  can:
+    <<: *default_can
   css:
     input: input
     wrap_input: control
 search:
-  <<: *defaults
+  <<: *searches
+  can:
+    <<: *search_can
+    wrap_input: true
   css:
     input: input
+    wrap_input: field
 semantic:
   <<: *defaults
-  on:
-    <<: *default_on
+  can:
+    <<: *default_can
     placeholder: false
   css:
     form: ui form
@@ -56,8 +62,8 @@ semantic:
     wrap_radios: six wide field ui labels
 semantic_search:
   <<: *searches
-  on:
-    <<: *search_on
+  can:
+    <<: *search_can
     autofilter: true
     wrap_all: false
   css:
@@ -76,8 +82,8 @@ semantic_search:
     wrap_submit: field
 weui:
   <<: *defaults
-  on:
-    <<: *default_on
+  can:
+    <<: *default_can
     offset: false
   css:
     form: weui-cells weui-cells_form
@@ -93,8 +99,8 @@ weui:
     wrap_submit: weui-btn-area
 weui_search:
   <<: *searches
-  on:
-    <<: *search_on
+  can:
+    <<: *search_can
   css:
     form: weui-cells weui-cells_form
     label: weui-label
@@ -108,8 +114,8 @@ weui_search:
     wrap_submit: weui-btn-area
 bootstrap:
   <<: *defaults
-  on:
-    <<: *default_on
+  can:
+    <<: *default_can
     offset: false
   css:
     form: form-horizontal
@@ -125,8 +131,8 @@ bootstrap:
     wrap_submit: col-sm-offset-2 col-sm-10
 bootstrap_search:
   <<: *searches
-  on:
-    <<: *search_on
+  can:
+    <<: *search_can
     wrap_input: false
     wrap_submit: false
   css:

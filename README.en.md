@@ -47,17 +47,6 @@ class AdminAreaController < ApplicationController
 end
 ```
 
-```ruby
-class AdminAreaController < ApplicationController
-
-  default_form_builder 'ExampleBuilder' do |config|
-    config.on.xxx = ''
-    config.css.xxx = ''
-  end
-  
-end
-```
-
 
 ## 如何定制
 
