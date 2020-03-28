@@ -18,7 +18,8 @@ searches: &searches
   local: true
   skip_default_ids: true
 search_on: &search_on
-
+  label: false
+  offset: false
 default:
   <<: *defaults
   css:
@@ -57,8 +58,6 @@ semantic_search:
   <<: *searches
   on:
     <<: *search_on
-    label: false
-    offset: false
     autofilter: true
     wrap_all: false
   css:
@@ -96,8 +95,6 @@ weui_search:
   <<: *searches
   on:
     <<: *search_on
-    offset: false
-    label: false
   css:
     form: weui-cells weui-cells_form
     label: weui-label
@@ -130,7 +127,6 @@ bootstrap_search:
   <<: *searches
   on:
     <<: *search_on
-    offset: false
     wrap_input: false
     wrap_submit: false
   css:
