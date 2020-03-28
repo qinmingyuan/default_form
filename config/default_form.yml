@@ -21,6 +21,7 @@ default:
 search:
   <<: *defaults
   css:
+    input: input
 semantic_form:
   <<: *defaults
   on:
