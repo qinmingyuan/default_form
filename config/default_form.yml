@@ -20,6 +20,7 @@ searches: &searches
 search_can: &search_can
   label: false
   offset: false
+  placeholder: true
 default:
   <<: *defaults
   can:
@@ -33,6 +34,7 @@ search:
     <<: *search_can
     wrap_input: true
   css:
+    form: field is-horizontal
     input: input
     wrap_input: field
 semantic:
