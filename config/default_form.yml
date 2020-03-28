@@ -1,139 +1,147 @@
 defaults: &defaults
-  :skip_default_ids: false
+  skip_default_ids: false
 defaults_on: &defaults_on
-  :label: true
-  :offset: true
-  :autocomplete: true
-  :placeholder: true
-  :autofilter: false
-  :wrap_all: true
-  :wrap_input: true
-  :wrap_checkbox: true
-  :wrap_checkboxes: true
-  :wrap_radio: true
-  :wrap_radios: true
-  :wrap_submit: false
+  label: true
+  offset: true
+  autocomplete: true
+  placeholder: true
+  autofilter: false
+  wrap_all: true
+  wrap_input: true
+  wrap_checkbox: true
+  wrap_checkboxes: true
+  wrap_radio: true
+  wrap_radios: true
+  wrap_submit: false
 default:
   <<: *defaults
-  :on:
-    <<: *defaults_on
-    :autocomplete: on
-    :placeholder: false
-    :wrap_submit: false
-  :css:
-    :form: ui form
-    :label: six wide field
-    :offset: six wide field
-    :select: ui fluid search dropdown
-    :multi_select: ui fluid search dropdown
-    :checkbox: hidden
-    :inline_checkbox: ui label checkbox
-    :inline_checkbox_checked: ui teal label checkbox
-    :inline_radio: ui label radio checkbox
-    :inline_radio_checked: ui teal label radio checkbox
-    :submit: ui blue button
-    :help_icon: grey question circle icon
-    :wrap_all: inline fields
-    :wrap_all_error: inline error fields
-    :wrap_all_required: inline required fields
-    :wrap_input: six wide field
-    :wrap_checkbox: ui toggle checkbox
-    :wrap_checkboxes: six wide field ui labels
-    :wrap_radios: six wide field ui labels
+  css:
+    input: input
+    wrap_input: control
 search:
   <<: *defaults
-  :method: get
-  :local: true
-  :skip_default_ids: true
-  :on:
+  css:
+semantic_form:
+  <<: *defaults
+  on:
     <<: *defaults_on
-    :label: false
-    :offset: false
-    :autofilter: true
-    :wrap_all: false
-  :css:
-    :form: ui form
-    :inline_checkbox: ui label checkbox
-    :inline_checkbox_checked: ui teal label checkbox
-    :radio: hidden
-    :inline_radio: ui label radio checkbox
-    :inline_radio_checked: ui teal label radio checkbox
-    :submit: ui blue button
-    :wrap_input: field
-    :wrap_checkbox: ui toggle checkbox
-    :wrap_checkboxes: six wide field ui labels
-    :wrap_radio: ui radio checkbox
-    :wrap_radios: six wide field ui labels
-    :wrap_submit: field
+    autocomplete: on
+    placeholder: false
+    wrap_submit: false
+  css:
+    form: ui form
+    label: six wide field
+    offset: six wide field
+    select: ui fluid search dropdown
+    multi_select: ui fluid search dropdown
+    checkbox: hidden
+    inline_checkbox: ui label checkbox
+    inline_checkbox_checked: ui teal label checkbox
+    inline_radio: ui label radio checkbox
+    inline_radio_checked: ui teal label radio checkbox
+    submit: ui blue button
+    help_icon: grey question circle icon
+    wrap_all: inline fields
+    wrap_all_error: inline error fields
+    wrap_all_required: inline required fields
+    wrap_input: six wide field
+    wrap_checkbox: ui toggle checkbox
+    wrap_checkboxes: six wide field ui labels
+    wrap_radios: six wide field ui labels
+search_semantic_form:
+  <<: *defaults
+  method: get
+  local: true
+  skip_default_ids: true
+  on:
+    <<: *defaults_on
+    label: false
+    offset: false
+    autofilter: true
+    wrap_all: false
+  css:
+    form: ui form
+    inline_checkbox: ui label checkbox
+    inline_checkbox_checked: ui teal label checkbox
+    radio: hidden
+    inline_radio: ui label radio checkbox
+    inline_radio_checked: ui teal label radio checkbox
+    submit: ui blue button
+    wrap_input: field
+    wrap_checkbox: ui toggle checkbox
+    wrap_checkboxes: six wide field ui labels
+    wrap_radio: ui radio checkbox
+    wrap_radios: six wide field ui labels
+    wrap_submit: field
 weui:
   <<: *defaults
-  :on:
+  on:
     <<: *defaults_on
-    :offset: false
-  :css:
-    :form: weui-cells weui-cells_form
-    :label: weui-label
-    :input: weui-input
-    :select: weui-select
-    :muilti_select: weui-select
-    :submit: weui-btn weui-btn_primary
-    :wrap_all: weui-cell
-    :wrap_all_error: weui-cell
-    :wrap_all_required: weui-cell
-    :wrap_input: weui-cell__bd
-    :wrap_submit: weui-btn-area
+    offset: false
+  css:
+    form: weui-cells weui-cells_form
+    label: weui-label
+    input: weui-input
+    select: weui-select
+    muilti_select: weui-select
+    submit: weui-btn weui-btn_primary
+    wrap_all: weui-cell
+    wrap_all_error: weui-cell
+    wrap_all_required: weui-cell
+    wrap_input: weui-cell__bd
+    wrap_submit: weui-btn-area
 weui_search:
   <<: *defaults
-  :method: get
-  :local: true
-  :skip_default_ids: true
-  :on:
+  method: get
+  local: true
+  skip_default_ids: true
+  on:
     <<: *defaults_on
-    :offset: false
-    :label: false
-  :css:
-    :form: weui-cells weui-cells_form
-    :label: weui-label
-    :input: weui-input
-    :select: weui-select
-    :muilti_select: weui-select
-    :submit: weui-btn weui-btn_primary
-    :wrap_all: weui-cell
-    :wrap_all_error: inline field error
-    :wrap_input: weui-cell__bd
-    :wrap_submit: weui-btn-area
+    offset: false
+    label: false
+  css:
+    form: weui-cells weui-cells_form
+    label: weui-label
+    input: weui-input
+    select: weui-select
+    muilti_select: weui-select
+    submit: weui-btn weui-btn_primary
+    wrap_all: weui-cell
+    wrap_all_error: inline field error
+    wrap_input: weui-cell__bd
+    wrap_submit: weui-btn-area
 bootstrap_form:
   <<: *defaults
-  :on:
+  on:
     <<: *defaults_on
-    :offset: false
-  :css:
-    :form: form-horizontal
-    :label: col-sm-2 control-label
-    :input: form-control
-    :checkbox: checkbox
-    :inline_checkbox_checked: checkbox-inline
-    :submit: btn btn-default
-    :wrap_all: form-group
-    :wrap_all_error: form-group has-error
-    :wrap_input: col-sm-10
-    :wrap_checkbox: checkbox-inline
-    :wrap_submit: col-sm-offset-2 col-sm-10
+    offset: false
+  css:
+    form: form-horizontal
+    label: col-sm-2 control-label
+    input: form-control
+    checkbox: checkbox
+    inline_checkbox_checked: checkbox-inline
+    submit: btn btn-default
+    wrap_all: form-group
+    wrap_all_error: form-group has-error
+    wrap_input: col-sm-10
+    wrap_checkbox: checkbox-inline
+    wrap_submit: col-sm-offset-2 col-sm-10
 bootstrap_search_form:
   <<: *defaults
-  :on:
+  on:
     <<: *defaults_on
     offset: false
     wrap_input: false
     wrap_submit: false
-  :css:
-    :form: form-inline
-    :label: sr-only
-    :input: form-control
-    :checkbox: checkbox
-    :submit: btn btn-default
-    :wrap_all: from-group
-    :wrap_input: col-sm-10
-    :wrap_submit: col-sm-offset-2 col-sm-10
-    :wrap_checkbox_checked: checkbox-inline
-    :wrap_checkbox: checkbox-inline
+  css:
+    form: form-inline
+    label: sr-only
+    input: form-control
+    checkbox: checkbox
+    submit: btn btn-default
+    wrap_all: from-group
+    wrap_input: col-sm-10
+    wrap_submit: col-sm-offset-2 col-sm-10
+    wrap_checkbox_checked: checkbox-inline
+    wrap_checkbox: checkbox-inline
