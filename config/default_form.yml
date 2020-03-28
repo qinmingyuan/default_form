@@ -37,6 +37,8 @@ search:
     form: field is-horizontal
     input: input
     wrap_input: field
+    submit: button is-primary
+    wrap_submit: field
 semantic:
   <<: *defaults
   can:
