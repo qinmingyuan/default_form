@@ -2,10 +2,7 @@
 
 module DefaultForm::Builder::Wrap
 
-  def wrap_input(inner, method, settings: {})
-    can = settings.fetch(:can, {})
-    css = settings.fetch(:css, {})
-
+  def wrap_input(inner, method, can: {}, css: {})
     if can[:wrap_input]
       if can[:wrap_input_id]
         content_tag(:div, inner, class: css[:wrap_input], id: wrap_input_id(method))

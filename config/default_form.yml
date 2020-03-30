@@ -26,6 +26,7 @@ default:
     <<: *default_can
   css:
     input: input
+    wrap_all: field is-horizontal
     wrap_input: control
 search:
   <<: *searches

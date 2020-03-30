@@ -100,10 +100,7 @@ module DefaultForm::Builder::Helper
     end unless html_options.key?(:class)
     options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-    label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
-
-    wrap_all label_content + input_content, method, settings: settings
+    xxx(super, method, settings)
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
@@ -115,10 +112,7 @@ module DefaultForm::Builder::Helper
     end unless html_options.key?(:class)
     options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-    label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
-
-    wrap_all label_content + input_content, method, settings: settings
+    xxx(super, method, settings)
   end
 
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
@@ -129,29 +123,20 @@ module DefaultForm::Builder::Helper
       settings.dig(:css, :select)
     end unless html_options.key?(:class)
 
-    label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
-
-    wrap_all label_content + input_content, method, settings: settings
+    xxx(super, method, settings)
   end
 
   def time_select(method, options = {}, html_options = {})
     settings = extract_settings(options)
     html_options[:class] = settings.dig(:css, :select) unless html_options.key?(:class)
 
-    label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
-
-    wrap_all label_content + input_content, method, settings: settings
+    xxx(super, method, settings)
   end
 
   def file_field(method, options = {})
     settings = extract_settings(options)
 
-    label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
-
-    wrap_all label_content + input_content, method, settings: settings
+    xxx(super, method, settings)
   end
 
   def hidden_field(method, options = {})
@@ -161,28 +146,37 @@ module DefaultForm::Builder::Helper
   end
 
   def date_field(method, options = {})
-    settings = extract_settings(options)
-    default_options(method, options, settings: settings)
-
-    if method.match?(/(date)/)
-      real_method = method.to_s.sub('(date)', '')
-      options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
-      options[:value] = object.read_attribute(real_method)&.to_date
+    settings = xx(method, options) do
+      if method.match?(/(date)/)
+        real_method = method.to_s.sub('(date)', '')
+        options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
+        options[:value] = object.read_attribute(real_method)&.to_date
+      end
     end
-
-    label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
-
-    wrap_all label_content + input_content, method, settings: settings
+    xxx(super, method, settings)
   end
 
   def number_field(method, options = {})
+    settings = xx(method, options) do
+      options[:step] = default_step(method) unless options.key?(:step)
+    end
+    xxx(super, method, settings)
+  end
+
+  def xx(method, options = {})
     settings = extract_settings(options)
     default_options(method, options, settings: settings)
-    options[:step] = default_step(method) unless options.key?(:step)
 
+    if block_given?
+      yield method, options
+    end
+
+    settings
+  end
+
+  def xxx(super_content, method, settings)
     label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super, method, settings: settings)
+    input_content = wrap_input(super_content, method, can: settings.fetch(:can, {}), css: settings.fetch(:css, {}))
 
     wrap_all label_content + input_content, method, settings: settings
   end
@@ -190,13 +184,8 @@ module DefaultForm::Builder::Helper
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        settings = extract_settings(options)
-        default_options(method, options, settings: settings)
-
-        label_content = default_label(method, settings: settings)
-        input_content = wrap_input(super, method, settings: settings)
-
-        wrap_all label_content + input_content, method, settings: settings
+        settings = xx(method, options)
+        xxx(super, method, settings)  
       end
     RUBY_EVAL
   end
