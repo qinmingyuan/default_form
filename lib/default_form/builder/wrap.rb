@@ -14,41 +14,9 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def wrap_checkbox(inner, settings: {})
-    if settings.dig(:can, :wrap_checkbox)
-      content_tag(:div, inner, class: settings.dig(:css, :wrap_checkbox))
-    else
-      inner
-    end
-  end
-
-  def wrap_checkboxes(inner, settings: {})
-    if settings.dig(:can, :wrap_checkboxes)
-      content_tag(:div, inner, class: settings.dig(:css, :wrap_checkboxes))
-    else
-      inner
-    end
-  end
-
-  def wrap_radio(inner, settings: {})
-    if settings.dig(:can, :wrap_radio)
-      content_tag(:div, inner, class: settings.dig(:css, :wrap_radio))
-    else
-      inner
-    end
-  end
-
-  def wrap_radios(inner, settings: {})
-    if settings.dig(:can, :wrap_radios)
-      content_tag(:div, inner, class: settings.dig(:css, :wrap_radios))
-    else
-      inner
-    end
-  end
-
-  def wrap_submit(inner, settings: {})
-    if settings.dig(:can, :wrap_submit)
-      content_tag(:div, inner, class: settings.dig(:css, :wrap_submit))
+  def wrap(type, inner, settings: {})
+    if settings.dig(:can, :"wrap_#{type}")
+      content_tag(:div, inner, class: settings.dig(:css, :"wrap_#{type}"))
     else
       inner
     end

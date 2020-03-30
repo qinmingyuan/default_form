@@ -39,14 +39,14 @@ module DefaultForm::Builder::Helper
       text = object.class.human_attribute_name(method)
     end
 
-    super
+    wrap('label', super, settings: settings)
   end
 
   def submit(value = nil, options = {})
     settings = extract_settings(options)
     options[:class] = settings.dig(:css, :submit) unless options.key?(:class)
 
-    submit_content = wrap_submit(super, settings: settings)
+    submit_content = wrap('submit', super, settings: settings)
     wrap_all offset(settings: settings) + submit_content, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
@@ -55,7 +55,7 @@ module DefaultForm::Builder::Helper
     options[:class] = settings.dig(:css, :checkbox) unless options.key?(:class)
 
     label_content = label(method, settings.delete(:label), class: settings.dig(:css, :checkbox_label))
-    checkbox_content = wrap_checkbox(super + label_content, settings: settings)
+    checkbox_content = wrap('checkbox', super + label_content, settings: settings)
 
     wrap_all offset(settings: settings) + checkbox_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
@@ -64,7 +64,7 @@ module DefaultForm::Builder::Helper
     settings = extract_settings(options)
 
     label_content = default_label(method, settings: settings)
-    checkboxes_content = wrap_checkboxes(super, settings: settings)
+    checkboxes_content = wrap('checkboxes', super, settings: settings)
 
     wrap_all label_content + checkboxes_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
@@ -76,7 +76,7 @@ module DefaultForm::Builder::Helper
 
     label_content = default_label(method, settings: settings)
     value_content = label(method, tag_value, class: nil)
-    radio_content = wrap_radio(super + value_content, settings: settings)
+    radio_content = wrap('radio', super + value_content, settings: settings)
 
     wrap_all label_content + radio_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
@@ -85,7 +85,7 @@ module DefaultForm::Builder::Helper
     settings = extract_settings(options)
 
     label_content = default_label(method, settings: settings)
-    radios_content = wrap_radios(super, settings: settings)
+    radios_content = wrap('radios', super, settings: settings)
 
     wrap_all label_content + radios_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end

@@ -14,11 +14,7 @@ module DefaultForm::Builder::Default
     end
     inner = label(method, settings.delete(:label), class: settings.dig(:css, :label))
 
-    if settings.dig(:can, :wrap_label)
-      content_tag(:div, inner, class: settings.dig(:css, :wrap_label))
-    else
-      inner
-    end
+    wrap('label', inner, settings: settings)
   end
 
   def default_help(method)
