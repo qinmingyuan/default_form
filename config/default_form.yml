@@ -11,7 +11,6 @@ default_can: &default_can
   wrap_checkboxes: true
   wrap_radio: true
   wrap_radios: true
-  wrap_submit: false
 searches: &searches
   method: get
   local: true
@@ -24,10 +23,18 @@ default:
   <<: *defaults
   can:
     <<: *default_can
+    wrap_label: true
+    wrap_submit: true
   css:
-    input: input
+    label: label
+    input: field input
+    offset: field-label
+    submit: button is-primary
     wrap_all: field is-horizontal
-    wrap_input: control
+    wrap_all_required: field is-horizontal
+    wrap_label: field-label is-normal
+    wrap_input: field-body control
+    wrap_submit: field-body control
 search:
   <<: *searches
   can:

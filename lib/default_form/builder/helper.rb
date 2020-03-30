@@ -47,7 +47,7 @@ module DefaultForm::Builder::Helper
     options[:class] = settings.dig(:css, :submit) unless options.key?(:class)
 
     submit_content = wrap_submit(super, settings: settings)
-    wrap_all offset(settings: settings) + submit_content, settings: settings
+    wrap_all offset(settings: settings) + submit_content, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
@@ -57,7 +57,7 @@ module DefaultForm::Builder::Helper
     label_content = label(method, settings.delete(:label), class: nil)
     checkbox_content = wrap_checkbox(super + label_content, settings: settings)
 
-    wrap_all offset(settings: settings) + checkbox_content, method, settings: settings
+    wrap_all offset(settings: settings) + checkbox_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
@@ -66,7 +66,7 @@ module DefaultForm::Builder::Helper
     label_content = default_label(method, settings: settings)
     checkboxes_content = wrap_checkboxes(super, settings: settings)
 
-    wrap_all label_content + checkboxes_content, method, settings: settings
+    wrap_all label_content + checkboxes_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
   def radio_button(method, tag_value, options = {})
@@ -78,7 +78,7 @@ module DefaultForm::Builder::Helper
     value_content = label(method, tag_value, class: nil)
     radio_content = wrap_radio(super + value_content, settings: settings)
 
-    wrap_all label_content + radio_content, method, settings: settings
+    wrap_all label_content + radio_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
@@ -87,7 +87,7 @@ module DefaultForm::Builder::Helper
     label_content = default_label(method, settings: settings)
     radios_content = wrap_radios(super, settings: settings)
 
-    wrap_all label_content + radios_content, method, settings: settings
+    wrap_all label_content + radios_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
@@ -176,9 +176,9 @@ module DefaultForm::Builder::Helper
 
   def xxx(super_content, method, settings)
     label_content = default_label(method, settings: settings)
-    input_content = wrap_input(super_content, method, can: settings.fetch(:can, {}), css: settings.fetch(:css, {}))
+    input_content = wrap_input(super_content, method, can: settings[:can], css: settings[:css])
 
-    wrap_all label_content + input_content, method, settings: settings
+    wrap_all label_content + input_content, method, can: settings[:can], css: settings[:css], required: settings[:required]
   end
 
   INPUT_FIELDS.each do |selector|

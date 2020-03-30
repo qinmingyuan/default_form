@@ -9,9 +9,16 @@ module DefaultForm::Builder::Default
   ].freeze
 
   def default_label(method, settings: {})
-    return ''.html_safe unless settings.dig(:can, :label)
+    unless settings.dig(:can, :label)
+      return ''.html_safe
+    end
+    inner = label(method, settings.delete(:label), class: settings.dig(:css, :label))
 
-    label(method, settings.delete(:label))
+    if settings.dig(:can, :wrap_label)
+      content_tag(:div, inner, class: settings.dig(:css, :wrap_label))
+    else
+      inner
+    end
   end
 
   def default_help(method)
@@ -69,7 +76,7 @@ module DefaultForm::Builder::Default
   end
 
   def extract_settings(options = {})
-    settings = options.extract!(:can, :css, :label)
+    settings = options.extract!(:can, :css, :label, :required)
     settings[:can] ||= {}
     settings[:can].with_defaults!(origin_can)
     settings[:css] ||= {}

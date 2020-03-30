@@ -54,13 +54,10 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def wrap_all(inner, method = nil, settings: {})
-    can = settings.fetch(:can, {})
-    css = settings.fetch(:css, {})
-
+  def wrap_all(inner, method = nil, can: {}, css: {}, required: false)
     if method && object_has_errors?(method)
       final_css = css[:wrap_all_error]
-    elsif settings[:required]
+    elsif required
       final_css = css[:wrap_all_required]
     else
       final_css = css[:wrap_all]
