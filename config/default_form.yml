@@ -4,7 +4,6 @@ default_can: &default_can
   label: true
   offset: true
   autocomplete: true
-  placeholder: true
   autofilter: false
   wrap_all: true
   wrap_input: true
@@ -36,9 +35,9 @@ search:
   css:
     form: field is-horizontal
     input: input
-    wrap_input: field
+    wrap_input: field is-narrow
     submit: button is-primary
-    wrap_submit: field
+    wrap_submit: field is-narrow
 semantic:
   <<: *defaults
   can:
