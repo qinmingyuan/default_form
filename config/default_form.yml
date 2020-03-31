@@ -25,6 +25,7 @@ default:
     <<: *default_can
     wrap_label: true
     wrap_submit: true
+    wrap_checkbox: true
   css:
     label: label
     offset: field-label
@@ -35,7 +36,7 @@ default:
     wrap_all_required: field is-horizontal
     wrap_label: field-label is-normal
     wrap_input: field-body control
-    wrap_checkbox: field-body control
+    wrap_checkbox: checkbox
     wrap_submit: field-body control
 search:
   <<: *searches

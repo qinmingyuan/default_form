@@ -8,13 +8,10 @@ module DefaultForm::Builder::Default
     :maxlength
   ].freeze
 
-  def default_label(method, settings: {})
-    unless settings.dig(:can, :label)
-      return ''.html_safe
+  def default_label(method)
+    if object.is_a?(ActiveRecord::Base)
+      object.class.human_attribute_name(method)
     end
-    inner = label(method, settings.delete(:label), class: settings.dig(:css, :label))
-
-    wrap('label', inner, settings: settings)
   end
 
   def default_help(method)
@@ -23,8 +20,8 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_value(method, settings: {})
-    return unless settings.dig(:can, :autocomplete)
+  def default_value(method, can: {})
+    return unless can[:autocomplete]
 
     if object.is_a?(ActiveRecord::Base)
       r = object.respond_to?(method) && object.send(method)
@@ -50,17 +47,20 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_options(method, options = {}, settings: {})
-    options[:class] = settings.dig(:css, :input) unless options.key?(:class)
+  def default_options(method = nil, options = {})
+    default_without_method(options)
+    options[:class] = options.dig(:css, :input) unless options.key?(:class)
 
     # search 应返回默认 params 中对应的 value
-    if settings.dig(:can, :autofilter)
-      options[:value] = default_value(method, settings: settings) unless options.key?(:value)
+    if options.dig(:can, :autofilter)
+      options[:value] = default_value(method, can: options[:can]) unless options.key?(:value)
     end
 
-    if settings.dig(:can, :placeholder)
+    if options.dig(:can, :placeholder)
       options[:placeholder] = default_placeholder(method) unless options.key?(:placeholder)
     end
+
+    options[:label] ||= default_label(method) unless options.key?(:label)
 
     valid_key = options.keys.map(&:to_sym) & VALIDATIONS
     if valid_key.present?
@@ -71,13 +71,11 @@ module DefaultForm::Builder::Default
     options
   end
 
-  def extract_settings(options = {})
-    settings = options.extract!(:can, :css, :label, :required)
-    settings[:can] ||= {}
-    settings[:can].with_defaults!(origin_can)
-    settings[:css] ||= {}
-    settings[:css].with_defaults!(origin_css)
-    settings
+  def default_without_method(options = {})
+    options[:can] ||= {}
+    options[:can].with_defaults!(origin_can)
+    options[:css] ||= {}
+    options[:css].with_defaults!(origin_css)
   end
 
 end

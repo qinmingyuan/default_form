@@ -14,9 +14,17 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def wrap(type, inner, settings: {})
-    if settings.dig(:can, :"wrap_#{type}")
-      content_tag(:div, inner, class: settings.dig(:css, :"wrap_#{type}"))
+  def wrap(type, inner, options: {})
+    if options.dig(:can, :"wrap_#{type}")
+      content_tag(:div, inner, class: options.dig(:css, :"wrap_#{type}"))
+    else
+      inner
+    end
+  end
+
+  def wrap_checkbox(inner, options: {})
+    if options.dig(:can, :wrap_checkbox)
+      content_tag(:label, inner, class: options.dig(:css, :wrap_checkbox))
     else
       inner
     end
@@ -47,9 +55,9 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def offset(text = '', settings: {})
-    if settings.dig(:can, :offset)
-      content_tag(:div, text, class: settings.dig(:css, :offset))
+  def offset(text = '', options: {})
+    if options.dig(:can, :offset)
+      content_tag(:div, text, class: options.dig(:css, :offset))
     else
       ''.html_safe
     end
