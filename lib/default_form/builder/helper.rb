@@ -31,7 +31,7 @@ module DefaultForm::Builder::Helper
     super
   end
 
-  def label(method, text = nil, options = {}, &block)
+  def label(method, options = {}, &block)
     default_without_method(options)
     options[:class] = options.dig(:css, :label) unless options.key?(:class)
 
@@ -66,20 +66,19 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    settings = extract_settings(options)
+    default_without_method(options)
 
-    label_content = default_label(method, settings: settings)
+    label_content = label(method, options)
     checkboxes_content = wrap('checkboxes', super, options: options)
 
     wrap_all label_content + checkboxes_content, method, can: options[:can], css: options[:css], required: options[:required]
   end
 
   def radio_button(method, tag_value, options = {})
-    settings = extract_settings(options)
-    options[:class] = settings.dig(:css, :radio) unless options.key?(:class)
-    default_options(method, options, settings: settings)
+    default_method(options)
+    options[:class] = options.dig(:css, :radio) unless options.key?(:class)
 
-    label_content = default_label(method, settings: settings)
+    label_content = label(method, options)
     value_content = label(method, tag_value, class: nil)
     radio_content = wrap('radio', super + value_content, options: options)
 
@@ -87,10 +86,10 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    settings = extract_settings(options)
+    default_without_method(options)
 
-    label_content = default_label(method, settings: settings)
-    radios_content = wrap('radios', super, options: settings)
+    label_content = label(method, options)
+    radios_content = wrap('radios', super, options: options)
 
     wrap_all label_content + radios_content, method, can: options[:can], css: options[:css], required: options[:required]
   end
@@ -177,7 +176,7 @@ module DefaultForm::Builder::Helper
   end
 
   def xxx(super_content, method, options)
-    label_content = label(method, options[:label], options)
+    label_content = label(method, options)
     input_content = wrap_input(super_content, method, can: options[:can], css: options[:css])
 
     wrap_all label_content + input_content, method, can: options[:can], css: options[:css], required: options[:required]
