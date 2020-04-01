@@ -72,72 +72,68 @@ module DefaultForm::Builder::Helper
   end
 
   def radio_button(method, tag_value, options = {})
-    can, css = default_options(method, options)
-    options[:class] = options.dig(:css, :radio) unless options.key?(:class)
-
-    label_content = label(method, nil, options)
-    value_content = label(method, tag_value, class: nil)
-    radio_content = wrap('radio', super + value_content, options: options)
-
-    wrap_all label_content + radio_content, method, can: can, css: css, required: options[:required]
+    xx(method, options) do |_, css|
+      options[:class] = css[:radio] unless options.key?(:class)
+      label_content = label(method, nil, options)
+      value_content = label(method, tag_value, class: nil)
+      wrap('radio', super + value_content, options: options)
+    end
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    can, css = default_without_method(options)
-
-    label_content = label(method, nil, options)
-    radios_content = wrap('radios', super, options: options)
-
-    wrap_all label_content + radios_content, method, can: can, css: css, required: options[:required]
+    xxx(method, options) do
+      label_content = label(method, nil, options)
+      wrap('radios', super, options: options)
+    end
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    can, css = default_without_method(options)
-    options[:selected] ||= default_value(method)
-    html_options[:class] = if html_options[:multiple]
-      options.dig(:css, :multi_select)
-    else
-      options.dig(:css, :select)
-    end unless html_options.key?(:class)
-    options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
-
-    xxx(super, method, options)
+    xxx(method, options) do |_, css|
+      options[:selected] ||= default_value(method)
+      html_options[:class] = if html_options[:multiple]
+        css[:multi_select]
+      else
+        css[:select]
+      end unless html_options.key?(:class)
+      options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
+      super
+    end
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    default_without_method(options)
-    html_options[:class] = if html_options[:multiple]
-      options.dig(:css, :multi_select)
-    else
-      options.dig(:css, :select)
-    end unless html_options.key?(:class)
-    options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
-
-    xxx(super, method, options)
+    xxx(method, options) do |_, css|
+      html_options[:class] = if html_options[:multiple]
+        css[:multi_select]
+      else
+        css[:select]
+      end unless html_options.key?(:class)
+      options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
+      super
+    end
   end
 
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
-    default_without_method(options)
-    html_options[:class] = if html_options[:multiple]
-      options.dig(:css, :multi_select)
-    else
-      options.dig(:css, :select)
-    end unless html_options.key?(:class)
-
-    xxx(super, method, options)
+    xxx(method, options) do |_, css|
+      html_options[:class] = if html_options[:multiple]
+        css[:multi_select]
+      else
+        css[:select]
+      end unless html_options.key?(:class)
+      super
+    end
   end
 
   def time_select(method, options = {}, html_options = {})
-    default_without_method(options)
-    html_options[:class] = options.dig(:css, :select) unless html_options.key?(:class)
-
-    xxx(super, method, options)
+    xx(method, options) do |_, css|
+      html_options[:class] = css[:select] unless html_options.key?(:class)
+      super
+    end
   end
 
   def file_field(method, options = {})
-    default_without_method(options)
-
-    xxx(super, method, options)
+    xx(method, options) do
+      super
+    end
   end
 
   def hidden_field(method, options = {})
@@ -147,29 +143,41 @@ module DefaultForm::Builder::Helper
   end
 
   def date_field(method, options = {})
-    xx(method, options) do
+    xx(method, options) do |can, css|
       if method.match?(/(date)/)
         real_method = method.to_s.sub('(date)', '')
         options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
         options[:value] = object.read_attribute(real_method)&.to_date
       end
+      wrap_input(super, method, can: can, css: css)
     end
-    xxx(super, method, options)
   end
 
   def number_field(method, options = {})
-    xx(method, options) do
+    xx(method, options) do |can, css|
       options[:step] = default_step(method) unless options.key?(:step)
-      wrap_input(super, method, options)
+      wrap_input(super, method, can: can, css: css)
     end
   end
 
   def xx(method, options = {})
-    can, css = default_options(method, options)
-    options[:class] = options.dig(:css, :input) unless options.key?(:class)
-
+    default_options(method, options)
     label_content = label(method, nil, options)
-    input_content = yield method, options, can, css
+
+    can = options.delete(:can)
+    css = options.delete(:css)
+    input_content = yield can, css
+
+    wrap_all label_content + input_content, method, can: can, css: css, required: options[:required]
+  end
+
+  def xxx(method, options = {})
+    default_without_method(options)
+    label_content = label(method, nil, options)
+
+    can = options.delete(:can)
+    css = options.delete(:css)
+    input_content = yield can, css
 
     wrap_all label_content + input_content, method, can: can, css: css, required: options[:required]
   end
@@ -178,6 +186,7 @@ module DefaultForm::Builder::Helper
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
         xx(method, options) do
+          options[:class] = css[:input] unless options.key?(:class)
           wrap_input(super, method, can: can, css: css)
         end
       end
