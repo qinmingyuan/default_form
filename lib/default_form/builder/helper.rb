@@ -36,12 +36,10 @@ module DefaultForm::Builder::Helper
     options[:class] = options.dig(:css, :label) unless options.key?(:class)
 
     if options.dig(:can, :label)
-
+      text = options.delete(:label)
     else
       return ''.html_safe
     end
-    inner = label(method, settings.delete(:label), class: settings.dig(:css, :label))
-
 
     wrap('label', super, options: options)
   end
@@ -51,17 +49,17 @@ module DefaultForm::Builder::Helper
     options[:class] = options.dig(:css, :submit) unless options.key?(:class)
 
     submit_content = wrap('submit', super, options: options)
-    wrap_all offset(options: options) + submit_content, can: options[:can], css: options[:css], required: options[:required]
+    wrap_all offset(options: options) + submit_content, can: can, css: css, required: options[:required]
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
-    default_options(options)
-    options[:class] = options.dig(:css, :checkbox) unless options.key?(:class)
+    can, css = default_options(method, options)
+    options[:class] = css[:checkbox] unless options.key?(:class)
 
     label_content = content_tag(:span, options.delete(:label))
     checkbox_content = wrap_checkbox(super + label_content, options: options)
 
-    wrap_all offset(options: options) + checkbox_content, method, can: options[:can], css: options[:css], required: options[:required]
+    wrap_all offset(options: options) + checkbox_content, method, can: can, css: css, required: options[:required]
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
@@ -70,31 +68,31 @@ module DefaultForm::Builder::Helper
     label_content = label(method, nil, options)
     checkboxes_content = wrap('checkboxes', super, options: options)
 
-    wrap_all label_content + checkboxes_content, method, can: options[:can], css: options[:css], required: options[:required]
+    wrap_all label_content + checkboxes_content, method, can: can, css: css, required: options[:required]
   end
 
   def radio_button(method, tag_value, options = {})
-    default_options(options)
+    can, css = default_options(method, options)
     options[:class] = options.dig(:css, :radio) unless options.key?(:class)
 
     label_content = label(method, nil, options)
     value_content = label(method, tag_value, class: nil)
     radio_content = wrap('radio', super + value_content, options: options)
 
-    wrap_all label_content + radio_content, method, can: options[:can], css: options[:css], required: options[:required]
+    wrap_all label_content + radio_content, method, can: can, css: css, required: options[:required]
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    default_without_method(options)
+    can, css = default_without_method(options)
 
     label_content = label(method, nil, options)
     radios_content = wrap('radios', super, options: options)
 
-    wrap_all label_content + radios_content, method, can: options[:can], css: options[:css], required: options[:required]
+    wrap_all label_content + radios_content, method, can: can, css: css, required: options[:required]
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    default_without_method(options)
+    can, css = default_without_method(options)
     options[:selected] ||= default_value(method)
     html_options[:class] = if html_options[:multiple]
       options.dig(:css, :multi_select)
@@ -162,31 +160,26 @@ module DefaultForm::Builder::Helper
   def number_field(method, options = {})
     xx(method, options) do
       options[:step] = default_step(method) unless options.key?(:step)
+      wrap_input(super, method, options)
     end
-    xxx(super, method, options)
   end
 
   def xx(method, options = {})
-    default_options(method, options)
+    can, css = default_options(method, options)
     options[:class] = options.dig(:css, :input) unless options.key?(:class)
 
-    if block_given?
-      yield method, options
-    end
-  end
-
-  def xxx(super_content, method, options)
     label_content = label(method, nil, options)
-    input_content = wrap_input(super_content, method, can: options[:can], css: options[:css])
+    input_content = yield method, options, can, css
 
-    wrap_all label_content + input_content, method, can: options[:can], css: options[:css], required: options[:required]
+    wrap_all label_content + input_content, method, can: can, css: css, required: options[:required]
   end
 
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        xx(method, options)
-        xxx(super, method, options)  
+        xx(method, options) do
+          wrap_input(super, method, can: can, css: css)
+        end
       end
     RUBY_EVAL
   end

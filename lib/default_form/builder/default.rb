@@ -46,7 +46,10 @@ module DefaultForm::Builder::Default
   end
 
   def default_options(method = nil, options = {})
-    default_without_method(options)
+    options[:can] ||= {}
+    options[:can].with_defaults!(origin_can)
+    options[:css] ||= {}
+    options[:css].with_defaults!(origin_css)
 
     # search 应返回默认 params 中对应的 value
     if options.dig(:can, :autofilter)
@@ -65,7 +68,7 @@ module DefaultForm::Builder::Default
       options[:data][:valid] = true unless options[:data].key?(:valid)
     end
 
-    options
+    [options.delete(:can), options.delete(:css)]
   end
 
   def default_without_method(options = {})
@@ -73,6 +76,8 @@ module DefaultForm::Builder::Default
     options[:can].with_defaults!(origin_can)
     options[:css] ||= {}
     options[:css].with_defaults!(origin_css)
+
+    [options.delete(:can), options[:css]]
   end
 
 end
