@@ -22,9 +22,9 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def wrap_checkbox(inner, options: {})
-    if options.dig(:can, :wrap_checkbox)
-      content_tag(:label, inner, class: options.dig(:css, :wrap_checkbox))
+  def wrap_checkbox(inner, can: {}, css: {})
+    if can[:wrap_checkbox]
+      content_tag(:label, inner, class: css[:wrap_checkbox])
     else
       inner
     end

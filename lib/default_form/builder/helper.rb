@@ -52,12 +52,13 @@ module DefaultForm::Builder::Helper
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     xxxx(method, options) do |can, css|
+      default_options(method, options, can: can)
       options[:class] = css[:checkbox] unless options.key?(:class)
+      label_text = content_tag(:span, options.delete(:label))
+      checkbox_content = wrap_checkbox(super + label_text, can: can, css: css)
+      input_content = wrap_input(checkbox_content, method, can: can, css: css)
 
-      label_content = content_tag(:span, options.delete(:label))
-      checkbox_content = wrap_checkbox(super + label_content, options: options)
-
-      offset(can: can, css: css) + checkbox_content
+      offset(can: can, css: css) + input_content
     end
   end
 
@@ -131,7 +132,7 @@ module DefaultForm::Builder::Helper
 
   def file_field(method, options = {})
     xxx(method, options) do |can, css|
-      super
+      wrap_input(super, method, can: can, css: css)
     end
   end
 
