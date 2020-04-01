@@ -88,7 +88,7 @@ module DefaultForm::Builder::Helper
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    xxx(method, options) do |_, css|
+    xxx(method, options) do |can, css|
       options[:selected] ||= default_value(method)
       html_options[:class] = if html_options[:multiple]
         css[:multi_select]
@@ -96,7 +96,8 @@ module DefaultForm::Builder::Helper
         css[:select]
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
-      super
+
+      wrap_input(super, method, can: can, css: css)
     end
   end
 
@@ -113,13 +114,14 @@ module DefaultForm::Builder::Helper
   end
 
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
-    xxx(method, options) do |_, css|
+    xxx(method, options) do |can, css|
       html_options[:class] = if html_options[:multiple]
         css[:multi_select]
       else
         css[:select]
       end unless html_options.key?(:class)
-      super
+
+      wrap_input(super, method, can: can, css: css)
     end
   end
 
