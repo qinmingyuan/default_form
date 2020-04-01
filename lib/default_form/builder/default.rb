@@ -20,9 +20,7 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_value(method, can: {})
-    return unless can[:autocomplete]
-
+  def default_value(method)
     if object.is_a?(ActiveRecord::Base)
       r = object.respond_to?(method) && object.send(method)
       return r if r
@@ -49,18 +47,17 @@ module DefaultForm::Builder::Default
 
   def default_options(method = nil, options = {})
     default_without_method(options)
-    options[:class] = options.dig(:css, :input) unless options.key?(:class)
 
     # search 应返回默认 params 中对应的 value
     if options.dig(:can, :autofilter)
-      options[:value] = default_value(method, can: options[:can]) unless options.key?(:value)
+      options[:value] = default_value(method) unless options.key?(:value) || options.dig(:can, :autocomplete)
     end
 
     if options.dig(:can, :placeholder)
       options[:placeholder] = default_placeholder(method) unless options.key?(:placeholder)
     end
 
-    options[:label] ||= default_label(method) unless options.key?(:label)
+    options[:label] = default_label(method) unless options.key?(:label)
 
     valid_key = options.keys.map(&:to_sym) & VALIDATIONS
     if valid_key.present?

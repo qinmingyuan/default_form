@@ -30,7 +30,6 @@ default:
     label: label
     offset: field-label
     input: field input
-    checkbox_label: checkbox
     submit: button is-primary
     wrap_all: field is-horizontal
     wrap_all_required: field is-horizontal
@@ -158,5 +157,4 @@ bootstrap_search:
     wrap_all: from-group
     wrap_input: col-sm-10
     wrap_submit: col-sm-offset-2 col-sm-10
-    wrap_checkbox_checked: checkbox-inline
     wrap_checkbox: checkbox-inline
