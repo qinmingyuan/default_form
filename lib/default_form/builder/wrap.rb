@@ -14,9 +14,9 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def wrap(type, inner, options: {})
-    if options.dig(:can, :"wrap_#{type}")
-      content_tag(:div, inner, class: options.dig(:css, :"wrap_#{type}"))
+  def wrap(type, inner, can: {}, css: {})
+    if can[:"wrap_#{type}"]
+      content_tag(:div, inner, class: css[:"wrap_#{type}"])
     else
       inner
     end
@@ -55,9 +55,9 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def offset(text = '', options: {})
-    if options.dig(:can, :offset)
-      content_tag(:div, text, class: options.dig(:css, :offset))
+  def offset(text = '', can: {}, css: {})
+    if can[:offset]
+      content_tag(:div, text, class: css[:offset])
     else
       ''.html_safe
     end

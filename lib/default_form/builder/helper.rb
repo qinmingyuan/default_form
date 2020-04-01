@@ -33,40 +33,45 @@ module DefaultForm::Builder::Helper
 
   def label(method, text = nil, options = {}, &block)
     default_without_method(options)
-    options[:class] = options.dig(:css, :label) unless options.key?(:class)
+    can = options.delete(:can)
+    css = options.delete(:css)
+    options[:class] = css[:label] unless options.key?(:class)
 
-    if options.dig(:can, :label)
+    if can[:label]
       text = options.delete(:label)
     else
       return ''.html_safe
     end
 
-    wrap('label', super, options: options)
+    wrap('label', super, can: can, css: css)
   end
 
   def submit(value = nil, options = {})
     default_without_method(options)
-    options[:class] = options.dig(:css, :submit) unless options.key?(:class)
+    can = options.delete(:can)
+    css = options.delete(:css)
+    options[:class] = css[:submit] unless options.key?(:class)
 
-    submit_content = wrap('submit', super, options: options)
-    wrap_all offset(options: options) + submit_content, can: can, css: css, required: options[:required]
+    submit_content = wrap('submit', super, can: can, css: css)
+    wrap_all offset(can: can, css: css) + submit_content, can: can, css: css, required: options[:required]
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
-    can, css = default_options(method, options)
-    options[:class] = css[:checkbox] unless options.key?(:class)
+    xxxx(method, options) do |can, css|
+      options[:class] = css[:checkbox] unless options.key?(:class)
 
-    label_content = content_tag(:span, options.delete(:label))
-    checkbox_content = wrap_checkbox(super + label_content, options: options)
+      label_content = content_tag(:span, options.delete(:label))
+      checkbox_content = wrap_checkbox(super + label_content, options: options)
 
-    wrap_all offset(options: options) + checkbox_content, method, can: can, css: css, required: options[:required]
+      offset(can: can, css: css) + checkbox_content
+    end
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     default_without_method(options)
 
-    label_content = label(method, nil, options)
-    checkboxes_content = wrap('checkboxes', super, options: options)
+    label_content = label(method, nil, options.dup)
+    checkboxes_content = wrap('checkboxes', super, can: can, css: css)
 
     wrap_all label_content + checkboxes_content, method, can: can, css: css, required: options[:required]
   end
@@ -74,16 +79,16 @@ module DefaultForm::Builder::Helper
   def radio_button(method, tag_value, options = {})
     xx(method, options) do |_, css|
       options[:class] = css[:radio] unless options.key?(:class)
-      label_content = label(method, nil, options)
+      label_content = label(method, nil, options.dup)
       value_content = label(method, tag_value, class: nil)
-      wrap('radio', super + value_content, options: options)
+      wrap('radio', super + value_content, can: can, css: css)
     end
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     xxx(method, options) do
-      label_content = label(method, nil, options)
-      wrap('radios', super, options: options)
+      label_content = label(method, nil, options.dup)
+      wrap('radios', super, can: can, css: css)
     end
   end
 
@@ -162,7 +167,7 @@ module DefaultForm::Builder::Helper
 
   def xx(method, options = {})
     default_options(method, options)
-    label_content = label(method, nil, options)
+    label_content = label(method, nil, options.dup)
 
     can = options.delete(:can)
     css = options.delete(:css)
@@ -172,20 +177,29 @@ module DefaultForm::Builder::Helper
   end
 
   def xxx(method, options = {})
+    xxxx(method, options) do |can, css|
+      label_content = label(method, nil, options.dup)
+      input_content = yield can, css
+
+      label_content + input_content
+    end
+  end
+
+  def xxxx(method, options)
     default_without_method(options)
-    label_content = label(method, nil, options)
 
     can = options.delete(:can)
     css = options.delete(:css)
-    input_content = yield can, css
 
-    wrap_all label_content + input_content, method, can: can, css: css, required: options[:required]
+    inner_content = yield can, css
+
+    wrap_all inner_content, method, can: can, css: css, required: options[:required]
   end
 
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        xx(method, options) do
+        xx(method, options) do |can, css|
           options[:class] = css[:input] unless options.key?(:class)
           wrap_input(super, method, can: can, css: css)
         end
