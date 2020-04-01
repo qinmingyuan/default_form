@@ -102,14 +102,15 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    xxx(method, options) do |_, css|
+    xxx(method, options) do |can, css|
       html_options[:class] = if html_options[:multiple]
         css[:multi_select]
       else
         css[:select]
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
-      super
+
+      wrap_input(super, method, can: can, css: css)
     end
   end
 
@@ -146,17 +147,20 @@ module DefaultForm::Builder::Helper
 
   def date_field(method, options = {})
     xxx(method, options) do |can, css|
+      options[:class] = css[:input] unless options.key?(:class)
       if method.match?(/(date)/)
         real_method = method.to_s.sub('(date)', '')
         options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
         options[:value] = object.read_attribute(real_method)&.to_date
       end
+
       wrap_input(super, method, can: can, css: css)
     end
   end
 
   def number_field(method, options = {})
     xxx(method, options) do |can, css|
+      options[:class] = css[:input] unless options.key?(:class)
       options[:step] = default_step(method) unless options.key?(:step)
       wrap_input(super, method, can: can, css: css)
     end
