@@ -37,12 +37,6 @@ module DefaultForm::Builder::Helper
     css = options.delete(:css)
     options[:class] = css[:label] unless options.key?(:class)
 
-    if can[:label]
-      text = options.delete(:label)
-    else
-      return ''.html_safe
-    end
-
     wrap('label', super, can: can, css: css)
   end
 
@@ -77,7 +71,7 @@ module DefaultForm::Builder::Helper
   end
 
   def radio_button(method, tag_value, options = {})
-    xx(method, options) do |_, css|
+    xxx(method, options) do |_, css|
       options[:class] = css[:radio] unless options.key?(:class)
       label_content = label(method, nil, options.dup)
       value_content = label(method, tag_value, class: nil)
@@ -129,14 +123,14 @@ module DefaultForm::Builder::Helper
   end
 
   def time_select(method, options = {}, html_options = {})
-    xx(method, options) do |_, css|
+    xxx(method, options) do |_, css|
       html_options[:class] = css[:select] unless html_options.key?(:class)
       super
     end
   end
 
   def file_field(method, options = {})
-    xx(method, options) do
+    xxx(method, options) do |can, css|
       super
     end
   end
@@ -148,7 +142,7 @@ module DefaultForm::Builder::Helper
   end
 
   def date_field(method, options = {})
-    xx(method, options) do |can, css|
+    xxx(method, options) do |can, css|
       if method.match?(/(date)/)
         real_method = method.to_s.sub('(date)', '')
         options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
@@ -159,38 +153,32 @@ module DefaultForm::Builder::Helper
   end
 
   def number_field(method, options = {})
-    xx(method, options) do |can, css|
+    xxx(method, options) do |can, css|
       options[:step] = default_step(method) unless options.key?(:step)
       wrap_input(super, method, can: can, css: css)
     end
   end
 
-  def xx(method, options = {})
-    default_options(method, options)
-    label_content = label(method, nil, options.dup)
-
-    can = options.delete(:can)
-    css = options.delete(:css)
-    input_content = yield can, css
-
-    wrap_all label_content + input_content, method, can: can, css: css, required: options[:required]
-  end
-
+  # block 应返回 input with wrapper 的内容
   def xxx(method, options = {})
     xxxx(method, options) do |can, css|
-      label_content = label(method, nil, options.dup)
+      default_options(method, options, can: can)
+      if can[:label]
+        label_content = label method, options.delete(:label), options.slice(:can, :css)
+      else
+        label_content = ''.html_safe
+      end
       input_content = yield can, css
 
       label_content + input_content
     end
   end
 
+  # block 应返回  label_content + input_content 的内容
   def xxxx(method, options)
     default_without_method(options)
-
     can = options.delete(:can)
     css = options.delete(:css)
-
     inner_content = yield can, css
 
     wrap_all inner_content, method, can: can, css: css, required: options[:required]
@@ -199,7 +187,7 @@ module DefaultForm::Builder::Helper
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        xx(method, options) do |can, css|
+        xxx(method, options) do |can, css|
           options[:class] = css[:input] unless options.key?(:class)
           wrap_input(super, method, can: can, css: css)
         end

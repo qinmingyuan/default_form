@@ -45,15 +45,13 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_options(method = nil, options = {})
-    default_without_method(options)
-
+  def default_options(method = nil, options = {}, can: {})
     # search 应返回默认 params 中对应的 value
-    if options.dig(:can, :autofilter)
-      options[:value] = default_value(method) unless options.key?(:value) || options.dig(:can, :autocomplete)
+    if can[:autofilter]
+      options[:value] = default_value(method) unless options.key?(:value) || can[:autocomplete]
     end
 
-    if options.dig(:can, :placeholder)
+    if can[:placeholder]
       options[:placeholder] = default_placeholder(method) unless options.key?(:placeholder)
     end
 
