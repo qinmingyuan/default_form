@@ -41,13 +41,12 @@ module DefaultForm::Builder::Helper
   end
 
   def submit(value = nil, options = {})
-    default_without_method(options)
-    can = options.delete(:can)
-    css = options.delete(:css)
-    options[:class] = css[:submit] unless options.key?(:class)
+    xxxx(method, options) do |can, css|
+      options[:class] = css[:submit] unless options.key?(:class)
 
-    submit_content = wrap('submit', super, can: can, css: css)
-    wrap_all offset(can: can, css: css) + submit_content, can: can, css: css, required: options[:required]
+      submit_content = wrap('submit', super, can: can, css: css)
+      offset(can: can, css: css) + submit_content
+    end
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
@@ -135,7 +134,8 @@ module DefaultForm::Builder::Helper
 
   def file_field(method, options = {})
     xxx(method, options) do |can, css|
-      wrap_input(super, method, can: can, css: css)
+      options[:class] = css[:file_input] unless options.key?(:class)
+      wrap('file', super, can: can, css: css)
     end
   end
 
