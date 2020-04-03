@@ -32,8 +32,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     @origin_css = settings.fetch(:css, {})
     @origin_css.merge! options.fetch(:css, {})
     @params = template.params
+
     _values = Hash(params.permit(object_name => {})[object_name])
-    object ||= ActiveSupport::InheritableOptions.new(_values.symbolize_keys)
     if object.is_a?(ActiveRecord::Base)
       object.assign_attributes _values.slice(*object.attribute_names)
     end

@@ -23,6 +23,13 @@ module DefaultForm::ViewHelper
     super
   end
 
+  # todo support dynamic keys
+  def xx_form_with(**options, &block)
+    options[:model] = ActiveSupport::InheritableOptions.new(_values.symbolize_keys) unless options.key?(:model)
+
+    form_with(**options, &block)
+  end
+
 end
 
 ActiveSupport.on_load :action_view do
