@@ -41,7 +41,7 @@ module DefaultForm::Builder::Helper
   end
 
   def submit(value = nil, options = {})
-    xxxx(method, options) do |can, css|
+    xxxx(nil, options) do |can, css|
       options[:class] = css[:submit] unless options.key?(:class)
 
       submit_content = wrap('submit', super, can: can, css: css)
