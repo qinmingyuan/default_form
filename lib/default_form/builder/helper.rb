@@ -141,7 +141,9 @@ module DefaultForm::Builder::Helper
 
   def hidden_field(method, options = {})
     default_without_method(options)
-    options[:autocomplete] = options.dig(:can, :autocomplete) unless options.key?(:autocomplete)
+    can = options.delete(:can)
+    options.delete(:css)
+    options[:autocomplete] = can[:autocomplete] unless options.key?(:autocomplete)
     super
   end
 
