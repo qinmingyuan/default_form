@@ -23,7 +23,6 @@ module DefaultForm::Builder::Helper
     :email_field,
     :range_field,
     :file_field,
-    :text_area,
     :date_select
   ].freeze
 
@@ -158,6 +157,13 @@ module DefaultForm::Builder::Helper
     wrap_with(method, options) do |can, css|
       options[:class] = css[:input] unless options.key?(:class)
       options[:step] = default_step(method) unless options.key?(:step)
+      wrap('input', super, can: can, css: css)
+    end
+  end
+
+  def text_area(method, options = {})
+    wrap_with(method, options) do |can, css|
+      options[:class] = css[:textarea] unless options.key?(:class)
       wrap('input', super, can: can, css: css)
     end
   end

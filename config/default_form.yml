@@ -30,6 +30,7 @@ default:
     label: label
     offset: field-label
     input: field input
+    textarea: field textarea
     submit: button is-primary
     wrap_all: field is-horizontal
     wrap_all_required: field is-horizontal
