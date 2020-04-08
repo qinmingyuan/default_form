@@ -33,7 +33,7 @@ default:
     submit: button is-primary
     wrap_all: field is-horizontal
     wrap_all_required: field is-horizontal
-    wrap_label: field-label is-normal
+    wrap_label: field-label
     wrap_input: field-body control
     wrap_checkbox: field checkbox
     wrap_submit: field-body control
