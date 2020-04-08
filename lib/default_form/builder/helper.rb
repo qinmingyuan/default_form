@@ -56,7 +56,7 @@ module DefaultForm::Builder::Helper
       options[:class] = css[:checkbox] unless options.key?(:class)
       label_text = content_tag(:span, options.delete(:label))
       checkbox_content = wrap_checkbox(super + label_text, can: can, css: css)
-      input_content = wrap_input(checkbox_content, method, can: can, css: css)
+      input_content = wrap('input', checkbox_content, can: can, css: css)
 
       offset(can: can, css: css) + input_content
     end
@@ -97,7 +97,7 @@ module DefaultForm::Builder::Helper
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-      wrap_input(super, method, can: can, css: css)
+      wrap('input', super, can: can, css: css)
     end
   end
 
@@ -110,7 +110,7 @@ module DefaultForm::Builder::Helper
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-      wrap_input(super, method, can: can, css: css)
+      wrap('input', super, can: can, css: css)
     end
   end
 
@@ -122,7 +122,7 @@ module DefaultForm::Builder::Helper
         css[:select]
       end unless html_options.key?(:class)
 
-      wrap_input(super, method, can: can, css: css)
+      wrap('input', super, can: can, css: css)
     end
   end
 
@@ -150,7 +150,7 @@ module DefaultForm::Builder::Helper
         options[:value] = object.read_attribute(real_method)&.to_date
       end
 
-      wrap_input(super, method, can: can, css: css)
+      wrap('input', super, can: can, css: css)
     end
   end
 
@@ -158,7 +158,7 @@ module DefaultForm::Builder::Helper
     wrap_with(method, options) do |can, css|
       options[:class] = css[:input] unless options.key?(:class)
       options[:step] = default_step(method) unless options.key?(:step)
-      wrap_input(super, method, can: can, css: css)
+      wrap('input', super, can: can, css: css)
     end
   end
 
@@ -193,7 +193,7 @@ module DefaultForm::Builder::Helper
       def #{selector}(method, options = {})
         wrap_with(method, options) do |can, css|
           options[:class] = css[:input] unless options.key?(:class)
-          wrap_input(super, method, can: can, css: css)
+          wrap('input', super, can: can, css: css)
         end
       end
     RUBY_EVAL

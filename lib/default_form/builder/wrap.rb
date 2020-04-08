@@ -2,18 +2,6 @@
 
 module DefaultForm::Builder::Wrap
 
-  def wrap_input(inner, method, can: {}, css: {})
-    if can[:wrap_input]
-      if can[:wrap_input_id]
-        content_tag(:div, inner, class: css[:wrap_input], id: wrap_input_id(method))
-      else
-        content_tag(:div, inner, class: css[:wrap_input])
-      end
-    else
-      inner
-    end
-  end
-
   def wrap(type, inner, can: {}, css: {})
     if can[:"wrap_#{type}"]
       content_tag(:div, inner, class: css[:"wrap_#{type}"])
@@ -44,12 +32,7 @@ module DefaultForm::Builder::Wrap
         help_text = default_help(method)
         inner += help_tag(help_text, css[:help_icon]) if help_text
       end
-
-      if method && can[:wrap_all_id]
-        content_tag(:div, inner, class: final_css, id: wrap_all_id(method))
-      else
-        content_tag(:div, inner, class: final_css)
-      end
+      content_tag(:div, inner, class: final_css)
     else
       inner
     end
@@ -71,20 +54,6 @@ module DefaultForm::Builder::Wrap
 
   def object_has_errors?(method)
     object.respond_to?(:errors) && object.errors.respond_to?(:[]) && object.errors[method].present?
-  end
-
-  def wrap_all_id(method)
-    "#{wrap_id(method)}_wrap"
-  end
-
-  def wrap_input_id(method)
-    "#{wrap_id(method)}_input"
-  end
-
-  def wrap_id(method)
-    [@object_name, method].map! do |i|
-      i.to_s.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/^_|_$/, '')
-    end.join('_')
   end
 
 end
