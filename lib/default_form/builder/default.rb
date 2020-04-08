@@ -41,12 +41,6 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_placeholder(method)
-    if object.is_a?(ActiveRecord::Base)
-      object.class.human_attribute_name(method)
-    end
-  end
-
   def default_options(method = nil, options = {}, can: {})
     # search 应返回默认 params 中对应的 value
     if can[:autofilter]
@@ -54,7 +48,7 @@ module DefaultForm::Builder::Default
     end
 
     if can[:placeholder]
-      options[:placeholder] = default_placeholder(method) unless options.key?(:placeholder)
+      options[:placeholder] = default_label(method) unless options.key?(:placeholder)
     end
 
     options[:label] = default_label(method) unless options.key?(:label)

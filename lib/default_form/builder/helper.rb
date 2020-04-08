@@ -22,6 +22,7 @@ module DefaultForm::Builder::Helper
     :url_field,
     :email_field,
     :range_field,
+    :file_field,
     :text_area,
     :date_select
   ].freeze
@@ -132,13 +133,6 @@ module DefaultForm::Builder::Helper
     end
   end
 
-  def file_field(method, options = {})
-    xxx(method, options) do |can, css|
-      options[:class] = css[:file_input] unless options.key?(:class)
-      wrap('file', super, can: can, css: css)
-    end
-  end
-
   def hidden_field(method, options = {})
     default_without_method(options)
     can = options.delete(:can)
@@ -175,6 +169,7 @@ module DefaultForm::Builder::Helper
       if can[:label]
         label_content = label method, options.delete(:label), options.slice(:can, :css)
       else
+        options.delete(:label)
         label_content = ''.html_safe
       end
       input_content = yield can, css

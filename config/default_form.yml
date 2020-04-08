@@ -26,19 +26,16 @@ default:
     wrap_label: true
     wrap_submit: true
     wrap_checkbox: true
-    wrap_file: true
   css:
     label: label
     offset: field-label
     input: field input
-    file_input: field
     submit: button is-primary
     wrap_all: field is-horizontal
     wrap_all_required: field is-horizontal
     wrap_label: field-label is-normal
     wrap_input: field-body control
     wrap_checkbox: field checkbox
-    wrap_file: file field-body control
     wrap_submit: field-body control
 search:
   <<: *searches
