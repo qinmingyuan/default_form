@@ -125,9 +125,9 @@ module DefaultForm::Builder::Helper
   end
 
   def time_select(method, options = {}, html_options = {})
-    wrap_with(method, options) do |_, css|
+    wrap_with(method, options) do |can, css|
       html_options[:class] = css[:select] unless html_options.key?(:class)
-      super
+      wrap('select', super, can: can, css: css)
     end
   end
 
