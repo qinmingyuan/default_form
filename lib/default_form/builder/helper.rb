@@ -89,14 +89,14 @@ module DefaultForm::Builder::Helper
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     wrap_with(method, options) do |can, css|
       options[:selected] ||= default_value(method)
-      html_options[:class] = if html_options[:multiple]
-        css[:multi_select]
+      if html_options[:multiple]
+        html_options[:class] = css[:multi_select]
       else
-        css[:select]
+        html_options[:class] = css[:select]
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-      wrap('input', super, can: can, css: css)
+      wrap('select', super, can: can, css: css)
     end
   end
 
@@ -109,7 +109,7 @@ module DefaultForm::Builder::Helper
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-      wrap('input', super, can: can, css: css)
+      wrap('select', super, can: can, css: css)
     end
   end
 
@@ -121,7 +121,7 @@ module DefaultForm::Builder::Helper
         css[:select]
       end unless html_options.key?(:class)
 
-      wrap('input', super, can: can, css: css)
+      wrap('select', super, can: can, css: css)
     end
   end
 
