@@ -39,6 +39,7 @@ default:
     wrap_input: field-body control
     wrap_select: field-body control select is-fullwidth
     wrap_checkbox: field checkbox
+    wrap_checkboxes: field-body control
     wrap_submit: field-body control
 search:
   <<: *searches

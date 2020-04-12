@@ -62,12 +62,11 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    default_without_method(options)
-
-    label_content = label(method, nil, options.dup)
-    checkboxes_content = wrap('checkboxes', super, can: can, css: css)
-
-    wrap_all label_content + checkboxes_content, method, can: can, css: css, required: options[:required]
+    wrap_all_with(method, options) do |can, css|
+      label_content = label(method, nil, options.dup)
+      checkboxes_content = wrap('checkboxes', super, can: can, css: css)
+      label_content + checkboxes_content
+    end
   end
 
   def radio_button(method, tag_value, options = {})
@@ -80,7 +79,7 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    wrap_with(method, options) do
+    wrap_with(method, options) do |can, css|
       label_content = label(method, nil, options.dup)
       wrap('radios', super, can: can, css: css)
     end
