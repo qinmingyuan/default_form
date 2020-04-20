@@ -47,18 +47,18 @@ HTMLElement.prototype.defaultFormValid = function() {
   text = w + label
 
   this.parentNode.classList.add('error');
-  $(this.parentNode).popup({
-    position: 'right center',
-    className: {
-      popup: 'ui inverted popup'
-    },
-    content: text
-  }).popup('show')
+  // $(this.parentNode).popup({
+  //   position: 'right center',
+  //   className: {
+  //     popup: 'ui inverted popup'
+  //   },
+  //   content: text
+  // }).popup('show')
 }
 
 HTMLElement.prototype.defaultFormClear = function() {
   this.parentNode.classList.remove('error')
-  $(this.parentNode).popup('destroy')
+  //this.parentNode.popup('destroy')
 }
 
 HTMLInputElement.prototype.assignDefault = function(){
