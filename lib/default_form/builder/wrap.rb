@@ -2,12 +2,15 @@
 
 module DefaultForm::Builder::Wrap
 
-  def wrap(type, inner, css: {})
-    if css[type]
-      content_tag(:div, inner, class: css[:"wrap_#{type}"])
-    else
-      inner
+  def wrapping(type, inner, tag: 'div', wrap: {})
+    if wrap[type].present?
+      css_ary = wrap[type].split(' > ')
+      css_ary.reverse_each do |css|
+        inner = content_tag(tag, inner, class: css)
+      end
     end
+
+    inner
   end
 
   def wrap_checkbox(inner, can: {}, css: {})
@@ -18,16 +21,16 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def wrap_all(inner, method = nil, can: {}, css: {}, required: false)
+  def wrapping_all(inner, method = nil, wrap: {}, required: false)
     if method && object_has_errors?(method)
-      final_css = css[:wrap_all_error]
+      final_css = wrap[:all_error]
     elsif required
-      final_css = css[:wrap_all_required]
+      final_css = wrap[:all_required]
     else
-      final_css = css[:wrap_all]
+      final_css = wrap[:all]
     end
 
-    if can[:wrap_all]
+    if final_css
       if method
         help_text = default_help(method)
         inner += help_tag(help_text, css[:help_icon]) if help_text

@@ -37,34 +37,34 @@ module DefaultForm::Builder::Helper
     css = options.delete(:css)
     options[:class] = css[:label] unless options.key?(:class)
 
-    wrap(:label, super, css: css)
+    wrapping(:label, super, wrap: wrap)
   end
 
   def submit(value = nil, options = {})
-    wrap_all_with(nil, options) do |can, css|
+    wrap_all_with(nil, options) do |origin, wrap|
       options[:class] = css[:submit] unless options.key?(:class)
 
-      submit_content = wrap(:submit, super, css: css)
+      submit_content = wrapping(:submit, super, wrap: wrap)
       offset(can: can, css: css) + submit_content
     end
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
-    wrap_all_with(method, options) do |can, css|
+    wrap_all_with(method, options) do |origin, wrap|
       default_options(method, options, can: can)
       options[:class] = css[:checkbox] unless options.key?(:class)
       label_text = content_tag(:span, options.delete(:label))
       checkbox_content = wrap_checkbox(super + label_text, can: can, css: css)
-      input_content = wrap(:input, checkbox_content, css: css)
+      input_content = wrapping(:input, checkbox_content, wrap: wrap)
 
       offset(can: can, css: css) + input_content
     end
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    wrap_all_with(method, options) do |can, css|
+    wrap_all_with(method, options) do |origin, wrap|
       label_content = label(method, nil, options.dup)
-      checkboxes_content = wrap(:checkboxes, super, css: css)
+      checkboxes_content = wrapping(:checkboxes, super, wrap: wrap)
       label_content + checkboxes_content
     end
   end
@@ -74,19 +74,19 @@ module DefaultForm::Builder::Helper
       options[:class] = css[:radio] unless options.key?(:class)
       label_content = label(method, nil, options.dup)
       value_content = label(method, tag_value, class: nil)
-      wrap(:radio, super + value_content, css: css)
+      wrapping(:radio, super + value_content, wrap: wrap)
     end
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       label_content = label(method, nil, options.dup)
-      wrap(:radios, super, css: css)
+      wrapping(:radios, super, wrap: wrap)
     end
   end
 
   def select(method, choices = nil, options = {}, html_options = {}, &block)
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       options[:selected] ||= default_value(method)
       if html_options[:multiple]
         html_options[:class] = css[:multi_select]
@@ -95,12 +95,12 @@ module DefaultForm::Builder::Helper
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-      wrap(:select, super, css: css)
+      wrapping(:select, super, wrap: wrap)
     end
   end
 
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       html_options[:class] = if html_options[:multiple]
         css[:multi_select]
       else
@@ -108,26 +108,26 @@ module DefaultForm::Builder::Helper
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
-      wrap(:select, super, css: css)
+      wrapping(:select, super, wrap: wrap)
     end
   end
 
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       html_options[:class] = if html_options[:multiple]
         css[:multi_select]
       else
         css[:select]
       end unless html_options.key?(:class)
 
-      wrap(:select, super, css: css)
+      wrapping(:select, super, wrap: wrap)
     end
   end
 
   def time_select(method, options = {}, html_options = {})
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       html_options[:class] = css[:select] unless html_options.key?(:class)
-      wrap(:select, super, css: css)
+      wrapping(:select, super, wrap: wrap)
     end
   end
 
@@ -140,7 +140,7 @@ module DefaultForm::Builder::Helper
   end
 
   def date_field(method, options = {})
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       options[:class] = css[:input] unless options.key?(:class)
       if method.match?(/(date)/)
         real_method = method.to_s.sub('(date)', '')
@@ -148,22 +148,22 @@ module DefaultForm::Builder::Helper
         options[:value] = object.read_attribute(real_method)&.to_date
       end
 
-      wrap(:input, super, css: css)
+      wrapping(:input, super, wrap: wrap)
     end
   end
 
   def number_field(method, options = {})
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       options[:class] = css[:input] unless options.key?(:class)
       options[:step] = default_step(method) unless options.key?(:step)
-      wrap(:input, super, css: css)
+      wrapping(:input, super, wrap: wrap)
     end
   end
 
   def text_area(method, options = {})
-    wrap_with(method, options) do |can, css|
+    wrap_with(method, options) do |origin, wrap|
       options[:class] = css[:textarea] unless options.key?(:class)
-      wrap(:input, super, css: css)
+      wrapping(:input, super, wrap: wrap)
     end
   end
 
@@ -190,15 +190,15 @@ module DefaultForm::Builder::Helper
     wrap = options.delete(:wrap)
     inner_content = yield origin, wrap
 
-    wrap_all inner_content, method, css: wrap, required: options[:required]
+    wrapping_all inner_content, method, wrap: wrap, required: options[:required]
   end
 
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        wrap_with(method, options) do |can, css|
-          options[:class] = css[:input] unless options.key?(:class)
-          wrap(:input, super, css: css)
+        wrap_with(method, options) do |origin, wrap|
+          options[:class] = origin[:input] unless options.key?(:class)
+          wrapping(:input, super, wrap: wrap)
         end
       end
     RUBY_EVAL
