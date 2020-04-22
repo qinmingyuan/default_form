@@ -9,7 +9,7 @@ searches: &searches
   placeholder: true
 default:
   <<: *defaults
-  css:
+  origin:
     label: label
     offset: field-label
     input: field input
@@ -26,7 +26,7 @@ default:
     submit: field-body control
 search:
   <<: *searches
-  css:
+  origin:
     form: field is-horizontal
     input: input
     submit: button is-primary
@@ -35,7 +35,7 @@ search:
     submit: field is-narrow
 semantic:
   <<: *defaults
-  css:
+  origin:
     form: ui form
     label: six wide field
     offset: six wide field
@@ -59,7 +59,7 @@ semantic:
 semantic_search:
   <<: *searches
   autofilter: true
-  css:
+  origin:
     form: ui form
     inline_checkbox: ui label checkbox
     inline_checkbox_checked: ui teal label checkbox
@@ -76,7 +76,7 @@ semantic_search:
     submit: field
 weui:
   <<: *defaults
-  css:
+  origin:
     form: weui-cells weui-cells_form
     label: weui-label
     input: weui-input
@@ -91,7 +91,7 @@ weui:
     submit: weui-btn-area
 weui_search:
   <<: *searches
-  css:
+  origin:
     form: weui-cells weui-cells_form
     label: weui-label
     input: weui-input
@@ -105,7 +105,7 @@ weui_search:
     submit: weui-btn-area
 bootstrap:
   <<: *defaults
-  css:
+  origin:
     form: form-horizontal
     label: col-sm-2 control-label
     input: form-control
@@ -120,7 +120,7 @@ bootstrap:
     submit: col-sm-offset-2 col-sm-10
 bootstrap_search:
   <<: *searches
-  css:
+  origin:
     form: form-inline
     label: sr-only
     input: form-control

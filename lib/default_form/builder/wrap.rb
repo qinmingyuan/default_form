@@ -2,8 +2,8 @@
 
 module DefaultForm::Builder::Wrap
 
-  def wrap(type, inner, can: {}, css: {})
-    if can[:"wrap_#{type}"]
+  def wrap(type, inner, css: {})
+    if css[type]
       content_tag(:div, inner, class: css[:"wrap_#{type}"])
     else
       inner
