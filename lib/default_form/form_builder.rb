@@ -19,12 +19,8 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     settings = set.fetch(theme, {})
     settings.deep_symbolize_keys!
 
-    unless options.key?(:method)
-      options[:method] = settings[:method] if settings.key?(:method)
-    end
-    unless options.key?(:local)
-      options[:local] = settings[:local] if settings.key?(:local)
-    end
+    options[:method] = settings[:method] if !options.key?(:method) && settings.key?(:method)
+    options[:local] = settings[:local] if !options.key?(:local) && settings.key?(:local)
     options[:skip_default_ids] = settings[:skip_default_ids] if settings.key?(:skip_default_ids)
 
     @origin_css = settings.fetch(:origin, {})
