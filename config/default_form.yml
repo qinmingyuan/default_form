@@ -32,7 +32,6 @@ search:
     submit: button is-primary
   wrap:
     input: field is-narrow
-    submit: field is-narrow
 semantic:
   <<: *defaults
   origin:
