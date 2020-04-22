@@ -33,31 +33,31 @@ module DefaultForm::Builder::Helper
 
   def label(method, text = nil, options = {}, &block)
     default_without_method(options)
-    can = options.delete(:can)
-    css = options.delete(:css)
-    options[:class] = css[:label] unless options.key?(:class)
+    origin = options.delete(:origin)
+    wrap = options.delete(:wrap)
+    options[:class] = origin[:label] unless options.key?(:class)
 
     wrapping(:label, super, wrap: wrap)
   end
 
   def submit(value = nil, options = {})
     wrap_all_with(nil, options) do |origin, wrap|
-      options[:class] = css[:submit] unless options.key?(:class)
+      options[:class] = origin[:submit] unless options.key?(:class)
 
       submit_content = wrapping(:submit, super, wrap: wrap)
-      offset(can: can, css: css) + submit_content
+      offset(origin: origin) + submit_content
     end
   end
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     wrap_all_with(method, options) do |origin, wrap|
-      default_options(method, options, can: can)
-      options[:class] = css[:checkbox] unless options.key?(:class)
+      default_options(method, options)
+      options[:class] = origin[:checkbox] unless options.key?(:class)
       label_text = content_tag(:span, options.delete(:label))
-      checkbox_content = wrap_checkbox(super + label_text, can: can, css: css)
+      checkbox_content = wrapping(:checkbox, super + label_text, wrap: wrap, tag: 'label')
       input_content = wrapping(:input, checkbox_content, wrap: wrap)
 
-      offset(can: can, css: css) + input_content
+      offset(origin: origin) + input_content
     end
   end
 
@@ -70,8 +70,8 @@ module DefaultForm::Builder::Helper
   end
 
   def radio_button(method, tag_value, options = {})
-    wrap_with(method, options) do |_, css|
-      options[:class] = css[:radio] unless options.key?(:class)
+    wrap_with(method, options) do |origin, wrap|
+      options[:class] = origin[:radio] unless options.key?(:class)
       label_content = label(method, nil, options.dup)
       value_content = label(method, tag_value, class: nil)
       wrapping(:radio, super + value_content, wrap: wrap)
@@ -89,9 +89,9 @@ module DefaultForm::Builder::Helper
     wrap_with(method, options) do |origin, wrap|
       options[:selected] ||= default_value(method)
       if html_options[:multiple]
-        html_options[:class] = css[:multi_select]
+        html_options[:class] = origin[:multi_select]
       else
-        html_options[:class] = css[:select]
+        html_options[:class] = origin[:select]
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
@@ -102,9 +102,9 @@ module DefaultForm::Builder::Helper
   def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
     wrap_with(method, options) do |origin, wrap|
       html_options[:class] = if html_options[:multiple]
-        css[:multi_select]
+        origin[:multi_select]
       else
-        css[:select]
+        origin[:select]
       end unless html_options.key?(:class)
       options[:include_blank] = I18n.t('helpers.select.prompt') if options[:include_blank] == true
 
@@ -115,9 +115,9 @@ module DefaultForm::Builder::Helper
   def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
     wrap_with(method, options) do |origin, wrap|
       html_options[:class] = if html_options[:multiple]
-        css[:multi_select]
+        origin[:multi_select]
       else
-        css[:select]
+        origin[:select]
       end unless html_options.key?(:class)
 
       wrapping(:select, super, wrap: wrap)
@@ -126,22 +126,21 @@ module DefaultForm::Builder::Helper
 
   def time_select(method, options = {}, html_options = {})
     wrap_with(method, options) do |origin, wrap|
-      html_options[:class] = css[:select] unless html_options.key?(:class)
+      html_options[:class] = origin[:select] unless html_options.key?(:class)
       wrapping(:select, super, wrap: wrap)
     end
   end
 
   def hidden_field(method, options = {})
     default_without_method(options)
-    can = options.delete(:can)
-    options.delete(:css)
-    options[:autocomplete] = can[:autocomplete] unless options.key?(:autocomplete)
+    options.extract!(:origin, :warp)  #todo remove
+    options[:autocomplete] = on_options[:autocomplete] unless options.key?(:autocomplete)
     super
   end
 
   def date_field(method, options = {})
     wrap_with(method, options) do |origin, wrap|
-      options[:class] = css[:input] unless options.key?(:class)
+      options[:class] = origin[:input] unless options.key?(:class)
       if method.match?(/(date)/)
         real_method = method.to_s.sub('(date)', '')
         options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
@@ -154,7 +153,7 @@ module DefaultForm::Builder::Helper
 
   def number_field(method, options = {})
     wrap_with(method, options) do |origin, wrap|
-      options[:class] = css[:input] unless options.key?(:class)
+      options[:class] = origin[:input] unless options.key?(:class)
       options[:step] = default_step(method) unless options.key?(:step)
       wrapping(:input, super, wrap: wrap)
     end
@@ -162,7 +161,7 @@ module DefaultForm::Builder::Helper
 
   def text_area(method, options = {})
     wrap_with(method, options) do |origin, wrap|
-      options[:class] = css[:textarea] unless options.key?(:class)
+      options[:class] = origin[:textarea] unless options.key?(:class)
       wrapping(:input, super, wrap: wrap)
     end
   end
@@ -170,14 +169,14 @@ module DefaultForm::Builder::Helper
   # block 应返回 input with wrapper 的内容
   def wrap_with(method, options = {})
     wrap_all_with(method, options) do |origin, wrap|
-      default_options(method, options, can: can)
-      if can[:label]
-        label_content = label method, options.delete(:label), options.slice(:can, :css)
+      default_options(method, options)
+      if origin[:label]
+        label_content = label method, options.delete(:label), options.slice(:origin, :wrap)
       else
         options.delete(:label)
         label_content = ''.html_safe
       end
-      input_content = yield can, css
+      input_content = yield origin, wrap
 
       label_content + input_content
     end

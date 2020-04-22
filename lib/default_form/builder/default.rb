@@ -41,14 +41,16 @@ module DefaultForm::Builder::Default
     end
   end
 
-  def default_options(method = nil, options = {}, can: {})
+  def default_options(method = nil, options = {})
     # search 应返回默认 params 中对应的 value
-    if can[:autofilter]
-      options[:value] = default_value(method) unless options.key?(:value) || can[:autocomplete]
+    on = options.delete(:on) || {}
+    on.reverse_merge! on_options
+    if on[:autofilter] && !(options.key?(:value) || on[:autocomplete])
+      options[:value] = default_value(method)
     end
 
-    if can[:placeholder]
-      options[:placeholder] = default_label(method) unless options.key?(:placeholder)
+    if on[:placeholder] && !options.key?(:placeholder)
+      options[:placeholder] = default_label(method)
     end
 
     options[:label] = default_label(method) unless options.key?(:label)

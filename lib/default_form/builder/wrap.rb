@@ -13,14 +13,6 @@ module DefaultForm::Builder::Wrap
     inner
   end
 
-  def wrap_checkbox(inner, can: {}, css: {})
-    if can[:wrap_checkbox]
-      content_tag(:label, inner, class: css[:wrap_checkbox])
-    else
-      inner
-    end
-  end
-
   def wrapping_all(inner, method = nil, wrap: {}, required: false)
     if method && object_has_errors?(method)
       final_css = wrap[:all_error]
@@ -41,9 +33,9 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def offset(text = '', can: {}, css: {})
-    if can[:offset]
-      content_tag(:div, text, class: css[:offset])
+  def offset(text = '', origin: {})
+    if origin[:offset].present?
+      content_tag(:div, text, class: origin[:offset])
     else
       ''.html_safe
     end
