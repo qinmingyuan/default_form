@@ -133,7 +133,7 @@ module DefaultForm::Builder::Helper
 
   def hidden_field(method, options = {})
     default_without_method(options)
-    options.extract!(:origin, :warp)  #todo remove
+    options.extract!(:origin, :wrap)  #todo remove
     options[:autocomplete] = on_options[:autocomplete] unless options.key?(:autocomplete)
     super
   end
