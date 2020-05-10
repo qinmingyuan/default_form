@@ -143,7 +143,8 @@ module DefaultForm::Builder::Helper
       options[:class] = origin[:input] unless options.key?(:class)
       if method.match?(/(date)/)
         real_method = method.to_s.sub('(date)', '')
-        options[:onchange] = 'assignDefault()' if object.column_for_attribute(real_method).type == :datetime
+        options[:data] = {}
+        options[:data].merge! action: 'datetime#default' if object.column_for_attribute(real_method).type == :datetime
         options[:value] = object.read_attribute(real_method)&.to_date
       end
 

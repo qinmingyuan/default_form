@@ -38,7 +38,7 @@ HTMLElement.prototype.defaultFormValid = function() {
     }
   }
 
-  if (this.labels.length >0) {
+  if (this.labels.length > 0) {
     label = this.labels[0].innerText;
   } else {
     label = this.dataset['label'];
@@ -59,16 +59,6 @@ HTMLElement.prototype.defaultFormValid = function() {
 HTMLElement.prototype.defaultFormClear = function() {
   this.parentNode.classList.remove('error')
   //this.parentNode.popup('destroy')
-}
-
-HTMLInputElement.prototype.assignDefault = function(){
-  let date = new Date(this.value)
-  let _year = document.querySelector('[name="' + this.name.replace('(date)', '(1i)') + '"]')
-  let _month = document.querySelector('[name="' + this.name.replace('(date)', '(2i)') + '"]')
-  let _date = document.querySelector('[name="' + this.name.replace('(date)', '(3i)') + '"]')
-  _year.value = date.getFullYear()
-  _month.value = date.getMonth() + 1
-  _date.value = date.getDate()
 }
 
 HTMLFormElement.prototype.cleanSubmit = function(){
