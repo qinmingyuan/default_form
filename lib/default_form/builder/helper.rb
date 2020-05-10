@@ -170,7 +170,7 @@ module DefaultForm::Builder::Helper
   def wrap_with(method, options = {})
     wrap_all_with(method, options) do |origin, wrap|
       default_options(method, options)
-      if origin[:label]
+      if options[:label]
         label_content = label method, options.delete(:label), options.slice(:origin, :wrap)
       else
         options.delete(:label)
