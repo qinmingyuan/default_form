@@ -53,7 +53,9 @@ module DefaultForm::Builder::Default
       options[:placeholder] = default_label(method)
     end
 
-    options[:label] = default_label(method) unless options.key?(:label)
+    if on[:label] && !options.key?(:label)
+      options[:label] = default_label(method)
+    end
 
     valid_key = options.keys.map(&:to_sym) & VALIDATIONS
     if valid_key.present?

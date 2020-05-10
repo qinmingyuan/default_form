@@ -27,7 +27,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     @origin_css.merge! options.fetch(:origin, {})
     @wrap_css = settings.fetch(:wrap, {})
     @wrap_css.merge! options.fetch(:wrap, {})
-    @on_options = settings.extract! :autocomplete, :autofilter, :placeholder
+    @on_options = settings.extract! :autocomplete, :autofilter, :placeholder, :label
     @on_options.merge! options.fetch(:on, {})
     @params = template.params
 
