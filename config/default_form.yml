@@ -1,13 +1,12 @@
 defaults: &defaults
-  skip_default_ids: false
   autocomplete: true
-  autofilter: false
   label: true
 searches: &searches
   method: get
   local: true
   skip_default_ids: true
   placeholder: true
+  autofilter: true
 default:
   <<: *defaults
   origin:
