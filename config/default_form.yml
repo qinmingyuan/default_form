@@ -87,7 +87,7 @@ weui:
     all_error: weui-cell
     all_required: weui-cell
     input: weui-cell__bd
-    submit: weui-btn-area
+    submit: weui-cell weui-form__opr-area
 weui_search:
   <<: *searches
   origin:
