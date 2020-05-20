@@ -12,8 +12,6 @@ class DatetimeController extends Controller {
     let el = event.currentTarget
     let date = new Date(el.value)
 
-
-
     this.append(el.name.replace('(date)', '(1i)'), date.getFullYear())
     this.append(el.name.replace('(date)', '(2i)'), date.getMonth() + 1)
     this.append(el.name.replace('(date)', '(3i)'), date.getDate())
