@@ -60,20 +60,3 @@ HTMLElement.prototype.defaultFormClear = function() {
   this.parentNode.classList.remove('error')
   //this.parentNode.popup('destroy')
 }
-
-HTMLFormElement.prototype.cleanSubmit = function(){
-  for (let i = 0; i < this.elements.length; i++) {
-    if ( this[i].value.length === 0 ) {
-      this[i].disabled = true
-    }
-
-    if ( this[i].name === 'utf8' ) {
-      this[i].disabled = true
-    }
-
-    if ( this[i].type === 'checkbox' && this[i].name === this[i-1].name && this[i].checked ){
-      this[i-1].disabled = true
-    }
-  }
-  this.submit()
-}
