@@ -1,5 +1,3 @@
-// depend on semantic-ui
-
 HTMLElement.prototype.defaultFormValid = function() {
   let label
   let locale = document.querySelector('html').lang
