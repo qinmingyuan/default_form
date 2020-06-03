@@ -25,7 +25,7 @@ module DefaultForm::Builder::Wrap
     if final_css
       if method
         help_text = default_help(method)
-        inner += help_tag(help_text, wrap[:help_icon]) if help_text
+        inner += help_tag(help_text) if help_text
       end
       content_tag(:div, inner, class: final_css)
     else
@@ -41,8 +41,8 @@ module DefaultForm::Builder::Wrap
     end
   end
 
-  def help_tag(text, css)
-    DefaultForm.config.help_tag.call(text, css)
+  def help_tag(text)
+    DefaultForm.config.help_tag.call(self, text)
   end
 
   def object_has_errors?(method)

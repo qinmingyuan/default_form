@@ -46,7 +46,6 @@ semantic:
     inline_radio: ui label radio checkbox
     inline_radio_checked: ui teal label radio checkbox
     submit: ui blue button
-    help_icon: grey question circle icon
   wrap:
     all: inline fields
     all_error: inline error fields
