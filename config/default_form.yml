@@ -21,7 +21,7 @@ default:
     label: field-label
     input: field-body control
     select: field-body control > field is-narrow > select is-fullwidth
-    checkbox: field checkbox
+    checkbox: field-body control > field checkbox
     checkboxes: field-body control
     submit: field-body control
 search:
