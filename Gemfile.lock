@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/work-design/rails_com.git
-  revision: 49ee0b595a0cb66a4a90b21b56836060ee16488e
+  revision: c22989ee627f3cdb0a79c7c7477ede45bb2ca683
   specs:
     rails_com (1.2.9)
       default_where (~> 2.2)
@@ -91,7 +91,7 @@ GEM
     httpx (0.8.2)
       http-2-next (>= 0.1.2)
       timers
-    i18n (1.8.2)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     loofah (2.5.0)
       crass (~> 1.0.2)
@@ -146,7 +146,7 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rake (13.0.1)
     semantic_range (2.3.0)
-    sprockets (4.0.0)
+    sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.1)

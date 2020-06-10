@@ -55,9 +55,8 @@ module DefaultForm::Builder::Helper
       options[:class] = origin[:checkbox] unless options.key?(:class)
       label_text = content_tag(:span, options.delete(:label))
       checkbox_content = wrapping(:checkbox, super + label_text, wrap: wrap, tag: 'label')
-      input_content = wrapping(:input, checkbox_content, wrap: wrap)
 
-      offset(origin: origin) + input_content
+      offset(origin: origin) + checkbox_content
     end
   end
 
