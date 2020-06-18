@@ -15,6 +15,8 @@ default:
     input: field input
     textarea: field textarea
     submit: button is-primary
+    inline_checkbox: checkbox
+    inline_checkbox_checked: checkbox
   wrap:
     all: field is-horizontal
     all_required: field is-horizontal

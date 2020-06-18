@@ -4,8 +4,7 @@ module ActionView
       class CollectionCheckBoxes
 
         def render_component(builder)
-          can = @options.fetch(:can, {})
-          css = @options.fetch(:css, {})
+          css = @options.fetch(:origin, {})
 
           r = Array(object.send(@method_name)).map(&:to_s)
           if r.include? builder.value.to_s
@@ -15,11 +14,7 @@ module ActionView
           end
 
           inner = builder.check_box + builder.label
-          if can[:wrap_checkbox]
-            content_tag(:div, inner, class: final_css)
-          else
-            inner
-          end
+          content_tag(:label, inner, class: final_css)
         end
 
       end
