@@ -144,7 +144,7 @@ module DefaultForm::Builder::Helper
       if method.end_with?('(date)')
         real_method = method.to_s.sub('(date)', '')
         options[:data] = {}
-        options[:data].merge! action: 'datetime#default' if object.column_for_attribute(real_method).type == :datetime
+        options[:data].merge! controller: 'datetime', action: 'datetime#default' if object.column_for_attribute(real_method).type == :datetime
         options[:value] = object.read_attribute(real_method)&.to_date
       end
 

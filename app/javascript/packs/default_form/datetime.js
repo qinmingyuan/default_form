@@ -11,14 +11,15 @@ class DatetimeController extends Controller {
   default(event) {
     let el = event.currentTarget
     let date = new Date(el.value)
+    let form = el.form
 
-    this.append(el.name.replace('(date)', '(1i)'), date.getFullYear())
-    this.append(el.name.replace('(date)', '(2i)'), date.getMonth() + 1)
-    this.append(el.name.replace('(date)', '(3i)'), date.getDate())
+    this.append(form, el.name.replace('(date)', '(1i)'), date.getFullYear())
+    this.append(form, el.name.replace('(date)', '(2i)'), date.getMonth() + 1)
+    this.append(form, el.name.replace('(date)', '(3i)'), date.getDate())
   }
 
-  append(name, value) {
-    let input = this.element.elements.namedItem(name)
+  append(form, name, value) {
+    let input = form.elements.namedItem(name)
     if (input) {
       input.setAttribute('value', value)
     } else {
