@@ -141,7 +141,7 @@ module DefaultForm::Builder::Helper
   def date_field(method, options = {})
     wrap_with(method, options) do |origin, wrap|
       options[:class] = origin[:input] unless options.key?(:class)
-      if method.match?(/(date)/)
+      if method.end_with?('(date)')
         real_method = method.to_s.sub('(date)', '')
         options[:data] = {}
         options[:data].merge! action: 'datetime#default' if object.column_for_attribute(real_method).type == :datetime
