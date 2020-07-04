@@ -1,8 +1,10 @@
-document.querySelectorAll('textarea[data-valid], input[data-valid]').forEach(function(el) {
-  el.addEventListener('blur', function() { this.checkValidity() })
-  el.addEventListener('input', function() { this.defaultFormClear() })
-  el.addEventListener('invalid', function(e) {
-    e.preventDefault()
-    this.defaultFormValid()
+export function supportFormValid() {
+  document.querySelectorAll('textarea[data-valid], input[data-valid]').forEach(el => {
+    el.addEventListener('blur', () => { this.checkValidity() })
+    el.addEventListener('input', () => { this.defaultFormClear() })
+    el.addEventListener('invalid', e => {
+      e.preventDefault()
+      this.defaultFormValid()
+    })
   })
-})
+}
