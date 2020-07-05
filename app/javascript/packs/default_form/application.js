@@ -45,16 +45,16 @@ HTMLElement.prototype.defaultFormValid = function() {
   text = w + label
 
   this.classList.add('is-danger')
-  // $(this.parentNode).popup({
-  //   position: 'right center',
-  //   className: {
-  //     popup: 'ui inverted popup'
-  //   },
-  //   content: text
-  // }).popup('show')
+  let help = document.createElement('p')
+  help.classList.add('help', 'is-danger')
+  help.innerText = text
+  this.parentNode.after(help)
 }
 
 HTMLElement.prototype.defaultFormClear = function() {
   this.classList.remove('is-danger')
-  //this.parentNode.popup('destroy')
+  let help = this.parentNode.nextSibling
+  if (help) {
+    help.remove()
+  }
 }
