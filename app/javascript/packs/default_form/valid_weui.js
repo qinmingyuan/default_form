@@ -1,11 +1,11 @@
 HTMLInputElement.prototype.validForm = function() {
-  var self = $(this)
-  self.parent().parent().addClass('weui-cell_warn')
-  self.parent().parent().append('<i class="weui-icon-warn"></i>')
+  let node = this.parentNode.parentNode
+  node.classList.add('weui-cell_warn')
+  node.insertAdjacentHTML('beforeend', '<i class="weui-icon-warn"></i>')
 }
 
 HTMLInputElement.prototype.clearValid = function() {
-  var self = $(this)
-  self.parent().parent().removeClass('weui-cell_warn')
-  self.parent().next('.weui-icon-warn').remove()
+  let node = this.parentNode
+  node.parentNode.classList.remove('weui-cell_warn')
+  node.nextElementSibling.remove()
 }

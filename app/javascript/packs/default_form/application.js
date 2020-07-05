@@ -53,7 +53,7 @@ HTMLElement.prototype.defaultFormValid = function() {
 
 HTMLElement.prototype.defaultFormClear = function() {
   this.classList.remove('is-danger')
-  let help = this.parentNode.nextSibling
+  let help = this.parentNode.nextElementSibling
   if (help) {
     help.remove()
   }
