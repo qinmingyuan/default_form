@@ -45,10 +45,12 @@ HTMLElement.prototype.defaultFormValid = function() {
   text = w.replace('{label}', label)
 
   this.classList.add('is-danger')
-  let help = document.createElement('p')
-  help.classList.add('help', 'is-danger')
-  help.innerText = text
-  this.parentNode.after(help)
+  if (!this.parentNode.nextElementSibling) {
+    let help = document.createElement('p')
+    help.classList.add('help', 'is-danger')
+    help.innerText = text
+    this.parentNode.after(help)
+  }
 }
 
 HTMLElement.prototype.defaultFormClear = function() {
