@@ -3,30 +3,30 @@ HTMLElement.prototype.defaultFormValid = function() {
   let locale = document.querySelector('html').lang
   const i18ns = {
     zh: {
-      badInput: '格式不正确：',
-      customError: '输入错误',
-      patternMismatch: '非法的',
-      rangeOverflow: '输入错误',
-      rangeUnderflow: '输入错误',
-      stepMismatch: '输入错误',
-      tooLong: '太长了',
-      tooShort: '太短了',
-      typeMismatch: '输入错误',
-      valid: '非法值',
-      valueMissing: '请输入'
+      badInput: '{label}格式不正确',
+      customError: '{label}输入错误',
+      patternMismatch: '非法的{label}',
+      rangeOverflow: '{label}输入错误',
+      rangeUnderflow: '{label}输入错误',
+      stepMismatch: '{label}输入错误',
+      tooLong: '{label}太长了',
+      tooShort: '{label}太短了',
+      typeMismatch: '{label}输入错误',
+      valid: '{label}为非法值',
+      valueMissing: '请输入{label}'
     },
     en: {
-      badInput: 'Bad Input:',
-      customError: 'Custom Error:',
-      patternMismatch: 'Invalid Input: ',
-      rangeOverflow: 'Range Over Flow:',
-      rangeUnderflow: 'Range Under Flow:',
+      badInput: 'Bad Input: {label}',
+      customError: 'Custom Error: {label}',
+      patternMismatch: 'Invalid Input: {label}',
+      rangeOverflow: 'Range Over Flow: {label}',
+      rangeUnderflow: 'Range Under Flow: {label}',
       stepMismatch: 'Step Mismatch',
-      tooLong: 'Too long',
-      tooShort: 'Too Short',
-      typeMismatch: 'Type Mismatch',
-      valid: 'Not valid',
-      valueMissing: 'Please enter:'
+      tooLong: '{label} is too long',
+      tooShort: '{label} is Too Short',
+      typeMismatch: '{label} Type Mismatch',
+      valid: '{label} is not valid',
+      valueMissing: 'Please enter: {label}'
     }
   }
 
@@ -42,7 +42,7 @@ HTMLElement.prototype.defaultFormValid = function() {
     label = this.dataset['label']
   }
 
-  text = w + label
+  text = w.replace('{label}', label)
 
   this.classList.add('is-danger')
   let help = document.createElement('p')
