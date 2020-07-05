@@ -1,10 +1,10 @@
 export function prepareFormValid() {
   document.querySelectorAll('textarea[data-valid], input[data-valid]').forEach(el => {
-    el.addEventListener('blur', () => { this.checkValidity() })
-    el.addEventListener('input', () => { this.defaultFormClear() })
+    el.addEventListener('blur', e => { e.target.checkValidity() })
+    el.addEventListener('input', e => { e.target.defaultFormClear() })
     el.addEventListener('invalid', e => {
       e.preventDefault()
-      this.defaultFormValid()
+      e.target.defaultFormValid()
     })
   })
 }

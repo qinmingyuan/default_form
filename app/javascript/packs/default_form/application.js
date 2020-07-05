@@ -37,14 +37,14 @@ HTMLElement.prototype.defaultFormValid = function() {
   }
 
   if (this.labels.length > 0) {
-    label = this.labels[0].innerText;
+    label = this.labels[0].innerText
   } else {
-    label = this.dataset['label'];
+    label = this.dataset['label']
   }
 
   text = w + label
 
-  this.parentNode.classList.add('error');
+  this.classList.add('is-danger')
   // $(this.parentNode).popup({
   //   position: 'right center',
   //   className: {
@@ -55,6 +55,6 @@ HTMLElement.prototype.defaultFormValid = function() {
 }
 
 HTMLElement.prototype.defaultFormClear = function() {
-  this.parentNode.classList.remove('error')
+  this.classList.remove('is-danger')
   //this.parentNode.popup('destroy')
 }
