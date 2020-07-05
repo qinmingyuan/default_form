@@ -12,7 +12,7 @@ default:
   origin:
     label: label
     offset: field-label
-    input: field input
+    input: input
     textarea: field textarea
     submit: button is-primary
     inline_checkbox: checkbox
@@ -21,7 +21,7 @@ default:
     all: field is-horizontal
     all_required: field is-horizontal
     label: field-label
-    input: field-body control
+    input: field-body > field > control
     select: field-body control > field is-narrow > select is-fullwidth
     checkbox: field-body control > field checkbox
     checkboxes: field-body control
