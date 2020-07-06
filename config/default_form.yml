@@ -23,9 +23,11 @@ default:
     label: field-label is-normal
     input: field-body > field > control
     select: field-body > field is-narrow > control > select is-fullwidth
-    checkbox: field-body control > field checkbox
-    checkboxes: field-body control
+    checkbox: field-body > field > control > checkbox
+    checkboxes: field-body > field is-narrow > control
     submit: field-body control
+  label:
+    checkboxes: field-label
 search:
   <<: *searches
   origin:
