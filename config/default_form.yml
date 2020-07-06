@@ -22,7 +22,7 @@ default:
     all_required: field is-horizontal
     label: field-label is-normal
     input: field-body > field > control
-    select: field-body control > field is-narrow > select is-fullwidth
+    select: field-body > field is-narrow > control > select is-fullwidth
     checkbox: field-body control > field checkbox
     checkboxes: field-body control
     submit: field-body control
@@ -77,18 +77,19 @@ semantic_search:
 weui:
   <<: *defaults
   origin:
-    form: weui-cells weui-cells_form
+    form: weui-form
     label: weui-label
     input: weui-input
     select: weui-select
     muilti_select: weui-select
     submit: weui-btn weui-btn_primary
   wrap:
-    all: weui-cell
+    all: weui-cell weui-cell_active
     all_error: weui-cell
     all_required: weui-cell
+    label: weui-cell__hd
     input: weui-cell__bd
-    submit: weui-cell weui-form__opr-area
+    submit: weui-form__opr-area
 weui_search:
   <<: *searches
   origin:
