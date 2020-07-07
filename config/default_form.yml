@@ -4,7 +4,6 @@ defaults: &defaults
 searches: &searches
   method: get
   local: true
-  skip_default_ids: true
   placeholder: true
   autofilter: true
 default:

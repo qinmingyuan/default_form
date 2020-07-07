@@ -21,13 +21,12 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
 
     options[:method] = settings[:method] if !options.key?(:method) && settings.key?(:method)
     options[:local] = settings[:local] if !options.key?(:local) && settings.key?(:local)
-    options[:skip_default_ids] = settings[:skip_default_ids] if settings.key?(:skip_default_ids)
 
     @origin_css = settings.fetch(:origin, {})
     @origin_css.merge! options.fetch(:origin, {})
     @wrap_css = settings.fetch(:wrap, {})
     @wrap_css.merge! options.fetch(:wrap, {})
-    @on_options = settings.extract! :autocomplete, :autofilter, :placeholder, :label, :skip_default_ids
+    @on_options = settings.extract! :autocomplete, :autofilter, :placeholder, :label
     @on_options.merge! options.fetch(:on, {})
     @params = template.params
 
