@@ -81,6 +81,7 @@ weui:
     form: weui-form
     label: weui-label
     input: weui-input
+    textarea: weui-textarea
     select: weui-select
     muilti_select: weui-select
     submit: weui-btn weui-btn_primary
