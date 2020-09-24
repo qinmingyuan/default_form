@@ -4,7 +4,7 @@ require 'default_form/form_builder'
 module DefaultForm::ViewHelper
 
   def form_object(record = nil, builder: DefaultForm::FormBuilder, **options)
-    object_name = options[:as].to_s
+    object_name = options[:scope].to_s
 
     if object_name.blank? && record.is_a?(ActiveRecord::Base)
       object_name = record.class.base_class.model_name.param_key
