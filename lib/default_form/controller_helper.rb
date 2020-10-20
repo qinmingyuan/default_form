@@ -2,6 +2,7 @@ require 'default_form/form_builder'
 
 module DefaultForm::ControllerHelper
   extend ActiveSupport::Concern
+
   included do
     default_form_builder DefaultForm::FormBuilder
   end
