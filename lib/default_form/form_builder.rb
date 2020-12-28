@@ -20,7 +20,6 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     settings.deep_symbolize_keys!
 
     options[:method] = settings[:method] if !options.key?(:method) && settings.key?(:method)
-    options[:local] = settings[:local] if !options.key?(:local) && settings.key?(:local)
 
     @origin_css = settings.fetch(:origin, {})
     @origin_css.merge! options.fetch(:origin, {})

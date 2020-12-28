@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 // data-controller="datetime"
-class DatetimeController extends Controller {
+class DefaultFormController extends Controller {
 
   defaultValid(input) {
     let label
@@ -99,4 +99,4 @@ class DatetimeController extends Controller {
 
 }
 
-application.register('datetime', DatetimeController)
+application.register('default_form', DefaultFormController)

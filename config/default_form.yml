@@ -3,7 +3,6 @@ defaults: &defaults
   label: true
 searches: &searches
   method: get
-  local: true
   placeholder: true
   autofilter: true
 default:
