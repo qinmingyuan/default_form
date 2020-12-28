@@ -60,7 +60,7 @@ module DefaultForm::Builder::Default
     valid_key = options.keys.map(&:to_sym) & VALIDATIONS
     if valid_key.present?
       options[:data] ||= {}
-      options[:data][:valid] = true unless options[:data].key?(:valid)
+      options[:data][:action] = 'default_form#xx' unless options[:data].key?(:valid)
     end
   end
 
