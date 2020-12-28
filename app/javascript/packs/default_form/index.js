@@ -1,2 +1,2 @@
-import './bulma'
+import './default_valid'
 import './datetime'

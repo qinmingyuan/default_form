@@ -1,7 +1,11 @@
 import { Controller } from 'stimulus'
 
-// data-controller="datetime"
-class DefaultFormController extends Controller {
+// data-controller="default_valid"
+class DefaultValidController extends Controller {
+
+  connect() {
+    console.debug('Default Valid connected!')
+  }
 
   defaultValid(input) {
     let label
@@ -59,26 +63,28 @@ class DefaultFormController extends Controller {
   }
 
   defaultClear(input) {
-    input.classList.remove('is-danger')
-    let help = input.parentNode.nextElementSibling
-    if (help && help.classList.contains('help') && help.classList.contains('is-danger')) {
-      help.remove()
+    if (input.validity.valid) {
+      input.classList.remove('is-danger')
+      let help = input.parentNode.nextElementSibling
+      if (help && help.classList.contains('help') && help.classList.contains('is-danger')) {
+        help.remove()
+      }
     }
   }
 
-  // data-action="blur->x#check"
+  // data-action="blur->default_valid#check"
   check(event) {
     event.currentTarget.checkValidity()
   }
 
   clear(event) {
-    defaultClear(event.currentTarget)
+    this.defaultClear(event.currentTarget)
   }
 
-  // data-action="invalid->x#clear"
-  input_invalid(event) {
+  // data-action="invalid->default_valid#notice"
+  notice(event) {
     event.preventDefault()
-    event.target.defaultFormValid()
+    this.defaultValid(event.currentTarget)
   }
 
   // form[method="get"]
@@ -99,4 +105,4 @@ class DefaultFormController extends Controller {
 
 }
 
-application.register('default_form', DefaultFormController)
+application.register('default_valid', DefaultValidController)

@@ -20,6 +20,9 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     settings.deep_symbolize_keys!
 
     options[:method] = settings[:method] if !options.key?(:method) && settings.key?(:method)
+    options[:local] = true # todo rails 6.2 will remove this
+    options[:data] ||= {}
+    options[:data][:controller] = 'default_valid'
 
     @origin_css = settings.fetch(:origin, {})
     @origin_css.merge! options.fetch(:origin, {})
