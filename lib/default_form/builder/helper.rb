@@ -53,7 +53,12 @@ module DefaultForm::Builder::Helper
     wrap_all_with(method, options) do |origin, wrap|
       default_options(method, options)
       options[:class] = origin[:checkbox] unless options.key?(:class)
-      label_text = content_tag(:span, options.delete(:label))
+      r = options.delete(:label)
+      if r.present?
+        label_text = content_tag(:span, r)
+      else
+        label_text = ''
+      end
       checkbox_content = wrapping(:checkbox, super + label_text, wrap: wrap, tag: 'label')
 
       offset(origin: origin) + checkbox_content
