@@ -5,8 +5,12 @@ module DefaultForm::Builder::Wrap
   def wrapping(type, inner, tag: 'div', wrap: {})
     if wrap[type].present?
       css_ary = wrap[type].split(' > ')
-      css_ary.reverse_each do |css|
-        inner = content_tag(tag, inner, class: css)
+      css_ary.reverse_each.with_index do |css, index|
+        if index == 0
+          inner = content_tag(tag, inner, class: css)
+        else
+          inner = content_tag('div', inner, class: css)
+        end
       end
     end
 
