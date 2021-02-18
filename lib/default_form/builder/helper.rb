@@ -32,9 +32,7 @@ module DefaultForm::Builder::Helper
   end
 
   def label(method, text = nil, options = {}, &block)
-    default_without_method(options)
-    origin = options.delete(:origin)
-    wrap = options.delete(:wrap)
+    origin, wrap, error = default_without_method(options)
     options[:class] = origin[:label] unless options.key?(:class)
 
     wrapping(:label, super, wrap: wrap)
@@ -134,8 +132,6 @@ module DefaultForm::Builder::Helper
   end
 
   def hidden_field(method, options = {})
-    default_without_method(options)
-    options.extract!(:origin, :wrap)  #todo remove
     options[:autocomplete] = on_options[:autocomplete] unless options.key?(:autocomplete)
     super
   end
@@ -171,7 +167,7 @@ module DefaultForm::Builder::Helper
 
   # block 应返回 input with wrapper 的内容
   def wrap_with(method, options = {})
-    wrap_all_with(method, options) do |origin, wrap|
+    wrap_all_with(method, options) do |origin, wrap, error|
       default_options(method, options)
       if options[:label]
         label_content = label method, options.delete(:label), options.slice(:origin, :wrap)
@@ -179,7 +175,7 @@ module DefaultForm::Builder::Helper
         options.delete(:label)
         label_content = ''.html_safe
       end
-      input_content = yield origin, wrap
+      input_content = yield origin, wrap, error
 
       label_content + input_content
     end
@@ -187,10 +183,8 @@ module DefaultForm::Builder::Helper
 
   # block 应返回  label_content + input_content 的内容
   def wrap_all_with(method, options)
-    default_without_method(options)
-    origin = options.delete(:origin)
-    wrap = options.delete(:wrap)
-    inner_content = yield origin, wrap
+    origin, wrap, error = default_without_method(options)
+    inner_content = yield origin, wrap, error
 
     wrapping_all inner_content, method, wrap: wrap, required: options[:required]
   end
@@ -198,8 +192,14 @@ module DefaultForm::Builder::Helper
   INPUT_FIELDS.each do |selector|
     class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{selector}(method, options = {})
-        wrap_with(method, options) do |origin, wrap|
-          options[:class] = origin[:input] unless options.key?(:class)
+        wrap_with(method, options) do |origin, wrap, error|
+          unless options.key?(:class)
+            if object_has_errors?(method)
+              options[:class] = error[:input]
+            else
+              options[:class] = origin[:input] 
+            end
+          end
           wrapping(:input, super, wrap: wrap)
         end
       end

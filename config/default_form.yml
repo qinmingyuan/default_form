@@ -18,12 +18,15 @@ default:
   wrap:
     all: field is-horizontal
     all_required: field is-horizontal
+    all_error: field is-horizontal
     label: field-label is-normal
     input: field-body > field > control
     select: field-body > field is-narrow > control > select is-fullwidth
     checkbox: field-body > field > control > checkbox
     checkboxes: field-body > field is-narrow > control
     submit: field-body control
+  error:
+    input: input is-danger
   label:
     checkboxes: field-label
 search:

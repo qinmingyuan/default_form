@@ -65,10 +65,11 @@ module DefaultForm::Builder::Default
   end
 
   def default_without_method(options = {})
-    options[:origin] ||= {}
-    options[:origin].with_defaults!(origin_css)
-    options[:wrap] ||= {}
-    options[:wrap].with_defaults!(wrap_css)
+    origin = (options.delete(:origin) || {}).with_defaults!(origin_css)
+    wrap = (options.delete(:wrap) || {}).with_defaults!(wrap_css)
+    error = (options.delete(:error) || {}).with_defaults!(error_css)
+
+    [origin, wrap, error]
   end
 
 end
