@@ -20,7 +20,7 @@ class FieldController extends Controller {
     }
     let nextIndex = this.indexValue + Math.random()  // todo find an better implement
     el.setAttribute('data-field-index-value', nextIndex)
-    el.querySelectorAll('input').forEach(input => {
+    el.querySelectorAll('input, select').forEach(input => {
       input.name = input.name.replace(`[${this.indexValue}]`, `[${nextIndex}]`)
       input.id = input.id.replace(`${this.indexValue}`, `${nextIndex}`)
     })
