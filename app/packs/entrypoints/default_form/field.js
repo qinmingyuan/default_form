@@ -22,6 +22,7 @@ class FieldController extends Controller {
     el.setAttribute('data-field-index-value', nextIndex)
     el.querySelectorAll('input').forEach(input => {
       input.name = input.name.replace(`[${this.indexValue}]`, `[${nextIndex}]`)
+      input.id = input.id.replace(`${this.indexValue}`, `${nextIndex}`)
     })
 
     if (this.element.parentNode) {
