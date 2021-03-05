@@ -18,7 +18,11 @@ class FieldController extends Controller {
     if (label) {
       label.remove()
     }
-    el.setAttribute('data-field-index-value', this.indexValue + 1)
+    let nextIndex = this.indexValue + 1
+    el.setAttribute('data-field-index-value', nextIndex)
+    el.querySelectorAll('input').forEach(input => {
+      input.name = input.name.replace(`[${this.indexValue}]`, `[${nextIndex}]`)
+    })
 
     if (this.element.parentNode) {
       this.element.parentNode.insertBefore(el, this.element.nextSibling)
