@@ -29,6 +29,10 @@ class FieldController extends Controller {
     }
   }
 
+  remove() {
+    this.element.remove()
+  }
+
 }
 
 application.register('field', FieldController)
