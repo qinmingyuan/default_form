@@ -4,7 +4,7 @@ import { Controller } from 'stimulus'
 class DefaultValidController extends Controller {
 
   connect() {
-    console.debug('Default Valid connected!')
+    console.debug(this.identifier, 'connected!')
   }
 
   defaultValid(input) {

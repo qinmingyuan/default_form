@@ -8,7 +8,7 @@ class FieldController extends Controller {
   }
 
   connect() {
-    console.debug('Field Controller connected!')
+    console.debug(this.identifier, 'connected!')
   }
 
   // data-action="click->field#add"

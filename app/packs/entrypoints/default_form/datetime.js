@@ -4,7 +4,7 @@ import { Controller } from 'stimulus'
 class DatetimeController extends Controller {
 
   connect() {
-    console.debug('Datetime Controller works!')
+    console.debug(this.identifier, 'connected!')
   }
 
   // data-action="datetime#default"
