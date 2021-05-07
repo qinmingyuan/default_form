@@ -72,7 +72,6 @@ module DefaultForm::Builder::Helper
   def radio_button(method, tag_value, options = {})
     wrap_with(method, options) do |origin, wrap|
       options[:class] = origin[:radio] unless options.key?(:class)
-      label_content = label(method, nil, options.dup)
       value_content = label(method, tag_value, class: nil)
       wrapping(:radio, super + value_content, wrap: wrap)
     end
@@ -80,7 +79,6 @@ module DefaultForm::Builder::Helper
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
     wrap_with(method, options) do |origin, wrap|
-      label_content = label(method, nil, options.dup)
       wrapping(:radios, super, wrap: wrap)
     end
   end
