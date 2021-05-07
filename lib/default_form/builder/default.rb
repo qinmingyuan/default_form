@@ -43,7 +43,7 @@ module DefaultForm::Builder::Default
 
   def default_options(method = nil, options = {})
     # search 应返回默认 params 中对应的 value
-    on = options.delete(:on) || {}
+    on = options.slice(:label, :placeholder, :autocomplete, :autofilter)
     on.reverse_merge! on_options
     if on[:autofilter] && !(options.key?(:value) || on[:autocomplete])
       options[:value] = default_value(method)

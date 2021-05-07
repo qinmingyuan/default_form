@@ -35,7 +35,7 @@ class DefaultForm::FormBuilder < ActionView::Helpers::FormBuilder
     @wrap_css = settings.fetch(:wrap, {})
     @wrap_css.merge! options.fetch(:wrap, {})
     @on_options = settings.extract! :autocomplete, :autofilter, :placeholder, :label
-    @on_options.merge! options.fetch(:on, {})
+    @on_options.merge! options.slice(:placeholder, :label, :autocomplete, :autofilter)
     @params = template.params
 
     _values = Hash(params.permit(object_name => {})[object_name])
