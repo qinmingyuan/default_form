@@ -32,7 +32,8 @@ module DefaultForm::Builder::Helper
   end
 
   def label(method, text = nil, options = {}, &block)
-    origin, wrap, error = default_without_method(options)
+    origin = (options.delete(:origin) || {}).with_defaults!(origin_css)
+    wrap = (options.delete(:wrap) || {}).with_defaults!(wrap_css)
     options[:class] = origin[:label] unless options.key?(:class)
 
     wrapping(:label, super, wrap: wrap)
@@ -183,7 +184,9 @@ module DefaultForm::Builder::Helper
 
   # block 应返回  label_content + input_content 的内容
   def wrap_all_with(method, options)
-    origin, wrap, error = default_without_method(options)
+    origin = options.fetch(:origin, {}).with_defaults!(origin_css)
+    wrap = options.fetch(:wrap, {}).with_defaults!(wrap_css)
+    error = options.fetch(:error, {}).with_defaults!(error_css)
     inner_content = yield origin, wrap, error
 
     wrapping_all inner_content, method, wrap: wrap, required: options[:required]
