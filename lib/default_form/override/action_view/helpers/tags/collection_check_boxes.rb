@@ -4,13 +4,13 @@ module ActionView
       class CollectionCheckBoxes
 
         def render_component(builder)
-          css = @options.fetch(:origin, {})
-          binding.pry
+          origin = @options.fetch(:origin, {})
+
           r = Array(object.send(@method_name)).map(&:to_s)
           if r.include? builder.value.to_s
-            final_css = css[:inline_checkbox_checked]
+            final_css = origin[:inline_checkbox_checked]
           else
-            final_css = css[:inline_checkbox]
+            final_css = origin[:inline_checkbox]
           end
 
           inner = builder.check_box + builder.label

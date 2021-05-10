@@ -4,22 +4,17 @@ module ActionView
       class CollectionRadioButtons
 
         def render_component(builder)
-          can = @options.fetch(:can, {})
-          css = @options.fetch(:css, {})
+          origin = @options.fetch(:origin, {})
 
           r = Array(object.send(@method_name)).map(&:to_s)
           if r.include? builder.value.to_s
-            final_css = css[:inline_radio_checked]
+            final_css = origin[:inline_radio_checked]
           else
-            final_css = css[:inline_radio]
+            final_css = origin[:inline_radio]
           end
 
           inner = builder.radio_button + builder.label
-          if can[:wrap_radio]
-            content_tag(:div, inner, class: final_css)
-          else
-            inner
-          end
+          content_tag(:label, inner, class: final_css)
         end
 
       end

@@ -15,6 +15,8 @@ default:
     submit: button is-primary
     inline_checkbox: checkbox
     inline_checkbox_checked: checkbox
+    inline_radio: radio
+    inline_radio_checked: radio
   wrap:
     all: field is-horizontal
     all_required: field is-horizontal

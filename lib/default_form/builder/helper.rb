@@ -65,9 +65,7 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_check_boxes(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    binding.pry
     wrap_with(method, options) do |_, wrap|
-      binding.pry
       wrapping(:checkboxes, super, wrap: wrap)
     end
   end
