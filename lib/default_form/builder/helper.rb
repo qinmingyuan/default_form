@@ -79,7 +79,7 @@ module DefaultForm::Builder::Helper
   end
 
   def collection_radio_buttons(method, collection, value_method, text_method, options = {}, html_options = {}, &block)
-    wrap_with(method, options) do |origin, wrap|
+    wrap_with(method, options) do |_, wrap|
       wrapping(:radios, super, wrap: wrap)
     end
   end
