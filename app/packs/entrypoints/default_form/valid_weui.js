@@ -2,6 +2,10 @@ import { Controller } from 'stimulus'
 
 class WeuiFormController extends Controller {
 
+  connect() {
+    console.debug('connected:', this.identifier)
+  }
+
   validForm() {
     let node = this.parentNode.parentNode
     node.classList.add('weui-cell_warn')
