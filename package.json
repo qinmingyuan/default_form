@@ -1,0 +1,26 @@
+{
+  "name": "default_form",
+  "version": "1.0.0",
+  "description": "Rails form helpers with default wrap;",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qinmingyuan/default_form.git"
+  },
+  "author": "Mingyuan Qin <mingyuan0715@foxmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/qinmingyuan/default_form/issues"
+  },
+  "homepage": "https://github.com/qinmingyuan/default_form#readme",
+  "dependencies": {
+    "stimulus": "^2.0.0"
+  }
+}
