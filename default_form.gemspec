@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/qinmingyuan/default_form'
   s.summary = 'Rails form builder with default UI'
   s.description = 'Rails form builder that makes it easy to style forms'
-  s.license = 'LGPL-3.0'
+  s.license = 'MIT'
 
   s.files = Dir[
     '{lib}/**/*',
@@ -22,6 +22,4 @@ Gem::Specification.new do |s|
   ]
 
   s.add_dependency 'rails_com', '~> 1.2'
-  s.add_development_dependency 'sqlite3', '~> 1.3'
-  s.add_development_dependency 'factory_bot_rails', '~> 4.11'
 end
