@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/qinmingyuan/default_form#readme",
   "dependencies": {
-    "stimulus": "^2.0.0"
+    "@hotwired/stimulus": "^3.0.0-beta.1"
   }
 }
