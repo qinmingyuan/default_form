@@ -36,8 +36,14 @@ module DefaultForm::Builder::Default
   def default_step(method)
     if object.is_a?(ActiveRecord::Base)
       col = object.class.column_for_attribute(method)
-      scale = col.scale || col.limit
-      0.1.to_d.power(scale.to_i)
+
+      if col.type == :decimal
+        0.01
+      else
+        1
+      end
+      #scale = col.scale || col.limit
+      #0.1.to_d.power(scale.to_i)
     end
   end
 
