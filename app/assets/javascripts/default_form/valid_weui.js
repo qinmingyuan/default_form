@@ -1,10 +1,6 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
-class WeuiFormController extends Controller {
-
-  connect() {
-    console.debug('connected:', this.identifier)
-  }
+export default class extends Controller {
 
   validForm() {
     let node = this.parentNode.parentNode
@@ -19,5 +15,3 @@ class WeuiFormController extends Controller {
   }
 
 }
-
-application.register('weui_form', WeuiFormController)

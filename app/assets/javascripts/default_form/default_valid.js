@@ -1,11 +1,6 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
-// data-controller="default_valid"
-class DefaultValidController extends Controller {
-
-  connect() {
-    console.debug('connected:', this.identifier)
-  }
+export default class extends Controller {
 
   defaultValid(input) {
     let label
@@ -104,5 +99,3 @@ class DefaultValidController extends Controller {
   }
 
 }
-
-application.register('default_valid', DefaultValidController)

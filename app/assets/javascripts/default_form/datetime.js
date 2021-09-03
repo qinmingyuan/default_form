@@ -1,11 +1,6 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
-// data-controller="datetime"
-class DatetimeController extends Controller {
-
-  connect() {
-    console.debug('connected:', this.identifier)
-  }
+export default class extends Controller {
 
   // data-action="datetime#default"
   default(event) {
@@ -34,4 +29,3 @@ class DatetimeController extends Controller {
 
 }
 
-application.register('datetime', DatetimeController)

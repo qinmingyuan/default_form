@@ -1,14 +1,9 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 
-// data-controller="field"
-class FieldController extends Controller {
+export default class extends Controller {
   static targets = ['node']
   static values = {
     index: Number
-  }
-
-  connect() {
-    console.debug('connected:', this.identifier)
   }
 
   // data-action="click->field#add"
@@ -36,5 +31,3 @@ class FieldController extends Controller {
   }
 
 }
-
-application.register('field', FieldController)
